@@ -1,2 +1,2 @@
 # flutter_portfolio
-A modern, animation-rich Flutter portfolio application showcasing advanced UI/UX, scalable architecture, Firebase integration, local storage with Hive, and CI/CD workflows. Built to demonstrate production-level cross-platform development skills for Android, iOS, and Web.
+A personal portfolio website built with Flutter Web using GetX for state management, showcasing my Flutter projects and development skills. A portfolio of Flutter projects showcasing cross-platform mobile app development for Android and iOS.
