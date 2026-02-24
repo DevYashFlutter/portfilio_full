@@ -1,0 +1,129 @@
+Analyzing portfolio...                                          
+
+  error - Target of URI doesn't exist: '../../../theme/app_colors.dart' - lib\modules\home\views\widgets\footer.dart:2:8 - uri_does_not_exist
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\footer.dart:13:47 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\footer.dart:28:61 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\footer.dart:33:53 - undefined_identifier
+  error - Invalid constant value - lib\modules\home\views\widgets\footer.dart:42:131 - invalid_constant
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\footer.dart:42:131 - undefined_identifier
+  error - Invalid constant value - lib\modules\home\views\widgets\footer.dart:60:104 - invalid_constant
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\footer.dart:60:104 - undefined_identifier
+  error - Invalid constant value - lib\modules\home\views\widgets\footer.dart:61:75 - invalid_constant
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\footer.dart:61:75 - undefined_identifier
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\footer.dart:81:29 - deprecated_member_use
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\footer.dart:83:35 - undefined_identifier
+  error - Target of URI doesn't exist: '../../../theme/app_colors.dart' - lib\modules\home\views\widgets\hero_section.dart:3:8 - uri_does_not_exist
+  error - Invalid constant value - lib\modules\home\views\widgets\hero_section.dart:14:84 - invalid_constant
+  error - The values in a const list literal must be constants - lib\modules\home\views\widgets\hero_section.dart:14:84 - non_constant_list_element
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\hero_section.dart:14:84 - undefined_identifier
+  error - The values in a const list literal must be constants - lib\modules\home\views\widgets\hero_section.dart:14:103 - non_constant_list_element
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\hero_section.dart:14:103 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\hero_section.dart:25:43 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\hero_section.dart:26:51 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\hero_section.dart:26:86 - undefined_identifier
+  error - Invalid constant value - lib\modules\home\views\widgets\hero_section.dart:31:60 - invalid_constant
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\hero_section.dart:31:60 - undefined_identifier
+  error - Invalid constant value - lib\modules\home\views\widgets\hero_section.dart:33:85 - invalid_constant
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\hero_section.dart:33:85 - undefined_identifier
+  error - Invalid constant value - lib\modules\home\views\widgets\hero_section.dart:42:73 - invalid_constant
+  error - The values in a const list literal must be constants - lib\modules\home\views\widgets\hero_section.dart:42:73 - non_constant_list_element
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\hero_section.dart:42:73 - undefined_identifier
+  error - The values in a const list literal must be constants - lib\modules\home\views\widgets\hero_section.dart:42:91 - non_constant_list_element
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\hero_section.dart:42:91 - undefined_identifier
+  error - The values in a const list literal must be constants - lib\modules\home\views\widgets\hero_section.dart:42:107 - non_constant_list_element
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\hero_section.dart:42:107 - undefined_identifier
+  error - Invalid constant value - lib\modules\home\views\widgets\hero_section.dart:56:61 - invalid_constant
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\hero_section.dart:56:61 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\hero_section.dart:61:45 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\hero_section.dart:66:45 - undefined_identifier
+  error - Invalid constant value - lib\modules\home\views\widgets\hero_section.dart:81:55 - invalid_constant
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\hero_section.dart:81:55 - undefined_identifier
+   info - 'MaterialStateProperty' is deprecated and shouldn't be used. Use WidgetStateProperty instead. Moved to the Widgets layer to make code available outside of Material. This feature was deprecated after v3.19.0-0.3.pre - lib\modules\home\views\widgets\hero_section.dart:98:47 - deprecated_member_use
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\hero_section.dart:101:57 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\hero_section.dart:120:45 - undefined_identifier
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\hero_section.dart:122:51 - deprecated_member_use
+  error - Target of URI doesn't exist: '../../../theme/app_colors.dart' - lib\modules\home\views\widgets\nav_bar.dart:4:8 - uri_does_not_exist
+  error - Target of URI doesn't exist: '../controllers/home_controller.dart' - lib\modules\home\views\widgets\nav_bar.dart:5:8 - uri_does_not_exist
+  error - The name 'HomeController' isn't a type, so it can't be used as a type argument - lib\modules\home\views\widgets\nav_bar.dart:12:33 - non_type_as_type_argument
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\nav_bar.dart:20:48 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\nav_bar.dart:21:82 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\nav_bar.dart:36:61 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\nav_bar.dart:41:53 - undefined_identifier
+  error - The getter 'medium' isn't defined for the type 'FontWeight' - lib\modules\home\views\widgets\nav_bar.dart:79:63 - undefined_getter
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\nav_bar.dart:79:104 - undefined_identifier
+  error - Target of URI doesn't exist: '../../../theme/app_colors.dart' - lib\modules\home\views\widgets\projects_section.dart:2:8 - uri_does_not_exist
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\projects_section.dart:63:35 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\projects_section.dart:63:55 - undefined_identifier
+  error - Invalid constant value - lib\modules\home\views\widgets\projects_section.dart:67:71 - invalid_constant
+  error - The values in a const list literal must be constants - lib\modules\home\views\widgets\projects_section.dart:67:71 - non_constant_list_element
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\projects_section.dart:67:71 - undefined_identifier
+  error - The values in a const list literal must be constants - lib\modules\home\views\widgets\projects_section.dart:67:89 - non_constant_list_element
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\projects_section.dart:67:89 - undefined_identifier
+  error - Invalid constant value - lib\modules\home\views\widgets\projects_section.dart:77:57 - invalid_constant
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\projects_section.dart:77:57 - undefined_identifier
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\projects_section.dart:118:40 - deprecated_member_use
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\projects_section.dart:120:35 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\projects_section.dart:129:22 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\projects_section.dart:131:41 - undefined_identifier
+  error - Invalid constant value - lib\modules\home\views\widgets\projects_section.dart:133:83 - invalid_constant
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\projects_section.dart:133:83 - undefined_identifier
+  error - Invalid constant value - lib\modules\home\views\widgets\projects_section.dart:145:57 - invalid_constant
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\projects_section.dart:145:57 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\projects_section.dart:155:30 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\projects_section.dart:157:49 - undefined_identifier
+  error - Invalid constant value - lib\modules\home\views\widgets\projects_section.dart:159:82 - invalid_constant
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\projects_section.dart:159:82 - undefined_identifier
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\projects_section.dart:191:29 - deprecated_member_use
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\projects_section.dart:193:35 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\projects_section.dart:197:39 - undefined_identifier
+  error - Invalid constant value - lib\modules\home\views\widgets\projects_section.dart:199:67 - invalid_constant
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\projects_section.dart:199:67 - undefined_identifier
+  error - Target of URI doesn't exist: '../../../theme/app_colors.dart' - lib\modules\home\views\widgets\tech_stack_section.dart:2:8 - uri_does_not_exist
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\tech_stack_section.dart:11:14 - undefined_identifier
+  error - Invalid constant value - lib\modules\home\views\widgets\tech_stack_section.dart:15:71 - invalid_constant
+  error - The values in a const list literal must be constants - lib\modules\home\views\widgets\tech_stack_section.dart:15:71 - non_constant_list_element
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\tech_stack_section.dart:15:71 - undefined_identifier
+  error - The values in a const list literal must be constants - lib\modules\home\views\widgets\tech_stack_section.dart:15:89 - non_constant_list_element
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\tech_stack_section.dart:15:89 - undefined_identifier
+  error - Invalid constant value - lib\modules\home\views\widgets\tech_stack_section.dart:27:53 - invalid_constant
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\tech_stack_section.dart:27:53 - undefined_identifier
+  error - Invalid constant value - lib\modules\home\views\widgets\tech_stack_section.dart:39:127 - invalid_constant
+  error - The values in a const list literal must be constants - lib\modules\home\views\widgets\tech_stack_section.dart:39:127 - non_constant_list_element
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\tech_stack_section.dart:39:127 - undefined_identifier
+  error - The values in a const list literal must be constants - lib\modules\home\views\widgets\tech_stack_section.dart:39:145 - non_constant_list_element
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\tech_stack_section.dart:39:145 - undefined_identifier
+  error - Invalid constant value - lib\modules\home\views\widgets\tech_stack_section.dart:40:143 - invalid_constant
+  error - The values in a const list literal must be constants - lib\modules\home\views\widgets\tech_stack_section.dart:40:143 - non_constant_list_element
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\tech_stack_section.dart:40:143 - undefined_identifier
+  error - The values in a const list literal must be constants - lib\modules\home\views\widgets\tech_stack_section.dart:40:159 - non_constant_list_element
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\tech_stack_section.dart:40:159 - undefined_identifier
+  error - Invalid constant value - lib\modules\home\views\widgets\tech_stack_section.dart:41:133 - invalid_constant
+  error - The values in a const list literal must be constants - lib\modules\home\views\widgets\tech_stack_section.dart:41:133 - non_constant_list_element
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\tech_stack_section.dart:41:133 - undefined_identifier
+  error - Invalid constant value - lib\modules\home\views\widgets\tech_stack_section.dart:49:57 - invalid_constant
+  error - The getter 'AccountTreeRounded' isn't defined for the type 'Icons' - lib\modules\home\views\widgets\tech_stack_section.dart:49:63 - undefined_getter
+  error - Invalid constant value - lib\modules\home\views\widgets\tech_stack_section.dart:49:143 - invalid_constant
+  error - The values in a const list literal must be constants - lib\modules\home\views\widgets\tech_stack_section.dart:49:143 - non_constant_list_element
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\tech_stack_section.dart:49:143 - undefined_identifier
+  error - The values in a const list literal must be constants - lib\modules\home\views\widgets\tech_stack_section.dart:49:161 - non_constant_list_element
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\tech_stack_section.dart:49:161 - undefined_identifier
+  error - Invalid constant value - lib\modules\home\views\widgets\tech_stack_section.dart:50:135 - invalid_constant
+  error - The values in a const list literal must be constants - lib\modules\home\views\widgets\tech_stack_section.dart:50:135 - non_constant_list_element
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\tech_stack_section.dart:50:135 - undefined_identifier
+  error - The values in a const list literal must be constants - lib\modules\home\views\widgets\tech_stack_section.dart:50:154 - non_constant_list_element
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\tech_stack_section.dart:50:154 - undefined_identifier
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\tech_stack_section.dart:73:40 - deprecated_member_use
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\tech_stack_section.dart:75:35 - undefined_identifier
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\tech_stack_section.dart:101:43 - deprecated_member_use
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\tech_stack_section.dart:103:49 - undefined_identifier
+  error - Invalid constant value - lib\modules\home\views\widgets\tech_stack_section.dart:105:82 - invalid_constant
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\tech_stack_section.dart:105:82 - undefined_identifier
+  error - Invalid constant value - lib\modules\home\views\widgets\tech_stack_section.dart:114:73 - invalid_constant
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\tech_stack_section.dart:114:73 - undefined_identifier
+  error - Invalid constant value - lib\modules\home\views\widgets\tech_stack_section.dart:117:90 - invalid_constant
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\tech_stack_section.dart:117:90 - undefined_identifier
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\tech_stack_section.dart:126:46 - deprecated_member_use
+  error - Undefined name 'AppColors' - lib\modules\home\views\widgets\tech_stack_section.dart:128:41 - undefined_identifier
+   info - 'background' is deprecated and shouldn't be used. Use surface instead. This feature was deprecated after v3.18.0-0.1.pre - lib\theme\app_theme.dart:23:9 - deprecated_member_use
+   info - 'background' is deprecated and shouldn't be used. Use surface instead. This feature was deprecated after v3.18.0-0.1.pre - lib\theme\app_theme.dart:26:18 - deprecated_member_use
+
