@@ -1,88 +1,86 @@
 import 'package:flutter/material.dart';
 import 'package:portfolio/theme/app_colors.dart';
+import 'package:get/get.dart';
+import 'package:portfolio/modules/home/controllers/home_controller.dart';
 
 class Footer extends StatelessWidget {
   const Footer({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.find<HomeController>();
+    final double width = MediaQuery.sizeOf(context).width;
+    final bool isMobile = width < 850;
+
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 100),
-      decoration: BoxDecoration(
-        color: Colors.black,
-        border: Border(top: BorderSide(color: AppColors.purple.withAlpha(76))), // 0.3 * 255
-      ),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        width: 28,
-                        height: 28,
-                        decoration: BoxDecoration(gradient: AppColors.primaryGradient, borderRadius: BorderRadius.circular(4)),
-                        child: const Icon(Icons.code, size: 16, color: Colors.white),
+      width: double.infinity,
+      color: Colors.black,
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 1200),
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 60, horizontal: isMobile ? 24 : 40),
+            child: Column(
+              children: [
+                // Logo
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.code, color: AppColors.purple, size: 24),
+                    const SizedBox(width: 8),
+                    ShaderMask(
+                      shaderCallback: (bounds) => const LinearGradient(colors: [Color(0xFFA855F7), Color(0xFF0EA5E9)]).createShader(bounds),
+                      child: const Text(
+                        'Portfolio',
+                        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
                       ),
-                      const SizedBox(width: 8),
-                      ShaderMask(
-                        shaderCallback: (bounds) => AppColors.primaryGradient.createShader(bounds),
-                        child: const Text(
-                          'Flutter Dev',
-                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 24),
+                // Copyright
+                Text('© 2026 All rights reserved.', style: TextStyle(color: AppColors.textBody.withAlpha(150), fontSize: 14)),
+                const SizedBox(height: 8),
+                // Credit
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('Built with ', style: TextStyle(color: AppColors.textBody.withAlpha(150), fontSize: 14)),
+                    const Icon(Icons.favorite, color: Colors.red, size: 14),
+                    Text(' using Flutter', style: TextStyle(color: AppColors.textBody.withAlpha(150), fontSize: 14)),
+                  ],
+                ),
+                const SizedBox(height: 48),
+                // Back to Top Button
+                InkWell(
+                  onTap: () => controller.scrollToSection(controller.heroKey),
+                  borderRadius: BorderRadius.circular(30),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF1E1B4B),
+                      borderRadius: BorderRadius.circular(30),
+                      border: Border.all(color: Colors.white.withAlpha(25)),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: const [
+                        Text(
+                          'Back to Top',
+                          style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
                         ),
-                      ),
-                    ],
+                        SizedBox(width: 8),
+                        Icon(Icons.arrow_upward_rounded, color: Colors.white, size: 16),
+                      ],
+                    ),
                   ),
-                  const SizedBox(height: 16),
-                  const Text('Crafting exceptional digital experiences\nwith Flutter & Material Design.', style: TextStyle(color: AppColors.textBody, fontSize: 14)),
-                ],
-              ),
-              Row(
-                children: [
-                  _SocialIcon(icon: Icons.link_rounded),
-                  _SocialIcon(icon: Icons.alternate_email_rounded),
-                  _SocialIcon(icon: Icons.code_rounded),
-                ],
-              ),
-            ],
+                ),
+              ],
+            ),
           ),
-          const SizedBox(height: 40),
-          const Divider(color: Colors.white10),
-          const SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              Text('© 2024 Flutter Developer Portfolio. All rights reserved.', style: TextStyle(color: AppColors.textBody, fontSize: 12)),
-              Text('Built with ❤️ using Flutter', style: TextStyle(color: AppColors.textBody, fontSize: 12)),
-            ],
-          ),
-        ],
+        ),
       ),
     );
   }
 }
 
-class _SocialIcon extends StatelessWidget {
-  final IconData icon;
-
-  const _SocialIcon({required this.icon});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(left: 16),
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.white.withAlpha(13), // 0.05 * 255
-        shape: BoxShape.circle,
-        border: Border.all(color: AppColors.purple.withAlpha(51)), // 0.2 * 255
-      ),
-      child: Icon(icon, color: Colors.white, size: 20),
-    );
-  }
-}

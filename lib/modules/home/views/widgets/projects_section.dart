@@ -9,6 +9,12 @@ class ProjectsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double width = MediaQuery.sizeOf(context).width;
+    final bool isMobile = width < 850;
+    final bool isTablet = width < 1200 && width >= 850;
+
+    final int crossAxisCount = isMobile ? 1 : (isTablet ? 2 : 4);
+
     // Mock data for projects
     final industryProjects = [
       {
@@ -43,9 +49,65 @@ class ProjectsSection extends StatelessWidget {
         'rating': '4.5',
         'uptime': '96%',
       },
+      {
+        'title': 'Ludo24',
+        'desc': 'Digital Ludo game with multiplayer capabilities and real-time gaming',
+        'tags': ['Flutter', 'WebSocket'],
+        'users': '1M+',
+        'rating': '4.6',
+        'uptime': '98%',
+      },
+      {
+        'title': 'Games11',
+        'desc': 'Comprehensive gaming platform with multiple game modes and features',
+        'tags': ['Flutter', 'Firebase'],
+        'users': '600K+',
+        'rating': '4.4',
+        'uptime': '94%',
+      },
+      {
+        'title': 'Newsflick',
+        'desc': 'News aggregation app with personalized feeds and real-time updates',
+        'tags': ['Flutter', 'REST API'],
+        'users': '300K+',
+        'rating': '4.7',
+        'uptime': '99%',
+      },
+      {
+        'title': 'Moina Chat',
+        'desc': 'Real-time messaging app with end-to-end encryption and media sharing',
+        'tags': ['Flutter', 'Firebase'],
+        'users': '250K+',
+        'rating': '4.8',
+        'uptime': '97%',
+      },
     ];
 
     final personalProjects = [
+      {
+        'title': 'Teachers Recruitment',
+        'desc': 'Platform connecting schools with qualified teachers efficiently',
+        'tags': ['Flutter', 'GetX'],
+        'users': '150K+',
+        'rating': '4.6',
+        'uptime': '98%',
+      },
+      {
+        'title': 'PowerTag',
+        'desc': 'NFC-based tagging system for asset management and tracking',
+        'tags': ['Flutter', 'NFC'],
+        'users': '50K+',
+        'rating': '4.5',
+        'uptime': '99%',
+      },
+      {
+        'title': 'Daily Credit',
+        'desc': 'Microfinance app for loan management and credit scoring',
+        'tags': ['Flutter', 'Hive'],
+        'users': '200K+',
+        'rating': '4.7',
+        'uptime': '96%',
+      },
       {
         'title': 'Portfolio Website',
         'desc': 'Modern, animated portfolio with interactive UI built with Flutter Web',
@@ -59,42 +121,54 @@ class ProjectsSection extends StatelessWidget {
     final projects = type == 'industry' ? industryProjects : personalProjects;
 
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 80, horizontal: 100),
+      padding: EdgeInsets.symmetric(vertical: 60, horizontal: isMobile ? 24 : 40),
       color: type == 'industry' ? AppColors.surface : AppColors.background,
-      child: Column(
-        children: [
-          ShaderMask(
-            shaderCallback: (bounds) => const LinearGradient(colors: [AppColors.purple, AppColors.cyan]).createShader(bounds),
-            child: Text(
-              title,
-              style: const TextStyle(fontSize: 60, fontWeight: FontWeight.bold, color: Colors.white),
-            ),
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 1200),
+          child: Column(
+            children: [
+              ShaderMask(
+                shaderCallback: (bounds) =>
+                    LinearGradient(colors: type == 'industry' ? [AppColors.purple, AppColors.cyan] : [AppColors.cyan, AppColors.purple]).createShader(bounds),
+                child: Text(
+                  title,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: isMobile ? 32 : 48, fontWeight: FontWeight.bold, color: Colors.white),
+                ),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                type == 'industry' ? 'Production-grade applications serving millions of users' : 'Side projects exploring new technologies and creative ideas',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: isMobile ? 14 : 16, color: AppColors.textBody.withAlpha(200)),
+              ),
+              const SizedBox(height: 48),
+              GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: crossAxisCount,
+                  crossAxisSpacing: 20,
+                  mainAxisSpacing: 20,
+                  childAspectRatio: isMobile ? 0.85 : 0.7,
+                ),
+                itemCount: projects.length,
+                itemBuilder: (context, index) {
+                  final project = projects[index];
+                  return _ProjectCard(
+                    title: project['title'] as String,
+                    description: project['desc'] as String,
+                    tags: project['tags'] as List<String>,
+                    users: project['users'] as String,
+                    rating: project['rating'] as String,
+                    uptime: project['uptime'] as String,
+                  );
+                },
+              ),
+            ],
           ),
-          const SizedBox(height: 16),
-          Text(
-            type == 'industry' ? 'Production-grade applications serving millions of users' : 'Side projects exploring new technologies and creative ideas',
-            textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 20, color: AppColors.textBody),
-          ),
-          const SizedBox(height: 64),
-          GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4, crossAxisSpacing: 24, mainAxisSpacing: 24, childAspectRatio: 0.55),
-            itemCount: projects.length,
-            itemBuilder: (context, index) {
-              final project = projects[index];
-              return _ProjectCard(
-                title: project['title'] as String,
-                description: project['desc'] as String,
-                tags: project['tags'] as List<String>,
-                users: project['users'] as String,
-                rating: project['rating'] as String,
-                uptime: project['uptime'] as String,
-              );
-            },
-          ),
-        ],
+        ),
       ),
     );
   }
@@ -126,13 +200,12 @@ class _ProjectCardState extends State<_ProjectCard> {
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeOutCubic,
         transform: isHovered ? Matrix4.diagonal3Values(1.05, 1.05, 1.0) : Matrix4.identity(),
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
-          color: isHovered ? const Color(0xFF101828).withAlpha(200) : const Color(0xFF101828).withAlpha(153),
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: isHovered ? Colors.transparent : AppColors.purple.withAlpha(76)),
-          gradient: isHovered ? const LinearGradient(colors: [Color(0xFFC084FC), Color(0xFF38BDF8)], begin: Alignment.topLeft, end: Alignment.bottomRight) : null,
-          boxShadow: isHovered ? [BoxShadow(color: const Color(0xFFC084FC).withAlpha(100), blurRadius: 25, offset: const Offset(0, 10))] : null,
+          color: isHovered ? const Color(0xFF101828).withAlpha(230) : const Color(0xFF101828).withAlpha(180),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: isHovered ? Colors.white.withAlpha(50) : AppColors.purple.withAlpha(40)),
+          boxShadow: isHovered ? [BoxShadow(color: const Color(0xFFC084FC).withAlpha(50), blurRadius: 20, offset: const Offset(0, 8))] : null,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -157,8 +230,8 @@ class _ProjectCardState extends State<_ProjectCard> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.phone_iphone_rounded, size: 48, color: isHovered ? Colors.white : AppColors.purple.withAlpha(127)),
-                        const SizedBox(height: 12),
+                        Icon(Icons.phone_iphone_rounded, size: 40, color: isHovered ? Colors.white : AppColors.purple.withAlpha(127)),
+                        const SizedBox(height: 8),
                         Text(
                           widget.title,
                           style: TextStyle(
@@ -173,7 +246,7 @@ class _ProjectCardState extends State<_ProjectCard> {
                 ),
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 20),
             Text(
               widget.title,
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
@@ -183,9 +256,9 @@ class _ProjectCardState extends State<_ProjectCard> {
               widget.description,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontSize: 14, color: isHovered ? Colors.white.withAlpha(230) : AppColors.textBody),
+              style: TextStyle(fontSize: 13, color: isHovered ? Colors.white.withAlpha(200) : AppColors.textBody.withAlpha(200)),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 12),
             Wrap(
               children: widget.tags
                   .map(
@@ -206,9 +279,9 @@ class _ProjectCardState extends State<_ProjectCard> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _StatItem(label: 'Users', value: widget.users, icon: Icons.people_outline_rounded, isHovered: isHovered),
-                _StatItem(label: 'Rating', value: widget.rating, icon: Icons.star_outline_rounded, isHovered: isHovered),
-                _StatItem(label: 'Uptime', value: widget.uptime, icon: Icons.timer_outlined, isHovered: isHovered),
+                _StatItem(label: 'Users', value: widget.users, icon: Icons.group_rounded, isHovered: isHovered),
+                _StatItem(label: 'Rating', value: widget.rating, icon: Icons.star_rounded, isHovered: isHovered),
+                _StatItem(label: 'Uptime', value: widget.uptime, icon: Icons.bolt_rounded, isHovered: isHovered),
               ],
             ),
           ],
@@ -228,21 +301,36 @@ class _StatItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Color iconColor;
+    if (label == 'Users') {
+      iconColor = const Color(0xFF22D3EE);
+    } else if (label == 'Rating') {
+      iconColor = const Color(0xFF4ADE80);
+    } else {
+      iconColor = const Color(0xFFFACC15);
+    }
+
     return Container(
-      padding: const EdgeInsets.all(8),
+      width: 80,
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
       decoration: BoxDecoration(
-        color: isHovered ? Colors.white.withAlpha(30) : Colors.white.withAlpha(13),
+        color: const Color(0xFF1E293B).withAlpha(100),
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: Colors.white.withAlpha(20)),
+        border: Border.all(color: Colors.white.withAlpha(15)),
       ),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 16, color: isHovered ? Colors.white : AppColors.textBody),
+          Icon(icon, size: 16, color: iconColor),
           const SizedBox(height: 4),
-          Text(label, style: const TextStyle(fontSize: 10, color: AppColors.textBody)),
+          Text(
+            label,
+            style: TextStyle(fontSize: 9, color: AppColors.textBody.withAlpha(150), fontWeight: FontWeight.w500),
+          ),
+          const SizedBox(height: 2),
           Text(
             value,
-            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
+            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white),
           ),
         ],
       ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:get/get.dart';
 import 'package:portfolio/theme/app_colors.dart';
+import 'package:portfolio/modules/home/controllers/home_controller.dart';
 import 'dart:math' as math;
 
 class HeroSection extends StatelessWidget {
@@ -8,214 +10,164 @@ class HeroSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double width = MediaQuery.sizeOf(context).width;
+    final bool isMobile = width < 850;
+
     return Container(
       width: double.infinity,
-      height: 850,
-      decoration: const BoxDecoration(color: AppColors.background),
-      child: Stack(
-        children: [
-          // Moving Dots Background
-          const FloatingDots(),
+      height: isMobile ? 700 : 850,
+      color: AppColors.background,
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 1200),
+          child: Stack(
+            children: [
+              // Decorative background elements
+              const FloatingDots(),
+              ..._buildFloatingAssets(isMobile),
 
-          // Floating Interactive Assets
-          const FloatingAsset(assetPath: 'assets/images/square.png', top: 100, left: 50, size: 60),
-          const FloatingAsset(assetPath: 'assets/images/code.png', top: 250, right: 80, size: 50),
-          const FloatingAsset(assetPath: 'assets/images/cell.png', bottom: 200, left: 100, size: 55),
-          const FloatingAsset(assetPath: 'assets/images/circle.png', bottom: 150, right: 120, size: 150, opacity: 0.1),
-
-          // Main Content
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(height: 60),
-                // Available Tag
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: Colors.white10),
-                    color: Colors.white.withAlpha(13), // 0.05 * 255
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: const [
-                      Icon(Icons.auto_awesome, size: 14, color: AppColors.purple),
-                      SizedBox(width: 8),
-                      Text('Available for Opportunities', style: TextStyle(color: AppColors.textBody, fontSize: 13)),
-                    ],
-                  ),
-                ).animate().fadeIn(duration: 800.ms).slideY(begin: 0.2, end: 0),
-
-                const SizedBox(height: 32),
-
-                // Main Title
-                ShaderMask(
-                  shaderCallback: (bounds) => const LinearGradient(colors: [Color(0xFFC084FC), Color(0xFF38BDF8)]).createShader(bounds),
-                  child: const Text(
-                    'Flutter Developer',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 100, fontWeight: FontWeight.bold, color: Colors.white, height: 1.1, letterSpacing: -2),
-                  ),
-                ).animate().fadeIn(duration: 1000.ms, delay: 200.ms).scale(begin: const Offset(0.95, 0.95)),
-
-                const SizedBox(height: 24),
-
-                // Subtitle
-                RichText(
-                  textAlign: TextAlign.center,
-                  text: const TextSpan(
-                    style: TextStyle(fontSize: 40, color: Colors.white, fontWeight: FontWeight.w500),
-                    children: [
-                      TextSpan(text: 'Building '),
-                      TextSpan(
-                        text: 'Scalable',
-                        style: TextStyle(color: Color(0xFFC084FC), fontWeight: FontWeight.bold),
-                      ),
-                      TextSpan(text: ' & '),
-                      TextSpan(
-                        text: 'High Performance',
-                        style: TextStyle(color: Color(0xFF22D3EE), fontWeight: FontWeight.bold),
-                      ),
-                      TextSpan(text: ' Apps'),
-                    ],
-                  ),
-                ).animate().fadeIn(duration: 800.ms, delay: 400.ms),
-
-                const SizedBox(height: 20),
-
-                // Description
-                const SizedBox(
-                  width: 600,
-                  child: Text(
-                    '2.6+ years of professional experience crafting production-grade\nmobile applications used by millions of users worldwide',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 18, color: AppColors.textBody, height: 1.6),
-                  ),
-                ).animate().fadeIn(duration: 800.ms, delay: 600.ms),
-
-                const SizedBox(height: 40),
-
-                // Tags
-                Wrap(
-                  spacing: 12,
-                  runSpacing: 12,
-                  alignment: WrapAlignment.center,
-                  children: const [
-                    _PillTag(label: 'Flutter'),
-                    _PillTag(label: 'Firebase'),
-                    _PillTag(label: 'Hive'),
-                    _PillTag(label: 'REST APIs'),
-                    _PillTag(label: 'GitHub Actions'),
-                    _PillTag(label: 'GetX'),
-                  ],
-                ).animate().fadeIn(duration: 800.ms, delay: 700.ms),
-
-                const SizedBox(height: 50),
-
-                // Action Buttons
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+              // Main Content
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: isMobile ? 80 : 120, horizontal: isMobile ? 24 : 40),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    const SizedBox(height: 48),
                     Container(
-                      height: 56,
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                       decoration: BoxDecoration(
-                        gradient: const LinearGradient(colors: [Color(0xFFA855F7), Color(0xFF0EA5E9)]),
-                        borderRadius: BorderRadius.circular(12),
+                        color: const Color(0xFF1E1B4B).withAlpha(102),
+                        borderRadius: BorderRadius.circular(30),
+                        border: Border.all(color: Colors.white.withAlpha(25)),
                       ),
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.transparent,
-                          shadowColor: Colors.transparent,
-                          padding: const EdgeInsets.symmetric(horizontal: 32),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                        ),
-                        child: Row(
-                          children: const [
-                            Text(
-                              'View Projects',
-                              style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
-                            ),
-                            SizedBox(width: 8),
-                            Icon(Icons.chevron_right, color: Colors.white),
-                          ],
-                        ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Container(
+                            width: 8,
+                            height: 8,
+                            decoration: const BoxDecoration(color: Color(0xFF22D3EE), shape: BoxShape.circle),
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            'Open for new opportunities',
+                            style: TextStyle(color: const Color(0xFF22D3EE), fontSize: isMobile ? 12 : 13, fontWeight: FontWeight.w600),
+                          ),
+                        ],
                       ),
-                    ),
-                    const SizedBox(width: 20),
-                    OutlinedButton(
-                      onPressed: () {},
-                      style: OutlinedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
-                        side: const BorderSide(color: Colors.white12),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                        backgroundColor: Colors.white.withAlpha(13), // 0.05 * 255
+                    ).animate().fadeIn(duration: const Duration(milliseconds: 600)).slideX(begin: -0.2, end: 0),
+                    const SizedBox(height: 24),
+                    ShaderMask(
+                      shaderCallback: (bounds) => const LinearGradient(colors: [Color(0xFFA855F7), Color(0xFF22D3EE)]).createShader(bounds),
+                      child: Text(
+                        'Building Next-Gen\nMobile Experiences',
+                        style: TextStyle(fontSize: isMobile ? 36 : 64, fontWeight: FontWeight.bold, height: 1.1, color: Colors.white),
                       ),
-                      child: const Text(
-                        'Contact Me',
-                        style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
+                    ).animate().fadeIn(duration: const Duration(milliseconds: 1000), delay: const Duration(milliseconds: 200)).scale(begin: const Offset(0.95, 0.95)),
+                    const SizedBox(height: 24),
+                    SizedBox(
+                      width: 600,
+                      child: Text(
+                        'Senior Flutter Developer specializing in high-performance, beautiful, and scalable mobile applications with clean architecture.',
+                        style: TextStyle(fontSize: isMobile ? 16 : 18, color: AppColors.textBody.withAlpha(200), height: 1.6),
                       ),
-                    ),
+                    ).animate().fadeIn(duration: const Duration(milliseconds: 800), delay: const Duration(milliseconds: 400)),
+                    const SizedBox(height: 48),
+                    Row(
+                      children: [
+                        _buildCTAButton('View Projects', () => Get.find<HomeController>().scrollToSection(Get.find<HomeController>().projectKey), isPrimary: true),
+                        const SizedBox(width: 16),
+                        _buildCTAButton('Contact Me', () => Get.find<HomeController>().scrollToSection(Get.find<HomeController>().contactKey), isPrimary: false),
+                      ],
+                    ).animate().fadeIn(duration: const Duration(milliseconds: 800), delay: const Duration(milliseconds: 600)),
+
+                    const SizedBox(height: 60),
+
+                    // Scroll Indicator
+                    const Icon(Icons.mouse_outlined, color: Colors.white30, size: 28)
+                        .animate(onPlay: (controller) => controller.repeat())
+                        .moveY(begin: 0, end: 10, duration: const Duration(milliseconds: 1500), curve: Curves.easeInOut)
+                        .then()
+                        .moveY(begin: 10, end: 0, duration: const Duration(milliseconds: 1500), curve: Curves.easeInOut),
                   ],
-                ).animate().fadeIn(duration: 800.ms, delay: 800.ms).slideY(begin: 0.1, end: 0),
-
-                const SizedBox(height: 60),
-
-                // Scroll Indicator
-                const Icon(Icons.mouse_outlined, color: Colors.white30, size: 28)
-                    .animate(onPlay: (controller) => controller.repeat())
-                    .moveY(begin: 0, end: 10, duration: 1.5.seconds, curve: Curves.easeInOut)
-                    .then()
-                    .moveY(begin: 10, end: 0, duration: 1.5.seconds, curve: Curves.easeInOut),
-              ],
-            ),
-          ),
-
-          // Floating Email/Message Icon
-          Positioned(
-            bottom: 40,
-            right: 40,
-            child: Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                gradient: const LinearGradient(colors: [Color(0xFFA855F7), Color(0xFF6366F1)]),
-                shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                    color: const Color(0xFFA855F7).withAlpha(127), // 0.5 * 255
-                    blurRadius: 20,
-                    spreadRadius: 2,
-                  ),
-                ],
+                ),
               ),
-              child: const Icon(Icons.email_outlined, color: Colors.white, size: 28),
-            ),
-          ).animate().scale(delay: 1.seconds).fadeIn(),
-        ],
+            ],
+          ),
+        ),
       ),
     );
   }
+
+  Widget _buildCTAButton(String label, VoidCallback onTap, {required bool isPrimary}) {
+    return Container(
+      height: 48,
+      decoration: BoxDecoration(
+        gradient: isPrimary ? const LinearGradient(colors: [Color(0xFFA855F7), Color(0xFF22D3EE)]) : null,
+        borderRadius: BorderRadius.circular(12),
+        border: isPrimary ? null : Border.all(color: Colors.white.withAlpha(25)),
+      ),
+      child: ElevatedButton(
+        onPressed: onTap,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: isPrimary ? Colors.transparent : const Color(0xFF1E1B4B).withAlpha(102),
+          foregroundColor: Colors.white,
+          shadowColor: Colors.transparent,
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        ),
+        child: Text(label, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+      ),
+    );
+  }
+
+  List<Widget> _buildFloatingAssets(bool isMobile) {
+    if (isMobile) return [];
+    return [
+      Positioned(
+        top: 100,
+        right: 150,
+        child: _FloatingAsset(icon: Icons.flutter_dash_rounded, color: const Color(0xFF0284C7)),
+      ),
+      Positioned(
+        top: 300,
+        right: 50,
+        child: _FloatingAsset(icon: Icons.rocket_launch_rounded, color: const Color(0xFFA855F7)),
+      ),
+      Positioned(
+        top: 250,
+        right: 250,
+        child: _FloatingAsset(icon: Icons.data_object_rounded, color: const Color(0xFF22D3EE)),
+      ),
+    ];
+  }
 }
 
-class _PillTag extends StatelessWidget {
-  final String label;
-  const _PillTag({required this.label});
+class _FloatingAsset extends StatelessWidget {
+  final IconData icon;
+  final Color color;
+
+  const _FloatingAsset({required this.icon, required this.color});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: const Color(0xFF1E1B4B).withAlpha(25), // 0.1 * 255
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.white10),
+            color: color.withAlpha(25),
+            shape: BoxShape.circle,
+            border: Border.all(color: color.withAlpha(51)),
       ),
-      child: Text(
-        label,
-        style: const TextStyle(color: Color(0xFF818CF8), fontSize: 13, fontWeight: FontWeight.w500),
-      ),
-    );
+          child: Icon(icon, color: color, size: 28),
+        )
+        .animate(onPlay: (controller) => controller.repeat(reverse: true))
+        .moveY(
+          begin: -15,
+          end: 15,
+          duration: Duration(seconds: 2 + math.Random().nextInt(3)),
+          curve: Curves.easeInOut,
+        )
+        .fadeIn(duration: const Duration(seconds: 1));
   }
 }
 
@@ -243,8 +195,13 @@ class _FloatingDotsState extends State<FloatingDots> {
                     decoration: const BoxDecoration(color: Color(0xFF0EA5E9), shape: BoxShape.circle),
                   )
                   .animate(onPlay: (controller) => controller.repeat(reverse: true))
-                  .moveY(begin: -15, end: 15, duration: (2 + math.Random().nextInt(3)).seconds, curve: Curves.easeInOut)
-                  .fadeIn(duration: 1.seconds),
+                  .moveY(
+                    begin: -15,
+                    end: 15,
+                    duration: Duration(seconds: 2 + math.Random().nextInt(3)),
+                    curve: Curves.easeInOut,
+                  )
+                  .fadeIn(duration: const Duration(seconds: 1)),
         );
       }).toList(),
     );
@@ -296,9 +253,9 @@ class _FloatingAssetState extends State<FloatingAsset> {
               opacity: widget.opacity,
               child: Image.asset(widget.assetPath, width: widget.size, height: widget.size)
                   .animate(onPlay: (controller) => controller.repeat(reverse: true))
-                  .moveY(begin: -20, end: 20, duration: 4.seconds, curve: Curves.easeInOut)
-                  .rotate(duration: 20.seconds, begin: 0, end: 1)
-                  .scale(begin: const Offset(0.9, 0.9), end: const Offset(1.1, 1.1), duration: 5.seconds),
+                  .moveY(begin: -20, end: 20, duration: const Duration(seconds: 4), curve: Curves.easeInOut)
+                  .rotate(duration: const Duration(seconds: 20), begin: 0, end: 1)
+                  .scale(begin: const Offset(0.9, 0.9), end: const Offset(1.1, 1.1), duration: const Duration(seconds: 5)),
             ),
           ),
         ),

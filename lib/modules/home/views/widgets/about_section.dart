@@ -7,102 +7,133 @@ class AboutSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double width = MediaQuery.sizeOf(context).width;
+    final bool isMobile = width < 850;
+
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(vertical: 100, horizontal: 80),
       color: AppColors.background,
-      child: Column(
-        children: [
-          // Section Title
-          ShaderMask(
-            shaderCallback: (bounds) => const LinearGradient(colors: [Color(0xFFA855F7), Color(0xFF22D3EE)]).createShader(bounds),
-            child: const Text(
-              'About Me',
-              style: TextStyle(fontSize: 80, fontWeight: FontWeight.bold, color: Colors.white),
-            ),
-          ).animate().fadeIn(duration: 800.ms).slideY(begin: 0.2, end: 0),
-
-          const SizedBox(height: 16),
-
-          // Subtitle
-          const SizedBox(
-            width: 700,
-            child: Text(
-              'Passionate Flutter developer with 2.6+ years of experience building high-impact mobile applications for startups and enterprises',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 22, color: AppColors.textBody, height: 1.5),
-            ),
-          ).animate().fadeIn(duration: 800.ms, delay: 200.ms),
-
-          const SizedBox(height: 80),
-
-          // Feature Cards Grid
-          Wrap(
-            spacing: 24,
-            runSpacing: 24,
-            alignment: WrapAlignment.center,
-            children: [
-              _FeatureCard(
-                title: 'Large-Scale Production Apps',
-                description: 'Built apps serving millions of users across multiple platforms',
-                imagePath: 'assets/images/people.png',
-                delay: 400.ms,
-              ),
-              _FeatureCard(
-                title: 'Cross-Platform Development',
-                description: 'Expert in Flutter for iOS, Android, and Web applications',
-                imagePath: 'assets/images/rocker.png',
-                delay: 600.ms,
-              ),
-              _FeatureCard(
-                title: 'Performance Optimization',
-                description: 'Specialized in creating smooth, responsive user experiences',
-                imagePath: 'assets/images/flash.png',
-                delay: 800.ms,
-              ),
-              _FeatureCard(
-                title: 'Scalable Architecture',
-                description: 'Design patterns and clean architecture for maintainable code',
-                imagePath: 'assets/images/badge.png',
-                delay: 1000.ms,
-              ),
-            ],
-          ),
-
-          const SizedBox(height: 80),
-
-          // Professional Summary
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(48),
-            decoration: BoxDecoration(
-              color: const Color(0xFF1E1B4B).withAlpha(76), // 0.3 * 255
-              borderRadius: BorderRadius.circular(24),
-              border: Border.all(color: Colors.white.withAlpha(25)), // 0.1 * 255
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  const Color(0xFF1E1B4B).withAlpha(127), // 0.5 * 255
-                  const Color(0xFF0F172A).withAlpha(127),
-                ],
-              ),
-            ),
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 1200),
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 60, horizontal: isMobile ? 24 : 40),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Professional Summary',
-                  style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.white),
-                ),
-                const SizedBox(height: 32),
-                const Text(
-                  'Experienced Flutter Developer with a proven track record of delivering high-quality, scalable mobile applications. Specialized in building production-grade apps for gaming, education, and fintech sectors.\n\nCurrently working on large-scale applications serving millions of users, with expertise in Firebase integration, state management, performance optimization, and implementing CI/CD pipelines for seamless deployment.',
-                  style: TextStyle(fontSize: 18, color: AppColors.textBody, height: 1.8),
+                // Section Title
+                ShaderMask(
+                  shaderCallback: (bounds) => const LinearGradient(colors: [Color(0xFFA855F7), Color(0xFF22D3EE)]).createShader(bounds),
+                  child: Text(
+                    'About Me',
+                    style: TextStyle(fontSize: isMobile ? 32 : 48, fontWeight: FontWeight.bold, color: Colors.white),
+                  ),
+                ).animate().fadeIn(duration: const Duration(milliseconds: 800)).slideY(begin: 0.2, end: 0),
+                const SizedBox(height: 16),
+                Text(
+                  'Problem Solver • Team Player • Lifelong Learner',
+                  style: TextStyle(fontSize: isMobile ? 14 : 16, color: AppColors.textBody.withAlpha(150), letterSpacing: 1.2),
+                ).animate().fadeIn(duration: const Duration(milliseconds: 800), delay: const Duration(milliseconds: 200)),
+                const SizedBox(height: 60),
+
+                // Content Grid
+                Flex(
+                  direction: isMobile ? Axis.vertical : Axis.horizontal,
+                  children: [
+                    // About Cards
+                    Expanded(
+                      flex: isMobile ? 0 : 3,
+                      child: Wrap(
+                        spacing: 20,
+                        runSpacing: 20,
+                        children: const [
+                          _AboutCard(icon: Icons.auto_awesome_rounded, title: 'Clean Code', desc: 'Maintaining high standards with reusable and testable code patterns.'),
+                          _AboutCard(icon: Icons.bolt_rounded, title: 'Performance', desc: 'Optimizing for 60FPS and minimal resource consumption.'),
+                          _AboutCard(icon: Icons.devices_rounded, title: 'Responsive', desc: 'Pixel-perfect layouts across all screen sizes and platforms.'),
+                        ],
+                      ).animate().fadeIn(duration: const Duration(milliseconds: 800), delay: const Duration(milliseconds: 400)),
+                    ),
+                    if (isMobile) const SizedBox(height: 48) else const SizedBox(width: 48),
+                    // Summary Text
+                    Expanded(
+                      flex: isMobile ? 0 : 2,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'My Journey',
+                            style: TextStyle(fontSize: isMobile ? 24 : 28, fontWeight: FontWeight.bold, color: Colors.white),
+                          ),
+                          const SizedBox(height: 24),
+                          Text(
+                            'With over 5 years of experience in mobile development, I help startups and enterprises build their vision from the ground up. My focus is on creating seamless user experiences powered by robust backend integrations.',
+                            style: TextStyle(fontSize: isMobile ? 14 : 16, color: AppColors.textBody, height: 1.7),
+                          ),
+                          const SizedBox(height: 32),
+                          _buildStatRow('Commercial Apps', '15+'),
+                          _buildStatRow('Code Quality', '98%'),
+                          _buildStatRow('Client Sat.', '100%'),
+                        ],
+                      ).animate().fadeIn(duration: const Duration(milliseconds: 800), delay: const Duration(milliseconds: 600)),
+                    ),
+                  ],
                 ),
               ],
             ),
-          ).animate().fadeIn(duration: 800.ms, delay: 1200.ms).slideY(begin: 0.1, end: 0),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildStatRow(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(label, style: const TextStyle(color: AppColors.textBody, fontSize: 14)),
+          Text(
+            value,
+            style: const TextStyle(color: Color(0xFF22D3EE), fontSize: 14, fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _AboutCard extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final String desc;
+
+  const _AboutCard({required this.icon, required this.title, required this.desc});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 250,
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: const Color(0xFF1E1B4B).withAlpha(102),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Colors.white.withAlpha(25)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(color: const Color(0xFFA855F7).withAlpha(25), borderRadius: BorderRadius.circular(10)),
+            child: Icon(icon, color: const Color(0xFFA855F7), size: 24),
+          ),
+          const SizedBox(height: 20),
+          Text(
+            title,
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+          ),
+          const SizedBox(height: 12),
+          Text(desc, style: TextStyle(fontSize: 14, color: AppColors.textBody.withAlpha(150), height: 1.5)),
         ],
       ),
     );
@@ -133,7 +164,7 @@ class _FeatureCardState extends State<_FeatureCard> {
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeOutCubic,
         transform: isHovered ? Matrix4.diagonal3Values(1.05, 1.05, 1.0) : Matrix4.identity(),
-        width: 280,
+        width: MediaQuery.sizeOf(context).width < 850 ? double.infinity : 280,
         padding: const EdgeInsets.all(24),
         decoration: BoxDecoration(
           color: isHovered ? const Color(0xFF1E1B4B).withAlpha(153) : const Color(0xFF1E1B4B).withAlpha(102),
@@ -159,7 +190,7 @@ class _FeatureCardState extends State<_FeatureCard> {
             Text(widget.description, style: TextStyle(fontSize: 14, color: isHovered ? Colors.white.withAlpha(200) : AppColors.textBody, height: 1.5)),
           ],
         ),
-      ).animate().fadeIn(duration: 600.ms, delay: widget.delay).scale(begin: const Offset(0.9, 0.9)),
+      ).animate().fadeIn(duration: const Duration(milliseconds: 600), delay: widget.delay).scale(begin: const Offset(0.9, 0.9)),
     );
   }
 }
