@@ -125,7 +125,7 @@ class _ProjectCardState extends State<_ProjectCard> {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeOutCubic,
-        transform: isHovered ? (Matrix4.identity()..scale(1.05)) : Matrix4.identity(),
+        transform: isHovered ? Matrix4.diagonal3Values(1.05, 1.05, 1.0) : Matrix4.identity(),
         padding: const EdgeInsets.all(24),
         decoration: BoxDecoration(
           color: isHovered ? const Color(0xFF101828).withAlpha(200) : const Color(0xFF101828).withAlpha(153),
