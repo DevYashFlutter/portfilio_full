@@ -103,7 +103,7 @@ class _GridPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = const Color(0xFF8B5CF6).withOpacity(0.2)
+      ..color = const Color(0xFF8B5CF6).withAlpha(51)
       ..strokeWidth = 1.0;
 
     const spacing = 50.0;
@@ -213,12 +213,11 @@ class _TechCategoryCardState extends State<_TechCategoryCard> {
                 child: Container(
                   padding: const EdgeInsets.all(24),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF0F172A).withOpacity(0.5),
+                                color: const Color(0xFF0F172A).withAlpha(127),
                     borderRadius: BorderRadius.circular(24),
                     border: Border.all(
                       color: isHovered
-                          ? widget.colors.first.withOpacity(0.4)
-                          : const Color(0xFFA855F7).withOpacity(0.2),
+                          ? widget.colors.first.withAlpha(102) : const Color(0xFFA855F7).withAlpha(51),
                     ),
                   ),
                   child: Column(
@@ -333,7 +332,7 @@ class _SkillRow extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               decoration: BoxDecoration(
-                color: const Color(0xFFA855F7).withOpacity(0.1),
+                color: const Color(0xFFA855F7).withAlpha(26),
                 borderRadius: BorderRadius.circular(4),
               ),
               child: Text(
@@ -393,13 +392,12 @@ class _MasterStatsCard extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            const Color(0xFFA855F7).withOpacity(0.1),
-            const Color(0xFF06B6D4).withOpacity(0.1),
+            const Color(0xFFA855F7).withAlpha(26), const Color(0xFF06B6D4).withAlpha(26),
           ],
         ),
         borderRadius: BorderRadius.circular(24),
         border: Border.all(
-          color: const Color(0xFFA855F7).withOpacity(0.2),
+          color: const Color(0xFFA855F7).withAlpha(51),
         ),
       ),
       child: ClipRRect(
@@ -409,19 +407,19 @@ class _MasterStatsCard extends StatelessWidget {
           child: isMobile
               ? Column(
                   children: [
-                    _buildStatItem('10+', 'Technologies Mastered', [Color(0xFFC084FC), Color(0xFF22D3EE)]),
+                        _buildStatItem('10+', 'Technologies Mastered', [const Color(0xFFC084FC), const Color(0xFF22D3EE)]),
                     const SizedBox(height: 32),
-                    _buildStatItem('100+', 'APIs Integrated', [Color(0xFF22D3EE), Color(0xFF60A5FA)]),
+                        _buildStatItem('100+', 'APIs Integrated', [const Color(0xFF22D3EE), const Color(0xFF60A5FA)]),
                     const SizedBox(height: 32),
-                    _buildStatItem('99.9%', 'App Stability', [Color(0xFF60A5FA), Color(0xFFC084FC)]),
+                        _buildStatItem('99.9%', 'App Stability', [const Color(0xFF60A5FA), const Color(0xFFC084FC)]),
                   ],
                 )
               : Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    _buildStatItem('10+', 'Technologies Mastered', [Color(0xFFC084FC), Color(0xFF22D3EE)]),
-                    _buildStatItem('100+', 'APIs Integrated', [Color(0xFF22D3EE), Color(0xFF60A5FA)]),
-                    _buildStatItem('99.9%', 'App Stability', [Color(0xFF60A5FA), Color(0xFFC084FC)]),
+                        _buildStatItem('10+', 'Technologies Mastered', [const Color(0xFFC084FC), const Color(0xFF22D3EE)]),
+                        _buildStatItem('100+', 'APIs Integrated', [const Color(0xFF22D3EE), const Color(0xFF60A5FA)]),
+                        _buildStatItem('99.9%', 'App Stability', [const Color(0xFF60A5FA), const Color(0xFFC084FC)]),
                   ],
                 ),
         ),

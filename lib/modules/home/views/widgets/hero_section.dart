@@ -104,7 +104,7 @@ class _AnimatedBackgroundOrbs extends StatelessWidget {
           top: 0.25 * 900,
           left: 0.15 * MediaQuery.of(context).size.width,
           child: _Orb(
-            color: const Color(0xFFA855F7).withOpacity(0.15),
+            color: const Color(0xFFA855F7).withValues(alpha: 0.15),
             size: 350,
             duration: 8,
           ),
@@ -114,7 +114,7 @@ class _AnimatedBackgroundOrbs extends StatelessWidget {
           bottom: 0.25 * 900,
           right: 0.15 * MediaQuery.of(context).size.width,
           child: _Orb(
-            color: const Color(0xFF06B6D4).withOpacity(0.15),
+            color: const Color(0xFF06B6D4).withValues(alpha: 0.15),
             size: 350,
             duration: 8,
             reverse: true,
@@ -125,7 +125,7 @@ class _AnimatedBackgroundOrbs extends StatelessWidget {
           top: 0.45 * 900,
           right: 0.33 * MediaQuery.of(context).size.width,
           child: _Orb(
-            color: const Color(0xFF3B82F6).withOpacity(0.15),
+            color: const Color(0xFF3B82F6).withValues(alpha: 0.15),
             size: 280,
             duration: 6,
           ),
@@ -211,13 +211,12 @@ class _FloatingCard extends StatelessWidget {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  const Color(0xFFA855F7).withOpacity(0.1),
-                  const Color(0xFF06B6D4).withOpacity(0.1),
+                  const Color(0xFFA855F7).withValues(alpha: 0.1), const Color(0xFF06B6D4).withValues(alpha: 0.1),
                 ],
               ),
               borderRadius: BorderRadius.circular(24),
               border: Border.all(
-                color: const Color(0xFFA855F7).withOpacity(0.2),
+                color: const Color(0xFFA855F7).withValues(alpha: 0.2),
               ),
             ),
           ),
@@ -257,13 +256,12 @@ class _HeroBadge extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            const Color(0xFFA855F7).withOpacity(0.2),
-            const Color(0xFF06B6D4).withOpacity(0.2),
+            const Color(0xFFA855F7).withValues(alpha: 0.2), const Color(0xFF06B6D4).withValues(alpha: 0.2),
           ],
         ),
         borderRadius: BorderRadius.circular(30),
         border: Border.all(
-          color: const Color(0xFFA855F7).withOpacity(0.3),
+          color: const Color(0xFFA855F7).withValues(alpha: 0.3),
         ),
       ),
       child: ClipRRect(
@@ -392,7 +390,7 @@ class _HeroCTAButtons extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
             boxShadow: [
               BoxShadow(
-                color: const Color(0xFFA855F7).withOpacity(0.25),
+                color: const Color(0xFFA855F7).withValues(alpha: 0.25),
                 blurRadius: 20,
                 offset: const Offset(0, 4),
               ),
@@ -423,10 +421,10 @@ class _HeroCTAButtons extends StatelessWidget {
         Container(
           height: 56,
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.05),
+                color: Colors.white.withValues(alpha: 0.05),
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
-              color: const Color(0xFFA855F7).withOpacity(0.3),
+              color: const Color(0xFFA855F7).withValues(alpha: 0.3),
             ),
           ),
           child: ClipRRect(
@@ -481,13 +479,12 @@ class _HeroTechBadges extends StatelessWidget {
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                const Color(0xFFA855F7).withOpacity(0.1),
-                const Color(0xFF06B6D4).withOpacity(0.1),
+                const Color(0xFFA855F7).withValues(alpha: 0.1), const Color(0xFF06B6D4).withValues(alpha: 0.1),
               ],
             ),
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
-              color: const Color(0xFFA855F7).withOpacity(0.2),
+              color: const Color(0xFFA855F7).withValues(alpha: 0.2),
             ),
           ),
           child: ClipRRect(
@@ -561,12 +558,11 @@ class _SocialIconState extends State<_SocialIcon> {
         width: 48,
         height: 48,
         decoration: BoxDecoration(
-          color: isHovered ? Colors.white.withOpacity(0.1) : Colors.white.withOpacity(0.05),
+          color: isHovered ? Colors.white.withValues(alpha: 0.1) : Colors.white.withValues(alpha: 0.05),
           shape: BoxShape.circle,
           border: Border.all(
             color: isHovered
-                ? const Color(0xFFA855F7).withOpacity(0.4)
-                : const Color(0xFFA855F7).withOpacity(0.2),
+                ? const Color(0xFFA855F7).withValues(alpha: 0.4) : const Color(0xFFA855F7).withValues(alpha: 0.2),
           ),
         ),
         child: ClipOval(
@@ -597,7 +593,7 @@ class _HeroScrollIndicator extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),
             border: Border.all(
-              color: const Color(0xFFA855F7).withOpacity(0.3),
+              color: const Color(0xFFA855F7).withValues(alpha: 0.3),
               width: 2,
             ),
           ),

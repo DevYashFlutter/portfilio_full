@@ -91,9 +91,10 @@ class PortfolioData {
       'desc': 'Educational platform app with live classes, assignments, and progress tracking for students.',
       'tags': ['Flutter', 'Firebase', 'GetX', 'REST API'],
       'users': '500K+',
-      'rating': '4.8',
+      'rating': '4.5',
       'perf': 'Fast Load',
       'category': 'Education',
+      'colors': [Color(0xFF3B82F6), Color(0xFF6366F1)], // from-blue-500 to-indigo-500
     },
     {
       'title': 'Unibit Games',
@@ -103,6 +104,7 @@ class PortfolioData {
       'rating': '4.7',
       'perf': 'Optimized',
       'category': 'Gaming Platform',
+      'colors': [Color(0xFFA855F7), Color(0xFFEC4899)], // from-purple-500 to-pink-500
     },
     {
       'title': 'Unibit11',
@@ -112,6 +114,7 @@ class PortfolioData {
       'rating': '4.6',
       'perf': 'Real-time',
       'category': 'Fantasy Sports',
+      'colors': [Color(0xFF22C55E), Color(0xFF10B981)], // from-green-500 to-emerald-500
     },
     {
       'title': 'Unibit Pool',
@@ -121,15 +124,17 @@ class PortfolioData {
       'rating': '4.4',
       'perf': 'Smooth',
       'category': 'Gaming',
+      'colors': [Color(0xFF06B6D4), Color(0xFF3B82F6)], // from-cyan-500 to-blue-500
     },
     {
       'title': 'Ludo 24',
-      'desc': 'Multiplayer ludo game with voice chat, tournaments, and reward system.',
+      'desc': 'Multiplayer Ludo game with voice chat, tournaments, and rewards system.',
       'tags': ['Flutter', 'Firebase', 'Agora', 'GetX'],
       'users': '600K+',
       'rating': '4.5',
       'perf': 'Low Latency',
       'category': 'Gaming',
+      'colors': [Color(0xFFF97316), Color(0xFFEF4444)], // from-orange-500 to-red-500
     },
     {
       'title': 'Games11',
@@ -139,6 +144,7 @@ class PortfolioData {
       'rating': '4.3',
       'perf': 'Optimized',
       'category': 'Gaming Platform',
+      'colors': [Color(0xFF8B5CF6), Color(0xFFA855F7)], // from-violet-500 to-purple-500
     },
     {
       'title': 'Newsflick',
@@ -148,6 +154,7 @@ class PortfolioData {
       'rating': '4.4',
       'perf': 'Fast',
       'category': 'News & Media',
+      'colors': [Color(0xFF14B8A6), Color(0xFF06B6D4)], // from-teal-500 to-cyan-500
     },
     {
       'title': 'Moina Chat',
@@ -157,27 +164,40 @@ class PortfolioData {
       'rating': '4.5',
       'perf': 'Real-time',
       'category': 'Communication',
+      'colors': [Color(0xFFEC4899), Color(0xFFF43F5E)], // from-pink-500 to-rose-500
     },
     {
       'title': 'Teachers Recruitment',
       'desc': 'Platform connecting schools with qualified teachers, job postings, and applications.',
-      'tags': ['Flutter', 'REST API', 'GetX'],
+      'tags': ['Flutter', 'Firebase', 'REST API', 'GetX'],
       'users': '50K+',
       'rating': '4.6',
       'perf': 'Efficient',
       'category': 'Education',
+      'colors': [Color(0xFF6366F1), Color(0xFF3B82F6)], // from-indigo-500 to-blue-500
     },
   ];
 
   static const List<Map<String, dynamic>> personalProjects = [
     {
+      'title': 'Flutter Portfolio',
+      'desc': 'Interactive portfolio website showcasing projects and skills with modern animations.',
+      'tags': ['React', 'Tailwind', 'Motion', 'TypeScript'],
+      'users': 'New',
+      'rating': '⭐',
+      'perf': 'Premium',
+      'category': 'Personal Branding',
+      'colors': [Color(0xFFA855F7), Color(0xFF06B6D4)], // from-purple-500 to-cyan-500
+    },
+    {
       'title': 'PowerTag',
       'desc': 'Smart tagging and organization app for documents and digital assets.',
       'tags': ['Flutter', 'Hive', 'REST API', 'GetX'],
       'users': '80K+',
-      'rating': '4.8',
+      'rating': '4.3',
       'perf': 'Fast',
       'category': 'Productivity',
+      'colors': [Color(0xFFEAB308), Color(0xFFF97316)], // from-yellow-500 to-orange-500
     },
     {
       'title': 'Daily Credit',
@@ -187,6 +207,17 @@ class PortfolioData {
       'rating': '4.5',
       'perf': 'Secure',
       'category': 'Finance',
+      'colors': [Color(0xFF10B981), Color(0xFF22C55E)], // from-emerald-500 to-green-500
+    },
+    {
+      'title': 'Task Manager Pro',
+      'desc': 'Advanced task management app with AI-powered suggestions and team collaboration.',
+      'tags': ['Flutter', 'Firebase', 'Hive', 'GetX'],
+      'users': 'Personal',
+      'rating': '4.8',
+      'perf': 'Fast',
+      'category': 'Productivity',
+      'colors': [Color(0xFF3B82F6), Color(0xFFA855F7)], // from-blue-500 to-purple-500
     },
   ];
 }

@@ -74,7 +74,7 @@ class _FooterState extends State<Footer> {
                       child: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                         decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
+                          color: Theme.of(context).colorScheme.secondary.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(30),
                           border: Border.all(color: Theme.of(context).dividerColor.withAlpha(25)),
                         ),

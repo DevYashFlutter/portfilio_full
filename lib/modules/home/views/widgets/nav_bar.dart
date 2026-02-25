@@ -133,7 +133,7 @@ class _NavButtonState extends State<_NavButton> {
           child: AnimatedDefaultTextStyle(
             duration: const Duration(milliseconds: 200),
             style: GoogleFonts.inter(
-              color: isHovered ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+              color: isHovered ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
               fontSize: 14,
               fontWeight: isHovered ? FontWeight.bold : FontWeight.w500,
             ),

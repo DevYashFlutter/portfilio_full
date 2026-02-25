@@ -85,8 +85,8 @@ class _AboutBackgroundOrbs extends StatelessWidget {
           child: Container(
             width: 400,
             height: 400,
-            decoration: BoxDecoration(
-              color: const Color(0xFFA855F7).withOpacity(0.05),
+                    decoration: BoxDecoration(
+              color: const Color(0xFFA855F7).withValues(alpha: 0.05),
               shape: BoxShape.circle,
             ),
           )
@@ -246,7 +246,7 @@ class _HighlightCardState extends State<_HighlightCard> {
                 decoration: BoxDecoration(
                   gradient: RadialGradient(
                     colors: [
-                      const Color(0xFFA855F7).withOpacity(0.2),
+                      const Color(0xFFA855F7).withValues(alpha: 0.2),
                       Colors.transparent,
                     ],
                     radius: 1.0,
@@ -263,13 +263,13 @@ class _HighlightCardState extends State<_HighlightCard> {
                 child: Container(
                   padding: const EdgeInsets.all(24),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF0F172A).withOpacity(0.5),
+                    color: const Color(0xFF0F172A).withValues(alpha: 0.5),
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(
                       color: isHovered
-                          ? const Color(0xFFA855F7).withOpacity(0.4)
-                          : const Color(0xFFA855F7).withOpacity(0.2),
+                          ? const Color(0xFFA855F7).withValues(alpha: 0.6) : const Color(0xFFA855F7).withValues(alpha: 0.2), width: 1,
                     ),
+                    boxShadow: isHovered ? [BoxShadow(color: const Color(0xFFA855F7).withValues(alpha: 0.1), blurRadius: 20, spreadRadius: 5)] : [],
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -280,8 +280,7 @@ class _HighlightCardState extends State<_HighlightCard> {
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: [
-                              const Color(0xFFA855F7).withOpacity(0.2),
-                              const Color(0xFF06B6D4).withOpacity(0.2),
+                              const Color(0xFFA855F7).withValues(alpha: 0.2), const Color(0xFF06B6D4).withValues(alpha: 0.2),
                             ],
                           ),
                           borderRadius: BorderRadius.circular(12),
@@ -376,7 +375,7 @@ class _AboutExperienceTimeline extends StatelessWidget {
   }
 }
 
-class _TimelineItem extends StatelessWidget {
+class _TimelineItem extends StatefulWidget {
   final String period;
   final String role;
   final String company;
@@ -390,116 +389,101 @@ class _TimelineItem extends StatelessWidget {
   });
 
   @override
+  State<_TimelineItem> createState() => _TimelineItemState();
+}
+
+class _TimelineItemState extends State<_TimelineItem> {
+  bool isHovered = false;
+
+  @override
   Widget build(BuildContext context) {
-    return IntrinsicHeight(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Timeline Line & Dot
-          Padding(
-            padding: const EdgeInsets.only(top: 4),
-            child: Stack(
-              alignment: Alignment.topCenter,
-              children: [
-                Container(
-                  width: 2,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        const Color(0xFFA855F7),
-                        const Color(0xFF06B6D4),
-                        Colors.transparent,
-                      ],
-                    ),
-                  ),
-                ),
-                _PulsingDot(),
-              ],
-            ),
-          ),
-          const SizedBox(width: 24),
-          // Content
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 32),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(16),
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                  child: Container(
-                    padding: const EdgeInsets.all(24),
+    return MouseRegion(
+      onEnter: (_) => setState(() => isHovered = true),
+      onExit: (_) => setState(() => isHovered = false),
+      child: IntrinsicHeight(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Timeline Line & Dot
+            Padding(
+              padding: const EdgeInsets.only(top: 4),
+              child: Stack(
+                alignment: Alignment.topCenter,
+                children: [
+                  Container(
+                    width: 2,
                     decoration: BoxDecoration(
-                      color: const Color(0xFF0F172A).withOpacity(0.5),
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(
-                        color: const Color(0xFFA855F7).withOpacity(0.2),
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [const Color(0xFFA855F7), const Color(0xFF06B6D4), Colors.transparent],
                       ),
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          period,
-                          style: const TextStyle(
-                            color: Color(0xFFC084FC),
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
+                  ),
+                  _PulsingDot(),
+                ],
+              ),
+            ),
+            const SizedBox(width: 24),
+            // Content
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 32),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 300),
+                      padding: const EdgeInsets.all(24),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF0F172A).withValues(alpha: 0.5),
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(
+                          color: isHovered ? const Color(0xFFA855F7).withValues(alpha: 0.4) : const Color(0xFFA855F7).withValues(alpha: 0.2)),
+                        boxShadow: isHovered ? [BoxShadow(color: const Color(0xFFA855F7).withValues(alpha: 0.1), blurRadius: 20, spreadRadius: 2)] : [],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            widget.period,
+                            style: const TextStyle(color: Color(0xFFC084FC), fontSize: 14, fontWeight: FontWeight.w500),
                           ),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          role,
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                          const SizedBox(height: 8),
+                          Text(
+                            widget.role,
+                            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
                           ),
-                        ),
-                        Text(
-                          company,
-                          style: const TextStyle(
-                            color: Color(0xFF22D3EE),
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
+                          Text(
+                            widget.company,
+                            style: const TextStyle(color: Color(0xFF22D3EE), fontSize: 16, fontWeight: FontWeight.w500),
                           ),
-                        ),
-                        const SizedBox(height: 16),
-                        ...achievements.map((achievement) => Padding(
+                          const SizedBox(height: 16),
+                          ...widget.achievements.map(
+                            (achievement) => Padding(
                               padding: const EdgeInsets.only(bottom: 8),
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Text(
-                                    '▹',
-                                    style: TextStyle(
-                                      color: Color(0xFFA855F7),
-                                      fontSize: 16,
-                                    ),
-                                  ),
+                                  const Text('▹', style: TextStyle(color: Color(0xFFA855F7), fontSize: 16)),
                                   const SizedBox(width: 8),
                                   Expanded(
-                                    child: Text(
-                                      achievement,
-                                      style: const TextStyle(
-                                        color: Color(0xFFCBD5E1),
-                                        fontSize: 14,
-                                        height: 1.5,
-                                      ),
-                                    ),
+                                    child: Text(achievement, style: const TextStyle(color: Color(0xFFCBD5E1), fontSize: 14, height: 1.5)),
                                   ),
                                 ],
                               ),
-                            )),
-                      ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -536,7 +520,7 @@ class _PulsingDot extends StatelessWidget {
           shape: BoxShape.circle,
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFFA855F7).withOpacity(0.5 * (1 - value)),
+                  color: const Color(0xFFA855F7).withValues(alpha: 0.5 * (1 - value)),
               blurRadius: 10 * value,
               spreadRadius: 5 * value,
             ),
@@ -697,7 +681,7 @@ class _AboutStatsGrid extends StatelessWidget {
   }
 }
 
-class _StatCard extends StatelessWidget {
+class _StatCard extends StatefulWidget {
   final String value;
   final String label;
   final int index;
@@ -709,64 +693,69 @@ class _StatCard extends StatelessWidget {
   });
 
   @override
+  State<_StatCard> createState() => _StatCardState();
+}
+
+class _StatCardState extends State<_StatCard> {
+  bool isHovered = false;
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            const Color(0xFFA855F7).withOpacity(0.1),
-            const Color(0xFF06B6D4).withOpacity(0.1),
-          ],
-        ),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: const Color(0xFFA855F7).withOpacity(0.2),
-        ),
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(16),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ShaderMask(
-                shaderCallback: (bounds) => const LinearGradient(
-                  colors: [Color(0xFFC084FC), Color(0xFF22D3EE)],
-                ).createShader(bounds),
-                child: Text(
-                  value,
-                  style: const TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
+    return MouseRegion(
+      onEnter: (_) => setState(() => isHovered = true),
+      onExit: (_) => setState(() => isHovered = false),
+      child:
+          AnimatedContainer(
+                duration: const Duration(milliseconds: 300),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      const Color(0xFFA855F7).withValues(alpha: isHovered ? 0.2 : 0.1),
+                      const Color(0xFF06B6D4).withValues(alpha: isHovered ? 0.2 : 0.1),
+                    ],
+                  ),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(
+            color: isHovered ? const Color(0xFFA855F7).withValues(alpha: 0.4) : const Color(0xFFA855F7).withValues(alpha: 0.2)),
+                  boxShadow: isHovered ? [BoxShadow(color: const Color(0xFFA855F7).withValues(alpha: 0.1), blurRadius: 15, spreadRadius: 2)] : [],
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ShaderMask(
+                          shaderCallback: (bounds) => const LinearGradient(colors: [Color(0xFFC084FC), Color(0xFF22D3EE)]).createShader(bounds),
+                          child: Text(
+                            widget.value,
+                            style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.white),
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          widget.label,
+                          style: const TextStyle(fontSize: 12, color: Color(0xFF94A3B8), fontWeight: FontWeight.w500),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
+              )
+              .animate()
+              .fadeIn(
+                duration: const Duration(milliseconds: 500),
+                delay: Duration(milliseconds: 800 + widget.index * 100),
+              )
+              .scale(
+                begin: const Offset(0.8, 0.8),
+                end: const Offset(1, 1),
+                duration: const Duration(milliseconds: 500),
+                delay: Duration(milliseconds: 800 + widget.index * 100),
               ),
-              const SizedBox(height: 4),
-              Text(
-                label,
-                style: const TextStyle(
-                  fontSize: 12,
-                  color: Color(0xFF94A3B8),
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    ).animate().fadeIn(
-          duration: const Duration(milliseconds: 500),
-          delay: Duration(milliseconds: 800 + index * 100),
-        ).scale(
-          begin: const Offset(0.8, 0.8),
-          end: const Offset(1, 1),
-          duration: const Duration(milliseconds: 500),
-          delay: Duration(milliseconds: 800 + index * 100),
-        );
+    );
   }
 }

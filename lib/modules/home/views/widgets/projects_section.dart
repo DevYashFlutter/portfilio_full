@@ -5,17 +5,23 @@ import 'package:portfolio/utils/portfolio_data.dart';
 import 'package:get/get.dart';
 
 class ProjectsSection extends StatefulWidget {
-  final String title;
-  final String type;
+  final String? title;
+  final String? type;
 
-  const ProjectsSection({super.key, required this.title, required this.type});
+  const ProjectsSection({super.key, this.title, this.type});
 
   @override
   State<ProjectsSection> createState() => _ProjectsSectionState();
 }
 
 class _ProjectsSectionState extends State<ProjectsSection> {
-  String selectedType = 'All';
+  late String selectedType;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedType = widget.type == 'personal' ? 'Personal' : 'Industrial';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,80 +33,120 @@ class _ProjectsSectionState extends State<ProjectsSection> {
 
     return Container(
       width: double.infinity,
-      color: const Color(0xFF0F172A),
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [Color(0xFF0F172A), Color(0xFF020617), Color(0xFF0F172A)]),
+      ),
       padding: EdgeInsets.symmetric(vertical: 80, horizontal: isMobile ? 24 : 40),
-      child: Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 1200),
-          child: Column(
-            children: [
-              // Section Header
-              ShaderMask(
-                shaderCallback: (bounds) => const LinearGradient(colors: [Color(0xFFA855F7), Color(0xFF22D3EE)]).createShader(bounds),
-                child: Text(
-                  widget.title,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: isMobile ? 36 : 56, fontWeight: FontWeight.bold, color: Colors.white),
-                ),
-              ),
-              const SizedBox(height: 16),
-              const Text(
-                'Handpicked works and industrial contributions',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 18, color: Colors.white54),
-              ),
-              const SizedBox(height: 50),
+      child: Stack(
+        children: [
+          // Background animated spheres
+          Positioned(
+            top: 100,
+            left: width * 0.2,
+            child: Container(
+              width: 300,
+              height: 300,
+              decoration: BoxDecoration(shape: BoxShape.circle, color: const Color(0xFF22D3EE).withValues(alpha: 0.1)),
+            ).animate(onPlay: (c) => c.repeat()).scale(begin: const Offset(1, 1), end: const Offset(1.3, 1.3), duration: const Duration(seconds: 10), curve: Curves.easeInOut),
+          ),
 
-              // Filter Tabs
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+          Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 1200),
+              child: Column(
                 children: [
-                  _FilterTab(label: 'All', isSelected: selectedType == 'All', onTap: () => setState(() => selectedType = 'All')),
-                  const SizedBox(width: 12),
-                  _FilterTab(label: 'Industrial', isSelected: selectedType == 'Industrial', onTap: () => setState(() => selectedType = 'Industrial')),
-                  const SizedBox(width: 12),
-                  _FilterTab(label: 'Personal', isSelected: selectedType == 'Personal', onTap: () => setState(() => selectedType = 'Personal')),
+                  // Section Header
+                  Column(
+                    children: [
+                      ShaderMask(
+                        shaderCallback: (bounds) => const LinearGradient(colors: [Color(0xFFA855F7), Color(0xFF22D3EE)]).createShader(bounds),
+                        child: Text(
+                          'Project Showcase',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: isMobile ? 36 : 56, fontWeight: FontWeight.bold, color: Colors.white),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        'Production apps serving millions of users worldwide',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: isMobile ? 16 : 18,
+                          color: const Color(0xFF94A3B8), // slate-400
+                        ),
+                      ),
+                    ],
+                  ).animate().fadeIn(duration: 800.ms).moveY(begin: 30, end: 0),
+                  const SizedBox(height: 50),
+
+                  // Filter Tabs
+                  Container(
+                    width: isMobile ? double.infinity : 450,
+                    padding: const EdgeInsets.all(4),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF0F172A).withValues(alpha: 0.5),
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: const Color(0xFFA855F7).withValues(alpha: 0.2)),
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: _FilterTab(
+                            label: 'Industry Projects (${industrialProjects.length})',
+                            isSelected: selectedType == 'Industrial',
+                            onTap: () => setState(() => selectedType = 'Industrial'),
+                          ),
+                        ),
+                        Expanded(
+                          child: _FilterTab(
+                            label: 'Personal Projects (${personalProjects.length})',
+                            isSelected: selectedType == 'Personal',
+                            onTap: () => setState(() => selectedType = 'Personal'),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 60),
+
+                  // Projects Grid
+                  GridView.builder(
+                    padding: EdgeInsets.zero,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: isMobile ? 1 : (width < 1200 ? 2 : 3),
+                      crossAxisSpacing: 24,
+                      mainAxisSpacing: 24,
+                      childAspectRatio: isMobile ? 0.75 : 0.72,
+                    ),
+                    itemCount: _getFilteredProjects(industrialProjects, personalProjects).length,
+                    itemBuilder: (context, index) {
+                      final project = _getFilteredProjects(industrialProjects, personalProjects)[index];
+                      return _ProjectCard(
+                        title: project['title'],
+                        description: project['desc'],
+                        tags: List<String>.from(project['tags']),
+                        users: project['users'] ?? '0',
+                        rating: project['rating'] ?? '5.0',
+                        perf: project['perf'] ?? 'N/A',
+                        colors: List<Color>.from(project['colors']),
+                        category: project['category'],
+                      );
+                    },
+                  ),
                 ],
               ),
-              const SizedBox(height: 60),
-
-              // Projects Grid
-              GridView.builder(
-                padding: EdgeInsets.zero,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: isMobile ? 1 : (width < 1200 ? 2 : 3),
-                  crossAxisSpacing: 30,
-                  mainAxisSpacing: 30,
-                  childAspectRatio: 0.82,
-                ),
-                itemCount: _getFilteredProjects(industrialProjects, personalProjects).length,
-                itemBuilder: (context, index) {
-                  final project = _getFilteredProjects(industrialProjects, personalProjects)[index];
-                  return _ProjectCard(
-                    title: project['title'],
-                    description: project['desc'],
-                    tags: List<String>.from(project['tags']),
-                    users: project['users'] ?? '0',
-                    rating: project['rating'] ?? '5.0',
-                    perf: project['perf'] ?? 'N/A',
-                    color: project['color'] ?? const Color(0xFFA855F7), // Provide default color if missing
-                    category: project['category'],
-                  );
-                },
-              ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
 
   List<dynamic> _getFilteredProjects(List<dynamic> industrial, List<dynamic> personal) {
-    if (selectedType == 'Industrial') return industrial;
     if (selectedType == 'Personal') return personal;
-    return industrial + personal;
+    return industrial; // Default to Industrial if "All" is removed or not selected
   }
 }
 
@@ -115,21 +161,21 @@ class _FilterTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(26),
+      borderRadius: BorderRadius.circular(8),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+        padding: const EdgeInsets.symmetric(vertical: 12),
         decoration: BoxDecoration(
-          color: isSelected ? const Color(0xFFA855F7).withAlpha(30) : Colors.transparent,
-          borderRadius: BorderRadius.circular(26),
-          border: isSelected ? Border.all(color: const Color(0xFFA855F7).withAlpha(100)) : Border.all(color: Colors.transparent),
+          borderRadius: BorderRadius.circular(8),
+          gradient: isSelected ? const LinearGradient(colors: [Color(0x33A855F7), Color(0x3322D3EE)]) : null,
         ),
         child: Text(
           label,
+          textAlign: TextAlign.center,
           style: TextStyle(
-            color: isSelected ? Colors.white : Colors.white.withAlpha(100),
+            color: isSelected ? Colors.white : const Color(0xFF94A3B8), // slate-400
             fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
-            fontSize: 14,
+            fontSize: 13,
           ),
         ),
       ),
@@ -144,7 +190,7 @@ class _ProjectCard extends StatefulWidget {
   final String users;
   final String rating;
   final String perf;
-  final Color color;
+  final List<Color> colors;
   final String category;
 
   const _ProjectCard({
@@ -154,7 +200,7 @@ class _ProjectCard extends StatefulWidget {
     required this.users,
     required this.rating,
     required this.perf,
-    required this.color,
+    required this.colors,
     required this.category,
   });
 
@@ -174,180 +220,224 @@ class _ProjectCardState extends State<_ProjectCard> {
         borderRadius: 24,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 300),
-          padding: const EdgeInsets.all(24),
           decoration: BoxDecoration(
-            color: const Color(0xFF1E293B).withAlpha(150),
+            color: const Color(0xFF0F172A).withValues(alpha: 0.5),
             borderRadius: BorderRadius.circular(24),
             border: Border.all(
-              color: isHovered ? widget.color.withAlpha(100) : Colors.white.withAlpha(20),
-              width: isHovered ? 2 : 1,
+              color: isHovered ? widget.colors.first.withValues(alpha: 0.4) : Colors.white.withValues(alpha: 0.1), width: 1,
             ),
-            boxShadow: isHovered ? [BoxShadow(color: widget.color.withAlpha(30), blurRadius: 20, spreadRadius: 5)] : [],
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Stack(
             children: [
-              // Top Image/Icon area
-              Container(
-                height: 170,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: const Color(0xFF0F172A).withAlpha(150),
-                  borderRadius: BorderRadius.circular(20),
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [Colors.white.withAlpha(5), Colors.white.withAlpha(2)],
+              // Glow effect
+              AnimatedOpacity(
+                duration: const Duration(milliseconds: 500),
+                opacity: isHovered ? 0.2 : 0,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(24),
+                    boxShadow: [BoxShadow(color: widget.colors.first, blurRadius: 40, spreadRadius: -10)],
                   ),
                 ),
-                child: Stack(
+              ),
+
+              Padding(
+                padding: const EdgeInsets.all(24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Center(
-                      child: Container(
-                        width: 60,
-                        height: 90,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [widget.color, widget.color.withAlpha(150)],
+                    // Phone mockup placeholder
+                    Container(
+                      height: 192,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF1E293B), borderRadius: BorderRadius.circular(16)),
+                      child: Stack(
+                        children: [
+                          Center(
+                            child: AnimatedScale(
+                              scale: isHovered ? 1.05 : 1.0,
+                              duration: const Duration(milliseconds: 300),
+                              child: Container(
+                                width: 128,
+                                height: 160,
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    begin: Alignment.topLeft, end: Alignment.bottomRight, colors: widget.colors),
+                                  borderRadius: BorderRadius.circular(20),
+                                  boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.3), blurRadius: 20, offset: const Offset(0, 10))],
+                                ),
+                                child: Icon(Icons.smartphone_rounded, size: 64, color: Colors.white.withValues(alpha: 0.5)),
+                              ),
+                            ),
                           ),
-                          borderRadius: BorderRadius.circular(12),
-                          boxShadow: [BoxShadow(color: widget.color.withAlpha(100), blurRadius: 15)],
-                        ),
-                        child: const Icon(
-                          Icons.phone_android_rounded,
-                          color: Colors.white,
-                          size: 28,
-                        ),
+                          // Floating category badge
+                          Positioned(
+                            top: 16,
+                            right: 16,
+                            child: _FloatingBadge(label: widget.category, color: widget.colors.first),
+                          ),
+                        ],
                       ),
                     ),
-                    Positioned(
-                      top: 12,
-                      right: 12,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFF8B5CF6).withAlpha(100),
-                          borderRadius: BorderRadius.circular(20),
+                    const SizedBox(height: 24),
+
+                    // Project info
+                    Text(
+                      widget.title,
+                      style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+                    ),
+                    const SizedBox(height: 8),
+                    Expanded(
+                      child: Text(
+                        widget.description,
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: const Color(0xFF94A3B8), // slate-400
+                          height: 1.5,
                         ),
-                        child: Text(
-                          widget.category,
-                          style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
-                        ),
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
+                    const SizedBox(height: 16),
+
+                    // Tech stack
+                    Wrap(spacing: 8, runSpacing: 8, children: widget.tags.map((tag) => _TechBadge(label: tag)).toList()),
+                    const SizedBox(height: 16),
+
+                    // Metrics
+                    Row(
+                      children: [
+                        _StatBox(icon: Icons.people_outline_rounded, label: 'Users', value: widget.users, color: Colors.purple.shade400),
+                        const SizedBox(width: 12),
+                        _StatBox(icon: Icons.trending_up_rounded, label: 'Rating', value: widget.rating, color: Colors.cyan.shade400),
+                        const SizedBox(width: 12),
+                        _StatBox(icon: Icons.speed_rounded, label: 'Perf', value: widget.perf, color: Colors.blue.shade400),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+
+                    // CTA Button
+                    _CTAButton(isHovered: isHovered, colors: widget.colors),
                   ],
-                ),
-              ),
-              const SizedBox(height: 20),
-              Text(
-                widget.title,
-                style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white),
-              ),
-              const SizedBox(height: 6),
-              Text(
-                widget.description,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(fontSize: 13, color: Colors.white.withAlpha(150), height: 1.5),
-              ),
-              const SizedBox(height: 16),
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: widget.tags.map((tag) => _Tag(label: tag)).toList(),
-              ),
-              const Spacer(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _Stat(icon: Icons.person_outline_rounded, label: 'Users', value: widget.users, color: const Color(0xFFA855F7)),
-                  _Stat(icon: Icons.star_outline_rounded, label: 'Rating', value: widget.rating, color: const Color(0xFF0EA5E9)),
-                  _Stat(icon: Icons.speed_rounded, label: 'Perf', value: widget.perf, color: const Color(0xFF10B981)),
-                ],
-              ),
-              const SizedBox(height: 20),
-              SizedBox(
-                width: double.infinity,
-                height: 48,
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    foregroundColor: Colors.black,
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Text('View Details', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
-                      SizedBox(width: 8),
-                      Icon(Icons.open_in_new_rounded, size: 16),
-                    ],
-                  ),
                 ),
               ),
             ],
           ),
         ),
       ),
-    );
+    ).animate().fadeIn(duration: 600.ms, delay: 50.ms);
   }
 }
 
-class _Tag extends StatelessWidget {
+class _FloatingBadge extends StatelessWidget {
   final String label;
-  const _Tag({required this.label});
+  final Color color;
+
+  const _FloatingBadge({required this.label, required this.color});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
       decoration: BoxDecoration(
-        color: const Color(0xFF1E1B4B),
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: const Color(0xFFA855F7).withAlpha(50)),
+        color: color.withValues(alpha: 0.2),
+        borderRadius: BorderRadius.circular(100),
+        border: Border.all(color: color.withValues(alpha: 0.3)),
       ),
       child: Text(
         label,
-        style: const TextStyle(color: Color(0xFFA855F7), fontSize: 10, fontWeight: FontWeight.bold),
+        style: TextStyle(color: color.withValues(alpha: 0.8), fontSize: 12, fontWeight: FontWeight.w500,
+        ),
+      ),
+    ).animate(onPlay: (controller) => controller.repeat(reverse: true)).moveY(begin: 0, end: -5, duration: const Duration(seconds: 2), curve: Curves.easeInOut,
+        );
+  }
+}
+
+class _TechBadge extends StatelessWidget {
+  final String label;
+  const _TechBadge({required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+      decoration: BoxDecoration(
+        color: const Color(0xFFA855F7).withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: const Color(0xFFA855F7).withValues(alpha: 0.3)),
+      ),
+      child: Text(
+        label,
+        style: const TextStyle(color: Color(0xFFD8B4FE), fontSize: 12),
       ),
     );
   }
 }
 
-class _Stat extends StatelessWidget {
+class _StatBox extends StatelessWidget {
   final IconData icon;
   final String label;
   final String value;
   final Color color;
 
-  const _Stat({required this.icon, required this.label, required this.value, required this.color});
+  const _StatBox({required this.icon, required this.label, required this.value, required this.color});
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 4),
         padding: const EdgeInsets.symmetric(vertical: 8),
         decoration: BoxDecoration(
-          color: const Color(0xFF0F172A).withAlpha(100),
+          color: const Color(0xFF1E293B).withValues(alpha: 0.5),
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: Colors.white.withAlpha(10)),
         ),
         child: Column(
           children: [
             Icon(icon, size: 16, color: color),
             const SizedBox(height: 4),
-            Text(label, style: TextStyle(fontSize: 10, color: Colors.white.withAlpha(100))),
+            Text(label, style: const TextStyle(fontSize: 10, color: Color(0xFF94A3B8))), // slate-400
             const SizedBox(height: 2),
             Text(
               value,
-              textAlign: TextAlign.center,
               style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white),
             ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _CTAButton extends StatelessWidget {
+  final bool isHovered;
+  final List<Color> colors;
+
+  const _CTAButton({required this.isHovered, required this.colors});
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 300),
+      width: double.infinity,
+      height: 40,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: isHovered ? colors.first.withValues(alpha: 0.5) : Colors.white.withValues(alpha: 0.1)),
+        gradient: isHovered ? LinearGradient(colors: [colors.first.withValues(alpha: 0.2), colors.last.withValues(alpha: 0.2)]) : null,
+      ),
+      child: Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              'View Details',
+              style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
+            ),
+            const SizedBox(width: 8),
+            Icon(Icons.open_in_new_rounded, size: 14, color: Colors.white.withValues(alpha: 0.7)),
           ],
         ),
       ),
