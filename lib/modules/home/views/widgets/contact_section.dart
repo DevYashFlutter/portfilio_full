@@ -30,18 +30,16 @@ class _ContactSectionState extends State<ContactSection> {
     final bool isMobile = Responsive.isMobile(context);
     final bool isTablet = Responsive.isTablet(context);
 
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      floatingActionButton: _buildFloatingContactButton(),
-      body: Stack(
+    return Container(
+      decoration: const BoxDecoration(color: Colors.transparent),
+      child: Stack(
         children: [
           // Background effects
           _buildBackground(),
 
-          SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 80),
-              child: Column(children: [_buildHeader(isMobile), const SizedBox(height: 60), _buildMainContent(context, isMobile, isTablet)]),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 80),
+            child: Column(children: [_buildHeader(isMobile), const SizedBox(height: 60), _buildMainContent(context, isMobile, isTablet)],
             ),
           ),
         ],
@@ -51,50 +49,37 @@ class _ContactSectionState extends State<ContactSection> {
 
   Widget _buildBackground() {
     return Positioned.fill(
-      child: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFF020617), // slate-950
-              Color(0xFF0F172A), // slate-900
-              Color(0xFF020617), // slate-950
-            ],
+      child: Stack(
+        children: [
+          // Purple Glow
+          Positioned(
+            top: 100,
+            left: -100,
+            child:
+                Container(
+                      width: 400,
+                      height: 400,
+                      decoration: BoxDecoration(color: const Color(0xFFA855F7).withValues(alpha: 0.1), shape: BoxShape.circle),
+                    )
+                    .animate(onPlay: (controller) => controller.repeat(reverse: true))
+                    .scale(begin: const Offset(1, 1), end: const Offset(1.2, 1.2), duration: 8.seconds)
+                    .blurXY(begin: 80, end: 100),
           ),
-        ),
-        child: Stack(
-          children: [
-            // Purple Glow
-            Positioned(
-              top: 100,
-              left: -100,
-              child:
-                  Container(
-                        width: 400,
-                        height: 400,
-                        decoration: BoxDecoration(color: const Color(0xFFA855F7).withOpacity(0.1), shape: BoxShape.circle),
-                      )
-                      .animate(onPlay: (controller) => controller.repeat(reverse: true))
-                      .scale(begin: const Offset(1, 1), end: const Offset(1.2, 1.2), duration: 8.seconds)
-                      .blurXY(begin: 80, end: 100),
-            ),
-            // Cyan Glow
-            Positioned(
-              bottom: 100,
-              right: -100,
-              child:
-                  Container(
-                        width: 400,
-                        height: 400,
-                        decoration: BoxDecoration(color: const Color(0xFF22D3EE).withOpacity(0.1), shape: BoxShape.circle),
-                      )
-                      .animate(onPlay: (controller) => controller.repeat(reverse: true))
-                      .scale(begin: const Offset(1.2, 1.2), end: const Offset(1, 1), duration: 8.seconds)
-                      .blurXY(begin: 100, end: 80),
-            ),
-          ],
-        ),
+          // Cyan Glow
+          Positioned(
+            bottom: 100,
+            right: -100,
+            child:
+                Container(
+                      width: 400,
+                      height: 400,
+                      decoration: BoxDecoration(color: const Color(0xFF22D3EE).withValues(alpha: 0.1), shape: BoxShape.circle),
+                    )
+                    .animate(onPlay: (controller) => controller.repeat(reverse: true))
+                    .scale(begin: const Offset(1.2, 1.2), end: const Offset(1, 1), duration: 8.seconds)
+                    .blurXY(begin: 100, end: 80),
+          ),
+        ],
       ),
     );
   }
@@ -151,9 +136,9 @@ class _ContactSectionState extends State<ContactSection> {
     return Container(
       padding: const EdgeInsets.all(32),
       decoration: BoxDecoration(
-        color: const Color(0xFF0F172A).withOpacity(0.5), // slate-900/50
+        color: const Color(0xFF0F172A).withValues(alpha: 0.5), // slate-900/50
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: const Color(0xFFA855F7).withOpacity(0.2)), // purple-500/20
+        border: Border.all(color: const Color(0xFFA855F7).withValues(alpha: 0.2)), // purple-500/20
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(24),
@@ -204,15 +189,15 @@ class _ContactSectionState extends State<ContactSection> {
         hintText: hint,
         hintStyle: const TextStyle(color: Color(0xFF64748B)),
         filled: true,
-        fillColor: const Color(0xFF1E293B).withOpacity(0.5), // slate-800/50
+        fillColor: const Color(0xFF1E293B).withValues(alpha: 0.5), // slate-800/50
         contentPadding: const EdgeInsets.all(16),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: const Color(0xFFA855F7).withOpacity(0.2)),
+          borderSide: BorderSide(color: const Color(0xFFA855F7).withValues(alpha: 0.2)),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: const Color(0xFFA855F7).withOpacity(0.5)),
+          borderSide: BorderSide(color: const Color(0xFFA855F7).withValues(alpha: 0.5)),
         ),
       ),
     );
@@ -227,7 +212,7 @@ class _ContactSectionState extends State<ContactSection> {
           colors: [Color(0xFF9333EA), Color(0xFF0891B2)], // purple-600 to cyan-600
         ),
         borderRadius: BorderRadius.circular(12),
-        boxShadow: [BoxShadow(color: const Color(0xFFA855F7).withOpacity(0.25), blurRadius: 15, offset: const Offset(0, 4))],
+        boxShadow: [BoxShadow(color: const Color(0xFFA855F7).withValues(alpha: 0.25), blurRadius: 15, offset: const Offset(0, 4))],
       ),
       child: ElevatedButton(
         onPressed: () {
@@ -310,9 +295,9 @@ class _ContactSectionState extends State<ContactSection> {
     return Container(
       padding: const EdgeInsets.all(32),
       decoration: BoxDecoration(
-        color: const Color(0xFF0F172A).withOpacity(0.5),
+        color: const Color(0xFF0F172A).withValues(alpha: 0.5),
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: const Color(0xFFA855F7).withOpacity(0.2)),
+        border: Border.all(color: const Color(0xFFA855F7).withValues(alpha: 0.2)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -340,9 +325,9 @@ class _ContactSectionState extends State<ContactSection> {
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        gradient: LinearGradient(colors: [const Color(0xFFA855F7).withOpacity(0.1), const Color(0xFF22D3EE).withOpacity(0.1)]),
+        gradient: LinearGradient(colors: [const Color(0xFFA855F7).withValues(alpha: 0.1), const Color(0xFF22D3EE).withValues(alpha: 0.1)]),
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: const Color(0xFFA855F7).withOpacity(0.2)),
+        border: Border.all(color: const Color(0xFFA855F7).withValues(alpha: 0.2)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -382,25 +367,6 @@ class _ContactSectionState extends State<ContactSection> {
       ],
     );
   }
-
-  Widget _buildFloatingContactButton() {
-    return FloatingActionButton(
-      onPressed: () {},
-      backgroundColor: Colors.transparent,
-      elevation: 0,
-      highlightElevation: 0,
-      child: Container(
-        width: 56,
-        height: 56,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          gradient: const LinearGradient(colors: [Color(0xFF9333EA), Color(0xFF0891B2)]),
-          boxShadow: [BoxShadow(color: const Color(0xFFA855F7).withOpacity(0.5), blurRadius: 20, spreadRadius: 2)],
-        ),
-        child: const Icon(Icons.mail_rounded, color: Colors.white, size: 28),
-      ),
-    ).animate(onPlay: (controller) => controller.repeat(reverse: true)).scale(begin: const Offset(1, 1), end: const Offset(1.1, 1.1), duration: 2.seconds);
-  }
 }
 
 class _InfoCard extends StatefulWidget {
@@ -428,9 +394,9 @@ class _InfoCardState extends State<_InfoCard> {
         transform: Matrix4.translationValues(isHovered ? 8 : 0, 0, 0),
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: const Color(0xFF0F172A).withOpacity(0.5),
+          color: const Color(0xFF0F172A).withValues(alpha: 0.5),
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: isHovered ? const Color(0xFFA855F7).withOpacity(0.4) : const Color(0xFFA855F7).withOpacity(0.2)),
+          border: Border.all(color: isHovered ? const Color(0xFFA855F7).withValues(alpha: 0.4) : const Color(0xFFA855F7).withValues(alpha: 0.2)),
         ),
         child: Row(
           children: [
@@ -438,7 +404,7 @@ class _InfoCardState extends State<_InfoCard> {
               width: 48,
               height: 48,
               decoration: BoxDecoration(
-                gradient: LinearGradient(colors: [const Color(0xFFA855F7).withOpacity(0.2), const Color(0xFF22D3EE).withOpacity(0.2)]),
+                gradient: LinearGradient(colors: [const Color(0xFFA855F7).withValues(alpha: 0.2), const Color(0xFF22D3EE).withValues(alpha: 0.2)]),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(widget.icon, color: const Color(0xFFA855F7), size: 24),
@@ -491,9 +457,9 @@ class _SocialLinkItemState extends State<_SocialLinkItem> {
           transform: Matrix4.translationValues(isHovered ? 8 : 0, 0, 0),
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: const Color(0xFF1E293B).withOpacity(isHovered ? 0.8 : 0.5),
+            color: const Color(0xFF1E293B).withValues(alpha: isHovered ? 0.8 : 0.5),
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: isHovered ? const Color(0xFFA855F7).withOpacity(0.3) : const Color(0xFFA855F7).withOpacity(0.1)),
+            border: Border.all(color: isHovered ? const Color(0xFFA855F7).withValues(alpha: 0.3) : const Color(0xFFA855F7).withValues(alpha: 0.1)),
           ),
           child: Row(
             children: [
@@ -514,7 +480,7 @@ class _SocialLinkItemState extends State<_SocialLinkItem> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      widget.label,
+                      widget.label, 
                       style: TextStyle(color: isHovered ? const Color(0xFFD8B4FE) : Colors.white, fontWeight: FontWeight.bold, fontSize: 15),
                     ),
                     Text(widget.username, style: const TextStyle(color: Color(0xFF94A3B8), fontSize: 13)),
