@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:portfolio/theme/app_colors.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
 import 'package:portfolio/modules/home/controllers/home_controller.dart';
+import 'package:portfolio/theme/app_colors.dart';
+import 'package:portfolio/utils/portfolio_data.dart';
+import 'premium_hover_card.dart';
 
-class Footer extends StatelessWidget {
+class Footer extends StatefulWidget {
   const Footer({super.key});
+
+  @override
+  State<Footer> createState() => _FooterState();
+}
+
+class _FooterState extends State<Footer> {
+  bool isHovered = false;
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +24,7 @@ class Footer extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      color: Colors.black,
+      color: Theme.of(context).scaffoldBackgroundColor,
       child: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 1200),
@@ -26,20 +36,21 @@ class Footer extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(Icons.code, color: AppColors.purple, size: 24),
+                    const Icon(Icons.code, color: AppColors.primaryDark, size: 24),
                     const SizedBox(width: 8),
-                    ShaderMask(
-                      shaderCallback: (bounds) => const LinearGradient(colors: [Color(0xFFA855F7), Color(0xFF0EA5E9)]).createShader(bounds),
-                      child: const Text(
-                        'Portfolio',
-                        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+                    Text(
+                      'Portfolio',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.primary,
                       ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 24),
                 // Copyright
-                Text('© 2026 All rights reserved.', style: TextStyle(color: AppColors.textBody.withAlpha(150), fontSize: 14)),
+                Text('© ${DateTime.now().year} ${PortfolioData.name}. All rights reserved.', style: TextStyle(color: AppColors.textBody.withAlpha(150), fontSize: 14)),
                 const SizedBox(height: 8),
                 // Credit
                 Row(
@@ -52,26 +63,41 @@ class Footer extends StatelessWidget {
                 ),
                 const SizedBox(height: 48),
                 // Back to Top Button
-                InkWell(
-                  onTap: () => controller.scrollToSection(controller.heroKey),
-                  borderRadius: BorderRadius.circular(30),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF1E1B4B),
+                MouseRegion(
+                  onEnter: (_) => setState(() => isHovered = true),
+                  onExit: (_) => setState(() => isHovered = false),
+                  child: PremiumHoverCard(
+                    borderRadius: 30,
+                    child: InkWell(
+                      onTap: () => controller.scrollToSection(controller.heroKey),
                       borderRadius: BorderRadius.circular(30),
-                      border: Border.all(color: Colors.white.withAlpha(25)),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: const [
-                        Text(
-                          'Back to Top',
-                          style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.secondary.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(30),
+                          border: Border.all(color: Theme.of(context).dividerColor.withAlpha(25)),
                         ),
-                        SizedBox(width: 8),
-                        Icon(Icons.arrow_upward_rounded, color: Colors.white, size: 16),
-                      ],
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              'Back to Top',
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.onSurface,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Icon(
+                              Icons.arrow_upward_rounded,
+                              color: Theme.of(context).colorScheme.onSurface,
+                              size: 16,
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -83,4 +109,3 @@ class Footer extends StatelessWidget {
     );
   }
 }
-

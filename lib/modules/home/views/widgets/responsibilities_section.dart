@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:portfolio/theme/app_colors.dart';
+import 'premium_hover_card.dart';
 
 class ResponsibilitiesSection extends StatelessWidget {
   const ResponsibilitiesSection({super.key});
@@ -93,27 +94,30 @@ class _ResponsibilityTileState extends State<_ResponsibilityTile> {
     return MouseRegion(
       onEnter: (_) => setState(() => isHovered = true),
       onExit: (_) => setState(() => isHovered = false),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
-        width: isMobile ? double.infinity : (isTablet ? (width - 150) / 2 : 540),
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-        decoration: BoxDecoration(
-          color: isHovered ? Colors.white.withAlpha(30) : Colors.white.withAlpha(13),
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: isHovered ? const Color(0xFF22D3EE).withAlpha(100) : Colors.white.withAlpha(20)),
-        ),
-        child: Row(
-          children: [
-            Container(
-              width: 8,
-              height: 8,
-              decoration: const BoxDecoration(color: Color(0xFFA855F7), shape: BoxShape.circle),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Text(widget.text, style: TextStyle(fontSize: 14, color: isHovered ? Colors.white : AppColors.textBody.withAlpha(200))),
-            ),
-          ],
+      child: PremiumHoverCard(
+        borderRadius: 16,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          width: isMobile ? double.infinity : (isTablet ? (width - 150) / 2 : 540),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          decoration: BoxDecoration(
+            color: isHovered ? Colors.white.withAlpha(30) : Colors.white.withAlpha(13),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: isHovered ? const Color(0xFF22D3EE).withAlpha(100) : Colors.white.withAlpha(20)),
+          ),
+          child: Row(
+            children: [
+              Icon(
+                Icons.check_circle_outline_rounded,
+                color: const Color(0xFFA855F7),
+                size: 20,
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Text(widget.text, style: TextStyle(fontSize: 14, color: isHovered ? Colors.white : AppColors.textBody.withAlpha(200))),
+              ),
+            ],
+          ),
         ),
       ),
     );

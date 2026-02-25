@@ -12,6 +12,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(title: 'Portfolio', debugShowCheckedModeBanner: false, theme: AppTheme.darkTheme, home: const HomePage());
+    return GetMaterialApp(
+      title: 'Portfolio',
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: ThemeMode.dark,
+      home: const HomePage(),
+    );
   }
 }
+

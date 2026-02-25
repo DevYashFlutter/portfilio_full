@@ -40,13 +40,14 @@ class NavBar extends StatelessWidget {
                         onTap: () => controller.scrollToSection(controller.heroKey),
                         child: Row(
                           children: [
-                            const Icon(Icons.code, color: AppColors.purple, size: 28),
+                            const Icon(Icons.code, color: AppColors.primaryDark, size: 28),
                             const SizedBox(width: 10),
-                            ShaderMask(
-                              shaderCallback: (bounds) => const LinearGradient(colors: [Color(0xFFA855F7), Color(0xFF0EA5E9)]).createShader(bounds),
-                              child: const Text(
-                                'Flutter Dev',
-                                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white),
+                            Text(
+                              'Flutter Dev',
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).colorScheme.primary,
                               ),
                             ),
                           ],
@@ -131,7 +132,11 @@ class _NavButtonState extends State<_NavButton> {
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: AnimatedDefaultTextStyle(
             duration: const Duration(milliseconds: 200),
-            style: GoogleFonts.inter(color: isHovered ? const Color(0xFFA855F7) : Colors.white, fontSize: 14, fontWeight: isHovered ? FontWeight.bold : FontWeight.w500),
+            style: GoogleFonts.inter(
+              color: isHovered ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+              fontSize: 14,
+              fontWeight: isHovered ? FontWeight.bold : FontWeight.w500,
+            ),
             child: Text(widget.label),
           ),
         ),

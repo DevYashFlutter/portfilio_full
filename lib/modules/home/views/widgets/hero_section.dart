@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
@@ -15,251 +16,615 @@ class HeroSection extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      height: isMobile ? 700 : 850,
-      color: AppColors.background,
-      child: Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 1200),
-          child: Stack(
-            children: [
-              // Decorative background elements
-              const FloatingDots(),
-              ..._buildFloatingAssets(isMobile),
+      height: isMobile ? 800 : 900,
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0xFF020617), // slate-950
+            Color(0xFF0F0720), // via-purple-950/20
+            Color(0xFF020617), // slate-950
+          ],
+        ),
+      ),
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          // 1. Animated Background Orbs
+          const Positioned.fill(child: _AnimatedBackgroundOrbs()),
 
-              // Main Content
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: isMobile ? 80 : 120, horizontal: isMobile ? 24 : 40),
+          // 2. Floating Glassmorphism Cards
+          if (!isMobile) ...[
+            const _FloatingCard(left: 0.20, top: 0.30, delay: 0, duration: 3, dx: 20, dy: 30),
+            const _FloatingCard(left: 0.40, top: 0.40, delay: 500, duration: 4, dx: -30, dy: 20),
+            const _FloatingCard(left: 0.60, top: 0.50, delay: 1000, duration: 3.5, dx: 40, dy: -20),
+            const _FloatingCard(left: 0.80, top: 0.60, delay: 1500, duration: 4.5, dx: -20, dy: 40),
+          ],
+
+          // 3. Main Content
+          Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 1000),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const SizedBox(height: 48),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF1E1B4B).withAlpha(102),
-                        borderRadius: BorderRadius.circular(30),
-                        border: Border.all(color: Colors.white.withAlpha(25)),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Container(
-                            width: 8,
-                            height: 8,
-                            decoration: const BoxDecoration(color: Color(0xFF22D3EE), shape: BoxShape.circle),
-                          ),
-                          const SizedBox(width: 8),
-                          Text(
-                            'Open for new opportunities',
-                            style: TextStyle(color: const Color(0xFF22D3EE), fontSize: isMobile ? 12 : 13, fontWeight: FontWeight.w600),
-                          ),
-                        ],
-                      ),
-                    ).animate().fadeIn(duration: const Duration(milliseconds: 600)).slideX(begin: -0.2, end: 0),
+                    // Badge
+                    const _HeroBadge(),
                     const SizedBox(height: 24),
-                    ShaderMask(
-                      shaderCallback: (bounds) => const LinearGradient(colors: [Color(0xFFA855F7), Color(0xFF22D3EE)]).createShader(bounds),
-                      child: Text(
-                        'Building Next-Gen\nMobile Experiences',
-                        style: TextStyle(fontSize: isMobile ? 36 : 64, fontWeight: FontWeight.bold, height: 1.1, color: Colors.white),
-                      ),
-                    ).animate().fadeIn(duration: const Duration(milliseconds: 1000), delay: const Duration(milliseconds: 200)).scale(begin: const Offset(0.95, 0.95)),
+
+                    // Headline
+                    _HeroHeadline(isMobile: isMobile),
                     const SizedBox(height: 24),
-                    SizedBox(
-                      width: 600,
-                      child: Text(
-                        'Senior Flutter Developer specializing in high-performance, beautiful, and scalable mobile applications with clean architecture.',
-                        style: TextStyle(fontSize: isMobile ? 16 : 18, color: AppColors.textBody.withAlpha(200), height: 1.6),
-                      ),
-                    ).animate().fadeIn(duration: const Duration(milliseconds: 800), delay: const Duration(milliseconds: 400)),
+
+                    // Subtitle
+                    const _HeroSubtitle(),
                     const SizedBox(height: 48),
-                    Row(
-                      children: [
-                        _buildCTAButton('View Projects', () => Get.find<HomeController>().scrollToSection(Get.find<HomeController>().projectKey), isPrimary: true),
-                        const SizedBox(width: 16),
-                        _buildCTAButton('Contact Me', () => Get.find<HomeController>().scrollToSection(Get.find<HomeController>().contactKey), isPrimary: false),
-                      ],
-                    ).animate().fadeIn(duration: const Duration(milliseconds: 800), delay: const Duration(milliseconds: 600)),
 
-                    const SizedBox(height: 60),
+                    // CTA Buttons
+                    const _HeroCTAButtons(),
+                    const SizedBox(height: 48),
 
-                    // Scroll Indicator
-                    const Icon(Icons.mouse_outlined, color: Colors.white30, size: 28)
-                        .animate(onPlay: (controller) => controller.repeat())
-                        .moveY(begin: 0, end: 10, duration: const Duration(milliseconds: 1500), curve: Curves.easeInOut)
-                        .then()
-                        .moveY(begin: 10, end: 0, duration: const Duration(milliseconds: 1500), curve: Curves.easeInOut),
+                    // Tech Badges
+                    const _HeroTechBadges(),
+                    const SizedBox(height: 48),
+
+                    // Social Links
+                    const _HeroSocialLinks(),
                   ],
+                ),
+              ),
+            ),
+          ),
+
+          // 4. Scroll Indicator
+          const Positioned(
+            bottom: 32,
+            left: 0,
+            right: 0,
+            child: _HeroScrollIndicator(),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _AnimatedBackgroundOrbs extends StatelessWidget {
+  const _AnimatedBackgroundOrbs();
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        // Purple Orb
+        Positioned(
+          top: 0.25 * 900,
+          left: 0.15 * MediaQuery.of(context).size.width,
+          child: _Orb(
+            color: const Color(0xFFA855F7).withOpacity(0.15),
+            size: 350,
+            duration: 8,
+          ),
+        ),
+        // Cyan Orb
+        Positioned(
+          bottom: 0.25 * 900,
+          right: 0.15 * MediaQuery.of(context).size.width,
+          child: _Orb(
+            color: const Color(0xFF06B6D4).withOpacity(0.15),
+            size: 350,
+            duration: 8,
+            reverse: true,
+          ),
+        ),
+        // Blue Orb
+        Positioned(
+          top: 0.45 * 900,
+          right: 0.33 * MediaQuery.of(context).size.width,
+          child: _Orb(
+            color: const Color(0xFF3B82F6).withOpacity(0.15),
+            size: 280,
+            duration: 6,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _Orb extends StatelessWidget {
+  final Color color;
+  final double size;
+  final double duration;
+  final bool reverse;
+
+  const _Orb({
+    required this.color,
+    required this.size,
+    required this.duration,
+    this.reverse = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        color: color,
+        shape: BoxShape.circle,
+      ),
+    )
+    .animate(onPlay: (c) => c.repeat())
+    .scale(
+      begin: const Offset(1, 1),
+      end: Offset(reverse ? 1.3 : 1.2, reverse ? 1.3 : 1.2),
+      duration: Duration(milliseconds: (duration * 1000).toInt()),
+      curve: Curves.easeInOut,
+    )
+    .custom(
+      builder: (context, value, child) => Opacity(
+        opacity: reverse ? (0.5 - (value * 0.2)) : (0.3 + (value * 0.2)),
+        child: child,
+      ),
+    )
+    .blurXY(begin: 80, end: 100);
+  }
+}
+
+class _FloatingCard extends StatelessWidget {
+  final double left;
+  final double top;
+  final int delay;
+  final double duration;
+  final double dx;
+  final double dy;
+
+  const _FloatingCard({
+    required this.left,
+    required this.top,
+    required this.delay,
+    required this.duration,
+    required this.dx,
+    required this.dy,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    return Positioned(
+      left: left * screenWidth,
+      top: top * 800,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(24),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+          child: Container(
+            width: 100,
+            height: 100,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  const Color(0xFFA855F7).withOpacity(0.1),
+                  const Color(0xFF06B6D4).withOpacity(0.1),
+                ],
+              ),
+              borderRadius: BorderRadius.circular(24),
+              border: Border.all(
+                color: const Color(0xFFA855F7).withOpacity(0.2),
+              ),
+            ),
+          ),
+        ),
+      )
+      .animate(onPlay: (c) => c.repeat(), delay: Duration(milliseconds: delay))
+      .move(
+        begin: Offset.zero,
+        end: Offset(dx, dy),
+        duration: Duration(milliseconds: (duration * 1000).toInt()),
+        curve: Curves.easeInOut,
+      )
+      .rotate(
+        begin: 0,
+        end: 1,
+        duration: Duration(milliseconds: (duration * 1000).toInt()),
+        curve: Curves.easeInOut,
+      )
+      .then()
+      .move(
+        begin: Offset(dx, dy),
+        end: Offset.zero,
+        duration: Duration(milliseconds: (duration * 1000).toInt()),
+        curve: Curves.easeInOut,
+      ),
+    );
+  }
+}
+
+class _HeroBadge extends StatelessWidget {
+  const _HeroBadge();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            const Color(0xFFA855F7).withOpacity(0.2),
+            const Color(0xFF06B6D4).withOpacity(0.2),
+          ],
+        ),
+        borderRadius: BorderRadius.circular(30),
+        border: Border.all(
+          color: const Color(0xFFA855F7).withOpacity(0.3),
+        ),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(30),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                '👋 Available for opportunities',
+                style: TextStyle(
+                  color: Color(0xFFD8B4FE), // purple-300
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ],
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildCTAButton(String label, VoidCallback onTap, {required bool isPrimary}) {
-    return Container(
-      height: 48,
-      decoration: BoxDecoration(
-        gradient: isPrimary ? const LinearGradient(colors: [Color(0xFFA855F7), Color(0xFF22D3EE)]) : null,
-        borderRadius: BorderRadius.circular(12),
-        border: isPrimary ? null : Border.all(color: Colors.white.withAlpha(25)),
-      ),
-      child: ElevatedButton(
-        onPressed: onTap,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: isPrimary ? Colors.transparent : const Color(0xFF1E1B4B).withAlpha(102),
-          foregroundColor: Colors.white,
-          shadowColor: Colors.transparent,
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        ),
-        child: Text(label, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
-      ),
-    );
-  }
-
-  List<Widget> _buildFloatingAssets(bool isMobile) {
-    if (isMobile) return [];
-    return [
-      Positioned(
-        top: 100,
-        right: 150,
-        child: _FloatingAsset(icon: Icons.flutter_dash_rounded, color: const Color(0xFF0284C7)),
-      ),
-      Positioned(
-        top: 300,
-        right: 50,
-        child: _FloatingAsset(icon: Icons.rocket_launch_rounded, color: const Color(0xFFA855F7)),
-      ),
-      Positioned(
-        top: 250,
-        right: 250,
-        child: _FloatingAsset(icon: Icons.data_object_rounded, color: const Color(0xFF22D3EE)),
-      ),
-    ];
+    ).animate().fadeIn(duration: const Duration(milliseconds: 600)).moveY(begin: -20, end: 0, duration: const Duration(milliseconds: 600));
   }
 }
 
-class _FloatingAsset extends StatelessWidget {
-  final IconData icon;
-  final Color color;
-
-  const _FloatingAsset({required this.icon, required this.color});
+class _HeroHeadline extends StatelessWidget {
+  final bool isMobile;
+  const _HeroHeadline({required this.isMobile});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-          padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-            color: color.withAlpha(25),
-            shape: BoxShape.circle,
-            border: Border.all(color: color.withAlpha(51)),
-      ),
-          child: Icon(icon, color: color, size: 28),
-        )
-        .animate(onPlay: (controller) => controller.repeat(reverse: true))
-        .moveY(
-          begin: -15,
-          end: 15,
-          duration: Duration(seconds: 2 + math.Random().nextInt(3)),
-          curve: Curves.easeInOut,
-        )
-        .fadeIn(duration: const Duration(seconds: 1));
-  }
-}
+    final double fontSize = isMobile ? 36 : 64;
 
-class FloatingDots extends StatefulWidget {
-  const FloatingDots({super.key});
-
-  @override
-  State<FloatingDots> createState() => _FloatingDotsState();
-}
-
-class _FloatingDotsState extends State<FloatingDots> {
-  final List<Offset> _dots = List.generate(20, (index) => Offset(math.Random().nextDouble(), math.Random().nextDouble()));
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: _dots.map((dot) {
-        return Positioned(
-          left: dot.dx * MediaQuery.of(context).size.width,
-          top: dot.dy * 850,
-          child:
-              Container(
-                    width: 3,
-                    height: 3,
-                    decoration: const BoxDecoration(color: Color(0xFF0EA5E9), shape: BoxShape.circle),
-                  )
-                  .animate(onPlay: (controller) => controller.repeat(reverse: true))
-                  .moveY(
-                    begin: -15,
-                    end: 15,
-                    duration: Duration(seconds: 2 + math.Random().nextInt(3)),
-                    curve: Curves.easeInOut,
-                  )
-                  .fadeIn(duration: const Duration(seconds: 1)),
-        );
-      }).toList(),
-    );
-  }
-}
-
-class FloatingAsset extends StatefulWidget {
-  final String assetPath;
-  final double? top;
-  final double? bottom;
-  final double? left;
-  final double? right;
-  final double size;
-  final double opacity;
-
-  const FloatingAsset({super.key, required this.assetPath, this.top, this.bottom, this.left, this.right, required this.size, this.opacity = 0.4});
-
-  @override
-  State<FloatingAsset> createState() => _FloatingAssetState();
-}
-
-class _FloatingAssetState extends State<FloatingAsset> {
-  double _rotationAngle = 0;
-  Offset _hoverOffset = Offset.zero;
-
-  @override
-  Widget build(BuildContext context) {
-    return Positioned(
-      top: widget.top != null ? widget.top! + _hoverOffset.dy : null,
-      bottom: widget.bottom != null ? widget.bottom! - _hoverOffset.dy : null,
-      left: widget.left != null ? widget.left! + _hoverOffset.dx : null,
-      right: widget.right != null ? widget.right! - _hoverOffset.dx : null,
-      child: MouseRegion(
-        onEnter: (_) => setState(() {
-          _rotationAngle += 1; // Trigger spin
-          _hoverOffset = Offset((math.Random().nextDouble() - 0.5) * 40, (math.Random().nextDouble() - 0.5) * 40);
-        }),
-        onExit: (_) => setState(() {
-          _hoverOffset = Offset.zero;
-        }),
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 500),
-          curve: Curves.easeOutCubic,
-          child: AnimatedRotation(
-            turns: _rotationAngle,
-            duration: const Duration(seconds: 1),
-            curve: Curves.easeOutBack,
-            child: Opacity(
-              opacity: widget.opacity,
-              child: Image.asset(widget.assetPath, width: widget.size, height: widget.size)
-                  .animate(onPlay: (controller) => controller.repeat(reverse: true))
-                  .moveY(begin: -20, end: 20, duration: const Duration(seconds: 4), curve: Curves.easeInOut)
-                  .rotate(duration: const Duration(seconds: 20), begin: 0, end: 1)
-                  .scale(begin: const Offset(0.9, 0.9), end: const Offset(1.1, 1.1), duration: const Duration(seconds: 5)),
+    return Column(
+      children: [
+        ShaderMask(
+          shaderCallback: (bounds) => const LinearGradient(
+            colors: [Colors.white, Color(0xFFE9D5FF), Color(0xFFCFFAFE)],
+          ).createShader(bounds),
+          child: Text(
+            'Flutter Developer',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              height: 1.1,
+              color: Colors.white,
             ),
           ),
         ),
+        ShaderMask(
+          shaderCallback: (bounds) => const LinearGradient(
+            colors: [Color(0xFFC084FC), Color(0xFF22D3EE), Color(0xFF60A5FA)],
+          ).createShader(bounds),
+          child: Text(
+            'Building Scalable &',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              height: 1.1,
+              color: Colors.white,
+            ),
+          ),
+        ),
+        ShaderMask(
+          shaderCallback: (bounds) => const LinearGradient(
+            colors: [Color(0xFF22D3EE), Color(0xFF60A5FA), Color(0xFFC084FC)],
+          ).createShader(bounds),
+          child: Text(
+            'High Performance Apps',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              height: 1.1,
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ],
+    )
+    .animate()
+    .fadeIn(duration: const Duration(milliseconds: 800), delay: const Duration(milliseconds: 200))
+    .moveY(begin: 20, end: 0, duration: const Duration(milliseconds: 800), delay: const Duration(milliseconds: 200));
+  }
+}
+
+class _HeroSubtitle extends StatelessWidget {
+  const _HeroSubtitle();
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      '1.3+ years crafting production-ready mobile applications for millions of users. Specialized in cross-platform development with Flutter, building scalable architectures and optimizing performance.',
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        fontSize: 18,
+        color: const Color(0xFFCBD5E1), // slate-300
+        height: 1.6,
+      ),
+    )
+    .animate()
+    .fadeIn(duration: const Duration(milliseconds: 800), delay: const Duration(milliseconds: 400))
+    .moveY(begin: 20, end: 0, duration: const Duration(milliseconds: 800), delay: const Duration(milliseconds: 400));
+  }
+}
+
+class _HeroCTAButtons extends StatelessWidget {
+  const _HeroCTAButtons();
+
+  @override
+  Widget build(BuildContext context) {
+    final controller = Get.find<HomeController>();
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        // View Projects
+        Container(
+          height: 56,
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(
+              colors: [Color(0xFF9333EA), Color(0xFF0891B2)], // purple-600, cyan-600
+            ),
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: [
+              BoxShadow(
+                color: const Color(0xFFA855F7).withOpacity(0.25),
+                blurRadius: 20,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: ElevatedButton(
+            onPressed: () => controller.scrollToSection(controller.projectKey),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.transparent,
+              shadowColor: Colors.transparent,
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            ),
+            child: const Row(
+              children: [
+                Text(
+                  'View Projects',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+                ),
+                SizedBox(width: 8),
+                Icon(Icons.arrow_forward_rounded, size: 20, color: Colors.white),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(width: 16),
+        // Contact Me
+        Container(
+          height: 56,
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.05),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: const Color(0xFFA855F7).withOpacity(0.3),
+            ),
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+              child: ElevatedButton(
+                onPressed: () => controller.scrollToSection(controller.contactKey),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.transparent,
+                  shadowColor: Colors.transparent,
+                  padding: const EdgeInsets.symmetric(horizontal: 32),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                ),
+                child: const Row(
+                  children: [
+                    Icon(Icons.mail_outline_rounded, size: 20, color: Colors.white),
+                    SizedBox(width: 8),
+                    Text(
+                      'Contact Me',
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    )
+    .animate()
+    .fadeIn(duration: const Duration(milliseconds: 800), delay: const Duration(milliseconds: 600))
+    .moveY(begin: 20, end: 0, duration: const Duration(milliseconds: 800), delay: const Duration(milliseconds: 600));
+  }
+}
+
+class _HeroTechBadges extends StatelessWidget {
+  const _HeroTechBadges();
+
+  @override
+  Widget build(BuildContext context) {
+    final tech = ['Flutter', 'Firebase', 'Hive', 'REST APIs', 'GitHub Actions', 'GetX'];
+
+    return Wrap(
+      spacing: 12,
+      runSpacing: 12,
+      alignment: WrapAlignment.center,
+      children: List.generate(
+        tech.length,
+        (index) => Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                const Color(0xFFA855F7).withOpacity(0.1),
+                const Color(0xFF06B6D4).withOpacity(0.1),
+              ],
+            ),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: const Color(0xFFA855F7).withOpacity(0.2),
+            ),
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+              child: Text(
+                tech[index],
+                style: const TextStyle(
+                  color: Color(0xFFE9D5FF), // purple-200
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+          ),
+        )
+        .animate()
+        .fadeIn(duration: const Duration(milliseconds: 500), delay: Duration(milliseconds: 800 + index * 100))
+        .scale(begin: const Offset(0.8, 0.8), end: const Offset(1, 1)),
       ),
     );
   }
 }
+
+class _HeroSocialLinks extends StatelessWidget {
+  const _HeroSocialLinks();
+
+  @override
+  Widget build(BuildContext context) {
+    final items = [
+      {'icon': Icons.code_rounded, 'label': 'GitHub'},
+      {'icon': Icons.business_center_rounded, 'label': 'LinkedIn'},
+      {'icon': Icons.file_download_rounded, 'label': 'Resume'},
+    ];
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: List.generate(
+        items.length,
+        (index) => Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: _SocialIcon(icon: items[index]['icon'] as IconData, label: items[index]['label'] as String),
+        ),
+      ),
+    )
+    .animate()
+    .fadeIn(duration: const Duration(milliseconds: 800), delay: const Duration(milliseconds: 1200));
+  }
+}
+
+class _SocialIcon extends StatefulWidget {
+  final IconData icon;
+  final String label;
+
+  const _SocialIcon({required this.icon, required this.label});
+
+  @override
+  State<_SocialIcon> createState() => _SocialIconState();
+}
+
+class _SocialIconState extends State<_SocialIcon> {
+  bool isHovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      onEnter: (_) => setState(() => isHovered = true),
+      onExit: (_) => setState(() => isHovered = false),
+      child: Container(
+        width: 48,
+        height: 48,
+        decoration: BoxDecoration(
+          color: isHovered ? Colors.white.withOpacity(0.1) : Colors.white.withOpacity(0.05),
+          shape: BoxShape.circle,
+          border: Border.all(
+            color: isHovered
+                ? const Color(0xFFA855F7).withOpacity(0.4)
+                : const Color(0xFFA855F7).withOpacity(0.2),
+          ),
+        ),
+        child: ClipOval(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+            child: Icon(
+              widget.icon,
+              size: 20,
+              color: isHovered ? const Color(0xFFE9D5FF) : const Color(0xFFD8B4FE),
+            ),
+          ),
+        ),
+      ).animate(target: isHovered ? 1 : 0).scale(begin: const Offset(1, 1), end: const Offset(1.1, 1.1), duration: const Duration(milliseconds: 200)),
+    );
+  }
+}
+
+class _HeroScrollIndicator extends StatelessWidget {
+  const _HeroScrollIndicator();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          width: 24,
+          height: 44,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(30),
+            border: Border.all(
+              color: const Color(0xFFA855F7).withOpacity(0.3),
+              width: 2,
+            ),
+          ),
+          child: Stack(
+            alignment: Alignment.topCenter,
+            children: [
+              Container(
+                margin: const EdgeInsets.only(top: 8),
+                width: 6,
+                height: 6,
+                decoration: const BoxDecoration(
+                  color: Color(0xFFC084FC),
+                  shape: BoxShape.circle,
+                ),
+              )
+              .animate(onPlay: (c) => c.repeat())
+              .moveY(begin: 0, end: 20, duration: const Duration(seconds: 2), curve: Curves.easeInOut),
+            ],
+          ),
+        ),
+      ],
+    )
+    .animate(onPlay: (c) => c.repeat())
+    .moveY(begin: 0, end: 10, duration: const Duration(seconds: 2), curve: Curves.easeInOut)
+    .then()
+    .moveY(begin: 10, end: 0, duration: const Duration(seconds: 2), curve: Curves.easeInOut);
+  }
+}
+
+
