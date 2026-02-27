@@ -212,7 +212,12 @@ class _AnimationsSectionState extends State<AnimationsSection> {
     return Column(
       children: List.generate(
         animationDemos.length,
-        (index) => _FeatureCard(demo: animationDemos[index], isActive: activeDemo == index, onTap: () => setState(() => activeDemo = index), delay: (index * 100).ms),
+        (index) => _FeatureCard(
+          demo: animationDemos[index],
+          isActive: activeDemo == index,
+          onTap: () => setState(() => activeDemo = index),
+          delay: (index * 100).ms,
+        ),
       ),
     ).animate().fadeIn(duration: 800.ms).moveX(begin: 30, end: 0);
   }
@@ -316,7 +321,10 @@ class _FeatureCardState extends State<_FeatureCard> {
           decoration: BoxDecoration(
             color: widget.isActive ? const Color(0xFFA855F7).withAlpha(38) : const Color(0xFF1E293B).withAlpha(76),
             borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: widget.isActive ? const Color(0xFFA855F7).withAlpha(127) : const Color(0xFFA855F7).withAlpha(51), width: widget.isActive ? 2 : 1),
+            border: Border.all(
+              color: widget.isActive ? const Color(0xFFA855F7).withAlpha(127) : const Color(0xFFA855F7).withAlpha(51),
+              width: widget.isActive ? 2 : 1,
+            ),
           ),
           transform: Matrix4.translationValues(isHovered ? 8 : 0, 0, 0),
           child: Row(

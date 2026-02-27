@@ -39,8 +39,7 @@ class _ContactSectionState extends State<ContactSection> {
 
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 80),
-            child: Column(children: [_buildHeader(isMobile), const SizedBox(height: 60), _buildMainContent(context, isMobile, isTablet)],
-            ),
+            child: Column(children: [_buildHeader(isMobile), const SizedBox(height: 60), _buildMainContent(context, isMobile, isTablet)]),
           ),
         ],
       ),
@@ -242,8 +241,7 @@ class _ContactSectionState extends State<ContactSection> {
 
   Widget _buildInfoAndSocial(bool isMobile) {
     return Column(
-      children: [
-        _buildContactInfoCards(), const SizedBox(height: 24), _buildSocialCard(), const SizedBox(height: 24), _buildGitHubStatsCard()],
+      children: [_buildContactInfoCards(), const SizedBox(height: 24), _buildSocialCard(), const SizedBox(height: 24), _buildGitHubStatsCard()],
     ).animate().fadeIn(duration: 800.ms, delay: 200.ms).slideX(begin: 0.1, end: 0);
   }
 
@@ -258,7 +256,12 @@ class _ContactSectionState extends State<ContactSection> {
       children: items.asMap().entries.map((entry) {
         return Padding(
           padding: const EdgeInsets.only(bottom: 16),
-          child: _InfoCard(icon: entry.value['icon'] as IconData, label: entry.value['label'] as String, value: entry.value['value'] as String, index: entry.key),
+          child: _InfoCard(
+            icon: entry.value['icon'] as IconData,
+            label: entry.value['label'] as String,
+            value: entry.value['value'] as String,
+            index: entry.key,
+          ),
         );
       }).toList(),
     );
@@ -345,8 +348,8 @@ class _ContactSectionState extends State<ContactSection> {
           const SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              _buildStat("50+", "Repositories"), _buildStat("1K+", "Contributions"), _buildStat("20+", "Projects")]),
+            children: [_buildStat("50+", "Repositories"), _buildStat("1K+", "Contributions"), _buildStat("20+", "Projects")],
+          ),
         ],
       ),
     ).animate().fadeIn(duration: 800.ms, delay: 800.ms).slideY(begin: 0.2, end: 0);
@@ -362,8 +365,7 @@ class _ContactSectionState extends State<ContactSection> {
             style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
           ),
         ),
-        Text(label, style: const TextStyle(fontSize: 12, color: Color(0xFF94A3B8)),
-        ),
+        Text(label, style: const TextStyle(fontSize: 12, color: Color(0xFF94A3B8))),
       ],
     );
   }
@@ -480,7 +482,7 @@ class _SocialLinkItemState extends State<_SocialLinkItem> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      widget.label, 
+                      widget.label,
                       style: TextStyle(color: isHovered ? const Color(0xFFD8B4FE) : Colors.white, fontWeight: FontWeight.bold, fontSize: 15),
                     ),
                     Text(widget.username, style: const TextStyle(color: Color(0xFF94A3B8), fontSize: 13)),
