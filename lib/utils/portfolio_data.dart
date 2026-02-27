@@ -28,9 +28,9 @@ class PortfolioData {
         'Collaborated closely with backend, UI/ UX, and QA teams to ensure seamless API integration, pixel-perfect design, and end-to-end user experience consistency.',
       ],
       'stats': [
-        {'label': '2.3+', 'subLabel': 'Years Exp'},
-        {'label': '10+', 'subLabel': 'Apps Built'},
-        {'label': 'Clean', 'subLabel': 'Architecture'},
+        {'label': '2.6+', 'subLabel': 'Years Exp'},
+        {'label': '11+', 'subLabel': 'Apps Built'},
+        {'label': 'MVC', 'subLabel': 'Architecture'},
       ],
     },
   ];
