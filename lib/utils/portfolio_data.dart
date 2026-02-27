@@ -31,7 +31,7 @@ class PortfolioData {
         {'label': '2.3+', 'subLabel': 'Years Exp'},
         {'label': '10+', 'subLabel': 'Apps Built'},
         {'label': 'Clean', 'subLabel': 'Architecture'},
-      ]
+      ],
     },
   ];
 
@@ -169,9 +169,6 @@ class PortfolioData {
         'Developed responsive wallet and leaderboard modules.',
       ],
     },
-  ];
-
-  static const List<Map<String, dynamic>> personalProjects = [
     {
       'title': 'Unibit Games',
       'desc': 'Real-money gaming platform with multiplayer sync and wallet management.',
@@ -195,6 +192,25 @@ class PortfolioData {
       'period': '08/2023 - 11/2023',
       'category': 'Education',
       'colors': [Color(0xFF6366F1), Color(0xFF3B82F6)],
+    },
+  ];
+
+  static const List<Map<String, dynamic>> personalProjects = [
+    {
+      'title': 'Portfolio',
+      'desc': 'Real-money gaming platform with multiplayer sync and wallet management.',
+      'tags': ['Flutter', 'WebSocket', 'Firebase RTDB', 'Gaming'],
+      'period': '04/2024 - 09/2024',
+      'category': 'Gaming',
+      'colors': [Color(0xFF8B5CF6), Color(0xFFA855F7)],
+    },
+    {
+      'title': 'Google Contacts',
+      'desc': 'Fantasy sports platform with real-time match data and team creation.',
+      'tags': ['Flutter', 'GetX', 'SQLite', 'FCM'],
+      'period': '11/2023 - 03/2024',
+      'category': 'Sports',
+      'colors': [Color(0xFF14B8A6), Color(0xFF06B6D4)],
     },
   ];
 }

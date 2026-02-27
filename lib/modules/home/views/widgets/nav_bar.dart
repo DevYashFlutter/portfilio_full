@@ -38,19 +38,18 @@ class NavBar extends StatelessWidget {
                       // Logo
                       InkWell(
                         onTap: () => controller.scrollToSection(controller.heroKey),
-                        child: Row(
-                          children: [
-                            const Icon(Icons.code, color: AppColors.primaryDark, size: 28),
-                            const SizedBox(width: 10),
-                            Text(
-                              'Flutter Dev',
-                              style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold,
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
+                        child: ShaderMask(
+                          shaderCallback: (bounds) => const LinearGradient(
+                            colors: [Color(0xFFC084FC), Color(0xFF22D3EE), Color(0xFF60A5FA)],
+                          ).createShader(bounds),
+                          child: Text(
+                            '< Flutter Dev / >',
+                            style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).colorScheme.primary,
                             ),
-                          ],
+                          ),
                         ),
                       ),
                       const Spacer(),

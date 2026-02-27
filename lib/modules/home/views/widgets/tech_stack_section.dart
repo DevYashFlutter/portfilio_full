@@ -81,18 +81,12 @@ class _TechStackBackgroundGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned.fill(
-      child: Opacity(
-        opacity: 0.1,
-        child: CustomPaint(
-          painter: _GridPainter(),
-        ),
-      ).animate(onPlay: (c) => c.repeat()).custom(
+      child: Opacity(opacity: 0.1, child: CustomPaint(painter: _GridPainter()))
+          .animate(onPlay: (c) => c.repeat())
+          .custom(
             duration: const Duration(seconds: 20),
             builder: (context, value, child) {
-              return Transform.translate(
-                offset: Offset(0, value * 50),
-                child: child,
-              );
+              return Transform.translate(offset: Offset(0, value * 50), child: child);
             },
           ),
     );
@@ -132,16 +126,10 @@ class _SectionHeader extends StatelessWidget {
     return Column(
       children: [
         ShaderMask(
-          shaderCallback: (bounds) => const LinearGradient(
-            colors: [Color(0xFFC084FC), Color(0xFF22D3EE)],
-          ).createShader(bounds),
+          shaderCallback: (bounds) => const LinearGradient(colors: [Color(0xFFC084FC), Color(0xFF22D3EE)]).createShader(bounds),
           child: Text(
             'Tech Stack',
-            style: TextStyle(
-              fontSize: isMobile ? 36 : 56,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
+            style: TextStyle(fontSize: isMobile ? 36 : 56, fontWeight: FontWeight.bold, color: Colors.white),
           ),
         ).animate().fadeIn(duration: const Duration(milliseconds: 800)).moveY(begin: 30, end: 0, duration: const Duration(milliseconds: 800)),
         const SizedBox(height: 16),
@@ -165,13 +153,7 @@ class _TechCategoryCard extends StatefulWidget {
   final List<Map<String, dynamic>> technologies;
   final int index;
 
-  const _TechCategoryCard({
-    required this.icon,
-    required this.category,
-    required this.colors,
-    required this.technologies,
-    required this.index,
-  });
+  const _TechCategoryCard({required this.icon, required this.category, required this.colors, required this.technologies, required this.index});
 
   @override
   State<_TechCategoryCard> createState() => _TechCategoryCardState();
@@ -183,118 +165,106 @@ class _TechCategoryCardState extends State<_TechCategoryCard> {
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
-      onEnter: (_) => setState(() => isHovered = true),
-      onExit: (_) => setState(() => isHovered = false),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
-        child: Stack(
-          children: [
-            // Hover Glow Effect
-            AnimatedOpacity(
-              duration: const Duration(milliseconds: 500),
-              opacity: isHovered ? 0.2 : 0.0,
-              child: Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: widget.colors,
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                  borderRadius: BorderRadius.circular(24),
-                ),
-              ).animate(target: isHovered ? 1 : 0).blurXY(begin: 0, end: 40),
-            ),
-
-            // Main Card
-            ClipRRect(
-              borderRadius: BorderRadius.circular(24),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                child: Container(
-                  padding: const EdgeInsets.all(24),
-                  decoration: BoxDecoration(
-                                color: const Color(0xFF0F172A).withAlpha(127),
-                    borderRadius: BorderRadius.circular(24),
-                    border: Border.all(
-                      color: isHovered
-                          ? widget.colors.first.withAlpha(102) : const Color(0xFFA855F7).withAlpha(51),
-                    ),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Header
-                      Row(
-                        children: [
-                          Container(
-                            width: 48,
-                            height: 48,
+          onEnter: (_) => setState(() => isHovered = true),
+          onExit: (_) => setState(() => isHovered = false),
+          child:
+              AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
+                    child: Stack(
+                      children: [
+                        // Hover Glow Effect
+                        AnimatedOpacity(
+                          duration: const Duration(milliseconds: 500),
+                          opacity: isHovered ? 0.2 : 0.0,
+                          child: Container(
                             decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: widget.colors,
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
+                              gradient: LinearGradient(colors: widget.colors, begin: Alignment.topLeft, end: Alignment.bottomRight),
+                              borderRadius: BorderRadius.circular(24),
+                            ),
+                          ).animate(target: isHovered ? 1 : 0).blurXY(begin: 0, end: 40),
+                        ),
+
+                        // Main Card
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(24),
+                          child: BackdropFilter(
+                            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                            child: Container(
+                              padding: const EdgeInsets.all(24),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFF0F172A).withAlpha(127),
+                                borderRadius: BorderRadius.circular(24),
+                                border: Border.all(color: isHovered ? widget.colors.first.withAlpha(102) : const Color(0xFFA855F7).withAlpha(51)),
                               ),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Icon(
-                              widget.icon,
-                              color: Colors.white,
-                              size: 24,
-                            ),
-                          ).animate(target: isHovered ? 1 : 0).rotate(begin: 0, end: 1, duration: const Duration(milliseconds: 600), curve: Curves.easeInOut),
-                          const SizedBox(width: 16),
-                          Text(
-                            widget.category,
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  // Header
+                                  Row(
+                                    children: [
+                                      Container(
+                                            width: 48,
+                                            height: 48,
+                                            decoration: BoxDecoration(
+                                              gradient: LinearGradient(colors: widget.colors, begin: Alignment.topLeft, end: Alignment.bottomRight),
+                                              borderRadius: BorderRadius.circular(12),
+                                            ),
+                                            child: Icon(widget.icon, color: Colors.white, size: 24),
+                                          )
+                                          .animate(target: isHovered ? 1 : 0)
+                                          .rotate(begin: 0, end: 1, duration: const Duration(milliseconds: 600), curve: Curves.easeInOut),
+                                      const SizedBox(width: 16),
+                                      Text(
+                                        widget.category,
+                                        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 32),
+
+                                  // Tech List
+                                  ...widget.technologies.expand(
+                                    (tech) => [
+                                      _SkillRow(name: tech['name'] as String, usage: (tech['usage'] as int).toDouble(), colors: widget.colors),
+                                      const SizedBox(height: 20),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                        ],
-                      ),
-                      const SizedBox(height: 32),
+                        ),
 
-                      // Tech List
-                      ...widget.technologies.expand((tech) => [
-                            _SkillRow(
-                              name: tech['name'] as String,
-                              usage: (tech['usage'] as int).toDouble(),
-                              colors: widget.colors,
+                        // Bottom Right Indicator
+                        Positioned(
+                          bottom: 16,
+                          right: 16,
+                          child: AnimatedOpacity(
+                            duration: const Duration(milliseconds: 300),
+                            opacity: isHovered ? 0.2 : 0.0,
+                            child: Container(
+                              width: 32,
+                              height: 32,
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(colors: widget.colors),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
                             ),
-                            const SizedBox(height: 20),
-                          ]),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-
-            // Bottom Right Indicator
-            Positioned(
-              bottom: 16,
-              right: 16,
-              child: AnimatedOpacity(
-                duration: const Duration(milliseconds: 300),
-                opacity: isHovered ? 0.2 : 0.0,
-                child: Container(
-                  width: 32,
-                  height: 32,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(colors: widget.colors),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ).animate(target: isHovered ? 1 : 0).moveY(begin: 0, end: -8, duration: const Duration(milliseconds: 300)).scale(begin: const Offset(1, 1), end: const Offset(1.02, 1.02), duration: const Duration(milliseconds: 300)),
-    ).animate().fadeIn(
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                  .animate(target: isHovered ? 1 : 0)
+                  .moveY(begin: 0, end: -8, duration: const Duration(milliseconds: 300))
+                  .scale(begin: const Offset(1, 1), end: const Offset(1.02, 1.02), duration: const Duration(milliseconds: 300)),
+        )
+        .animate()
+        .fadeIn(
           duration: const Duration(milliseconds: 600),
           delay: Duration(milliseconds: widget.index * 100),
-        ).scale(
+        )
+        .scale(
           begin: const Offset(0.9, 0.9),
           end: const Offset(1, 1),
           duration: const Duration(milliseconds: 600),
@@ -308,11 +278,7 @@ class _SkillRow extends StatelessWidget {
   final double usage;
   final List<Color> colors;
 
-  const _SkillRow({
-    required this.name,
-    required this.usage,
-    required this.colors,
-  });
+  const _SkillRow({required this.name, required this.usage, required this.colors});
 
   @override
   Widget build(BuildContext context) {
@@ -331,17 +297,10 @@ class _SkillRow extends StatelessWidget {
             ),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              decoration: BoxDecoration(
-                color: const Color(0xFFA855F7).withAlpha(26),
-                borderRadius: BorderRadius.circular(4),
-              ),
+              decoration: BoxDecoration(color: const Color(0xFFA855F7).withAlpha(26), borderRadius: BorderRadius.circular(4)),
               child: Text(
                 '${usage.toInt()}%',
-                style: const TextStyle(
-                  color: Color(0xFFC084FC),
-                  fontSize: 11,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: const TextStyle(color: Color(0xFFC084FC), fontSize: 11, fontWeight: FontWeight.bold),
               ),
             ),
           ],
@@ -350,19 +309,17 @@ class _SkillRow extends StatelessWidget {
         Container(
           height: 6,
           width: double.infinity,
-          decoration: BoxDecoration(
-            color: const Color(0xFF1E293B),
-            borderRadius: BorderRadius.circular(3),
-          ),
+          decoration: BoxDecoration(color: const Color(0xFF1E293B), borderRadius: BorderRadius.circular(3)),
           child: FractionallySizedBox(
             alignment: Alignment.centerLeft,
             widthFactor: usage / 100,
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(colors: colors),
-                borderRadius: BorderRadius.circular(3),
-              ),
-            ).animate().scaleX(
+            child:
+                Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(colors: colors),
+                    borderRadius: BorderRadius.circular(3),
+                  ),
+                ).animate().scaleX(
                   begin: 0,
                   end: 1,
                   duration: const Duration(milliseconds: 1000),
@@ -385,46 +342,45 @@ class _MasterStatsCard extends StatelessWidget {
     final bool isMobile = width < 850;
 
     return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(32),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            const Color(0xFFA855F7).withAlpha(26), const Color(0xFF06B6D4).withAlpha(26),
-          ],
-        ),
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(
-          color: const Color(0xFFA855F7).withAlpha(51),
-        ),
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(24),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-          child: isMobile
-              ? Column(
-                  children: [
+          width: double.infinity,
+          padding: const EdgeInsets.all(32),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [const Color(0xFFA855F7).withAlpha(26), const Color(0xFF06B6D4).withAlpha(26)],
+            ),
+            borderRadius: BorderRadius.circular(24),
+            border: Border.all(color: const Color(0xFFA855F7).withAlpha(51)),
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(24),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+              child: isMobile
+                  ? Column(
+                      children: [
                         _buildStatItem('10+', 'Technologies Mastered', [const Color(0xFFC084FC), const Color(0xFF22D3EE)]),
-                    const SizedBox(height: 32),
-                        _buildStatItem('100+', 'APIs Integrated', [const Color(0xFF22D3EE), const Color(0xFF60A5FA)]),
-                    const SizedBox(height: 32),
+                        const SizedBox(height: 32),
+                        _buildStatItem('500+', 'APIs Integrated', [const Color(0xFF22D3EE), const Color(0xFF60A5FA)]),
+                        const SizedBox(height: 32),
                         _buildStatItem('99.9%', 'App Stability', [const Color(0xFF60A5FA), const Color(0xFFC084FC)]),
-                  ],
-                )
-              : Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
+                      ],
+                    )
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
                         _buildStatItem('10+', 'Technologies Mastered', [const Color(0xFFC084FC), const Color(0xFF22D3EE)]),
                         _buildStatItem('100+', 'APIs Integrated', [const Color(0xFF22D3EE), const Color(0xFF60A5FA)]),
                         _buildStatItem('99.9%', 'App Stability', [const Color(0xFF60A5FA), const Color(0xFFC084FC)]),
-                  ],
-                ),
-        ),
-      ),
-    ).animate().fadeIn(duration: const Duration(milliseconds: 800), delay: const Duration(milliseconds: 600)).moveY(begin: 30, end: 0, duration: const Duration(milliseconds: 800), delay: const Duration(milliseconds: 600));
+                      ],
+                    ),
+            ),
+          ),
+        )
+        .animate()
+        .fadeIn(duration: const Duration(milliseconds: 800), delay: const Duration(milliseconds: 600))
+        .moveY(begin: 30, end: 0, duration: const Duration(milliseconds: 800), delay: const Duration(milliseconds: 600));
   }
 
   Widget _buildStatItem(String value, String label, List<Color> colors) {
@@ -434,11 +390,7 @@ class _MasterStatsCard extends StatelessWidget {
           shaderCallback: (bounds) => LinearGradient(colors: colors).createShader(bounds),
           child: Text(
             value,
-            style: const TextStyle(
-              fontSize: 32,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
+            style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.white),
           ),
         ),
         const SizedBox(height: 8),
@@ -471,6 +423,7 @@ final List<Map<String, dynamic>> techCategories = [
     'technologies': [
       {'name': 'GetX', 'usage': 90},
       {'name': 'Provider', 'usage': 75},
+      {'name': 'Bloc', 'usage': 60},
     ],
   },
   {
@@ -489,6 +442,7 @@ final List<Map<String, dynamic>> techCategories = [
     'technologies': [
       {'name': 'Hive', 'usage': 85},
       {'name': 'SQLite', 'usage': 70},
+      {'name': 'SharedPreference', 'usage': 90},
     ],
   },
   {
@@ -507,6 +461,7 @@ final List<Map<String, dynamic>> techCategories = [
     'technologies': [
       {'name': 'Git', 'usage': 90},
       {'name': 'VS Code', 'usage': 95},
+      {'name': 'Android Studio', 'usage': 95},
     ],
   },
 ];

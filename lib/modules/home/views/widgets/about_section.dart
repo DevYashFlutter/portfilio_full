@@ -539,10 +539,10 @@ class _AboutSkillsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final skills = [
       {'name': 'Flutter & Dart', 'level': 90},
-      {'name': 'State Management (GetX)', 'level': 85},
+      {'name': 'State Management (GetX, Riverpod, Bloc)', 'level': 85},
       {'name': 'Firebase Integration', 'level': 88},
       {'name': 'REST APIs', 'level': 90},
-      {'name': 'Local Storage (Hive)', 'level': 85},
+      {'name': 'Local Storage (SharedPreference, SQLite, Hive)', 'level': 85},
       {'name': 'CI/CD (GitHub Actions)', 'level': 80},
     ];
 
@@ -657,7 +657,7 @@ class _AboutStatsGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     final stats = [
       {'value': '11+', 'label': 'Apps Deployed'},
-      {'value': '1.3+', 'label': 'Years Experience'},
+      {'value': '2.6+', 'label': 'Years Experience'},
       {'value': '5M+', 'label': 'Active Users'},
       {'value': '40%', 'label': 'Performance Boost'},
     ];
