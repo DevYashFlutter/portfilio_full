@@ -1,0 +1,77 @@
+Resolving dependencies...
+Downloading packages...
+  characters 1.4.0 (1.4.1 available)
+  matcher 0.12.17 (0.12.18 available)
+  material_color_utilities 0.11.1 (0.13.0 available)
+  meta 1.17.0 (1.18.1 available)
+  test_api 0.7.7 (0.7.9 available)
+Got dependencies!
+5 packages have newer versions incompatible with dependency constraints.
+Try `flutter pub outdated` for more information.
+Analyzing portfolio...                                          
+
+warning - Unused import: 'package:get/get.dart' - lib\modules\home\views\widgets\about_section.dart:4:8 - unused_import
+warning - Unused import: 'package:portfolio/theme/app_colors.dart' - lib\modules\home\views\widgets\about_section.dart:5:8 - unused_import
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\about_section.dart:89:46 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\about_section.dart:249:47 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\about_section.dart:283:55 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\about_section.dart:284:55 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\about_section.dart:524:46 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\animations_section.dart:46:104 - deprecated_member_use
+  error - The getter 'slate' isn't defined for the type 'Colors' - lib\modules\home\views\widgets\animations_section.dart:78:88 - undefined_getter
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\animations_section.dart:129:40 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\animations_section.dart:131:59 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\animations_section.dart:179:52 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\animations_section.dart:181:71 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\animations_section.dart:208:40 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\animations_section.dart:210:59 - deprecated_member_use
+  error - The getter 'slate' isn't defined for the type 'Colors' - lib\modules\home\views\widgets\animations_section.dart:222:54 - undefined_getter
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\animations_section.dart:262:62 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\animations_section.dart:299:62 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\animations_section.dart:299:106 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\animations_section.dart:301:81 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\animations_section.dart:301:124 - deprecated_member_use
+  error - The getter 'slate' isn't defined for the type 'Colors' - lib\modules\home\views\widgets\animations_section.dart:325:85 - undefined_getter
+warning - Unused import: 'package:flutter_animate/flutter_animate.dart' - lib\modules\home\views\widgets\contact_section.dart:2:8 - unused_import
+warning - Unused import: 'package:portfolio/theme/app_colors.dart' - lib\modules\home\views\widgets\contact_section.dart:3:8 - unused_import
+   info - Unnecessary use of 'toList' in a spread - lib\modules\home\views\widgets\experience_section.dart:151:109 - unnecessary_to_list_in_spreads
+warning - Unused import: 'package:flutter_animate/flutter_animate.dart' - lib\modules\home\views\widgets\footer.dart:2:8 - unused_import
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\footer.dart:77:74 - deprecated_member_use
+warning - Unused import: 'package:portfolio/theme/app_colors.dart' - lib\modules\home\views\widgets\hero_section.dart:5:8 - unused_import
+warning - Unused import: 'dart:math' - lib\modules\home\views\widgets\hero_section.dart:7:8 - unused_import
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\hero_section.dart:107:44 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\hero_section.dart:117:44 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\hero_section.dart:128:44 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\hero_section.dart:214:43 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\hero_section.dart:215:43 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\hero_section.dart:220:48 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\hero_section.dart:260:37 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\hero_section.dart:261:37 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\hero_section.dart:266:42 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\hero_section.dart:395:48 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\hero_section.dart:426:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\hero_section.dart:429:46 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\hero_section.dart:484:41 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\hero_section.dart:485:41 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\hero_section.dart:490:46 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\hero_section.dart:564:43 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\hero_section.dart:564:75 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\hero_section.dart:568:43 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\hero_section.dart:569:43 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\hero_section.dart:600:46 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\nav_bar.dart:136:114 - deprecated_member_use
+warning - The value of the local variable 'rrect' isn't used - lib\modules\home\views\widgets\premium_hover_card.dart:71:11 - unused_local_variable
+   info - Unnecessary 'this.' qualifier - lib\modules\home\views\widgets\premium_hover_card.dart:92:12 - unnecessary_this
+warning - Unused import: 'package:get/get.dart' - lib\modules\home\views\widgets\projects_section.dart:5:8 - unused_import
+warning - Unused import: 'package:portfolio/theme/app_colors.dart' - lib\modules\home\views\widgets\tech_stack_section.dart:4:8 - unused_import
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\tech_stack_section.dart:106:41 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\tech_stack_section.dart:216:52 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\tech_stack_section.dart:220:49 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\tech_stack_section.dart:221:53 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\tech_stack_section.dart:336:48 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\tech_stack_section.dart:396:37 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\tech_stack_section.dart:397:37 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\modules\home\views\widgets\tech_stack_section.dart:402:42 - deprecated_member_use
+warning - Unused import: 'package:portfolio/utils/portfolio_data.dart' - lib\modules\home\views\widgets\workflow_section.dart:1:8 - unused_import
+warning - Unused import: 'package:flutter_animate/flutter_animate.dart' - lib\modules\home\views\widgets\workflow_section.dart:4:8 - unused_import
+

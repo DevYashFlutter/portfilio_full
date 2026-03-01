@@ -1,42 +1,16 @@
-# Flutter Portfolio Website  
+# portfolio
 
-A personal portfolio website built with **Flutter Web** using **GetX** for state management, showcasing my Flutter projects and development skills.  
+A new Flutter project.
 
-## 🚀 What the Project Does  
-This project serves as my professional portfolio, designed to:  
-- Highlight my expertise in **Flutter, Dart, and cross-platform mobile development**.  
-- Showcase real-world projects, including gaming and educational apps.  
-- Demonstrate skills in **clean architecture, UI/UX design, and API integration**.  
+## Getting Started
 
-## 💡 Why This Project is Useful  
-- Shows recruiters and clients my ability to build **scalable, responsive, and modern web apps**.  
-- Demonstrates **state management with GetX** in a real-world use case.  
-- Acts as a **central hub** to access my past work, experience, and contact info.  
+This project is a starting point for a Flutter application.
 
-## 🛠️ Tech Stack  
-- **Framework:** Flutter (Web)  
-- **Language:** Dart  
-- **State Management:** GetXController  
-- **Design:** Responsive UI for desktop & mobile browsers  
+A few resources to get you started if this is your first Flutter project:
 
-## 📂 Project Features  
-- Clean, modern interface showcasing projects and skills  
-- Responsive design for desktop and mobile  
-- Integrated navigation with GetX for smooth state handling  
-- Sections for **About, Projects, Skills, and Contact**  
+- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
+- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-## 📦 Getting Started  
-To run this project locally:  
-
-```bash
-# Clone the repository
-git clone https://github.com/your-username/flutter_portfolio.git  
-
-# Navigate to project folder
-cd flutter_portfolio  
-
-# Get dependencies
-flutter pub get  
-
-# Run the app (web)
-flutter run -d chrome  
+For help getting started with Flutter development, view the
+[online documentation](https://docs.flutter.dev/), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.
