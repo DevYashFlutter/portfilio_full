@@ -40,17 +40,16 @@ class _FooterState extends State<Footer> {
                     const SizedBox(width: 8),
                     Text(
                       'Portfolio',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
+                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary),
                     ),
                   ],
                 ),
                 const SizedBox(height: 24),
                 // Copyright
-                Text('© ${DateTime.now().year} ${PortfolioData.name}. All rights reserved.', style: TextStyle(color: AppColors.textBody.withAlpha(150), fontSize: 14)),
+                Text(
+                  '© ${DateTime.now().year} ${PortfolioData.name}. All rights reserved.',
+                  style: TextStyle(color: AppColors.textBody.withAlpha(150), fontSize: 14),
+                ),
                 const SizedBox(height: 8),
                 // Credit
                 Row(
@@ -83,18 +82,10 @@ class _FooterState extends State<Footer> {
                           children: [
                             Text(
                               'Back to Top',
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.onSurface,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                              ),
+                              style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: 14, fontWeight: FontWeight.w500),
                             ),
                             const SizedBox(width: 8),
-                            Icon(
-                              Icons.arrow_upward_rounded,
-                              color: Theme.of(context).colorScheme.onSurface,
-                              size: 16,
-                            ),
+                            Icon(Icons.arrow_upward_rounded, color: Theme.of(context).colorScheme.onSurface, size: 16),
                           ],
                         ),
                       ),

@@ -7,13 +7,7 @@ class PremiumHoverCard extends StatefulWidget {
   final Widget Function(BuildContext, bool, Widget?)? iconBuilder;
   final Widget? icon;
 
-  const PremiumHoverCard({
-    super.key,
-    required this.child,
-    this.borderRadius = 24,
-    this.iconBuilder,
-    this.icon,
-  });
+  const PremiumHoverCard({super.key, required this.child, this.borderRadius = 24, this.iconBuilder, this.icon});
 
   @override
   State<PremiumHoverCard> createState() => _PremiumHoverCardState();
@@ -89,12 +83,6 @@ class _GradientBorderPainter extends CustomPainter {
 /// Helper extension or widget for the rotating icon
 extension HoverRotation on Widget {
   Widget animateHoverRotation(bool isHovered) {
-    return this.animate(target: isHovered ? 1 : 0)
-      .rotate(
-        begin: 0,
-        end: 10,
-        duration: const Duration(seconds: 2),
-        curve: Curves.easeInOut,
-      );
+    return this.animate(target: isHovered ? 1 : 0).rotate(begin: 0, end: 10, duration: const Duration(seconds: 2), curve: Curves.easeInOut);
   }
 }

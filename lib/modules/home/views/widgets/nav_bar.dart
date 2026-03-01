@@ -39,16 +39,11 @@ class NavBar extends StatelessWidget {
                       InkWell(
                         onTap: () => controller.scrollToSection(controller.heroKey),
                         child: ShaderMask(
-                          shaderCallback: (bounds) => const LinearGradient(
-                            colors: [Color(0xFFC084FC), Color(0xFF22D3EE), Color(0xFF60A5FA)],
-                          ).createShader(bounds),
+                          shaderCallback: (bounds) =>
+                              const LinearGradient(colors: [Color(0xFFC084FC), Color(0xFF22D3EE), Color(0xFF60A5FA)]).createShader(bounds),
                           child: Text(
                             '< Flutter Dev / >',
-                            style: TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
+                            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary),
                           ),
                         ),
                       ),

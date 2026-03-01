@@ -64,7 +64,10 @@ class ExperienceSection extends StatelessWidget {
       constraints: const BoxConstraints(maxWidth: double.infinity),
       child: Column(
         children: PortfolioData.experience.asMap().entries.map((entry) {
-          return _ExperienceCard(data: entry.value, index: entry.key).animate().fadeIn(duration: 600.ms, delay: (entry.key * 200).ms).slideY(begin: 0.2, end: 0);
+          return _ExperienceCard(
+            data: entry.value,
+            index: entry.key,
+          ).animate().fadeIn(duration: 600.ms, delay: (entry.key * 200).ms).slideY(begin: 0.2, end: 0);
         }).toList(),
       ),
     );

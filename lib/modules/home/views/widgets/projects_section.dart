@@ -33,7 +33,11 @@ class _ProjectsSectionState extends State<ProjectsSection> {
     return Container(
       width: double.infinity,
       decoration: const BoxDecoration(
-        gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [Color(0xFF0F172A), Color(0xFF020617), Color(0xFF0F172A)]),
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [Color(0xFF0F172A), Color(0xFF020617), Color(0xFF0F172A)],
+        ),
       ),
       padding: EdgeInsets.symmetric(vertical: 80, horizontal: isMobile ? 24 : 40),
       child: Stack(
@@ -42,11 +46,14 @@ class _ProjectsSectionState extends State<ProjectsSection> {
           Positioned(
             top: 100,
             left: width * 0.2,
-            child: Container(
-              width: 300,
-              height: 300,
-              decoration: BoxDecoration(shape: BoxShape.circle, color: const Color(0xFF22D3EE).withValues(alpha: 0.1)),
-            ).animate(onPlay: (c) => c.repeat()).scale(begin: const Offset(1, 1), end: const Offset(1.3, 1.3), duration: const Duration(seconds: 10), curve: Curves.easeInOut),
+            child:
+                Container(
+                      width: 300,
+                      height: 300,
+                      decoration: BoxDecoration(shape: BoxShape.circle, color: const Color(0xFF22D3EE).withValues(alpha: 0.1)),
+                    )
+                    .animate(onPlay: (c) => c.repeat())
+                    .scale(begin: const Offset(1, 1), end: const Offset(1.3, 1.3), duration: const Duration(seconds: 10), curve: Curves.easeInOut),
           ),
 
           Center(
@@ -225,9 +232,7 @@ class _ProjectCardState extends State<_ProjectCard> {
           decoration: BoxDecoration(
             color: const Color(0xFF0F172A).withValues(alpha: 0.5),
             borderRadius: BorderRadius.circular(24),
-            border: Border.all(
-              color: isHovered ? widget.colors.first.withValues(alpha: 0.4) : Colors.white.withValues(alpha: 0.1), width: 1,
-            ),
+            border: Border.all(color: isHovered ? widget.colors.first.withValues(alpha: 0.4) : Colors.white.withValues(alpha: 0.1), width: 1),
           ),
           child: Stack(
             children: [
@@ -252,8 +257,7 @@ class _ProjectCardState extends State<_ProjectCard> {
                     Container(
                       height: 192,
                       width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF1E293B), borderRadius: BorderRadius.circular(16)),
+                      decoration: BoxDecoration(color: const Color(0xFF1E293B), borderRadius: BorderRadius.circular(16)),
                       child: Stack(
                         children: [
                           Center(
@@ -264,8 +268,7 @@ class _ProjectCardState extends State<_ProjectCard> {
                                 width: 128,
                                 height: 160,
                                 decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                    begin: Alignment.topLeft, end: Alignment.bottomRight, colors: widget.colors),
+                                  gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: widget.colors),
                                   borderRadius: BorderRadius.circular(20),
                                   boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.3), blurRadius: 20, offset: const Offset(0, 10))],
                                 ),
@@ -338,19 +341,19 @@ class _FloatingBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.2),
-        borderRadius: BorderRadius.circular(100),
-        border: Border.all(color: color.withValues(alpha: 0.3)),
-      ),
-      child: Text(
-        label,
-        style: TextStyle(color: color.withValues(alpha: 0.8), fontSize: 12, fontWeight: FontWeight.w500,
-        ),
-      ),
-    ).animate(onPlay: (controller) => controller.repeat(reverse: true)).moveY(begin: 0, end: -5, duration: const Duration(seconds: 2), curve: Curves.easeInOut,
-        );
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+          decoration: BoxDecoration(
+            color: color.withValues(alpha: 0.2),
+            borderRadius: BorderRadius.circular(100),
+            border: Border.all(color: color.withValues(alpha: 0.3)),
+          ),
+          child: Text(
+            label,
+            style: TextStyle(color: color.withValues(alpha: 0.8), fontSize: 12, fontWeight: FontWeight.w500),
+          ),
+        )
+        .animate(onPlay: (controller) => controller.repeat(reverse: true))
+        .moveY(begin: 0, end: -5, duration: const Duration(seconds: 2), curve: Curves.easeInOut);
   }
 }
 
@@ -367,10 +370,7 @@ class _TechBadge extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
         border: Border.all(color: const Color(0xFFA855F7).withValues(alpha: 0.3)),
       ),
-      child: Text(
-        label,
-        style: const TextStyle(color: Color(0xFFD8B4FE), fontSize: 12),
-      ),
+      child: Text(label, style: const TextStyle(color: Color(0xFFD8B4FE), fontSize: 12)),
     );
   }
 }
@@ -388,10 +388,7 @@ class _StatBox extends StatelessWidget {
     return Expanded(
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 8),
-        decoration: BoxDecoration(
-          color: const Color(0xFF1E293B).withValues(alpha: 0.5),
-          borderRadius: BorderRadius.circular(12),
-        ),
+        decoration: BoxDecoration(color: const Color(0xFF1E293B).withValues(alpha: 0.5), borderRadius: BorderRadius.circular(12)),
         child: Column(
           children: [
             Icon(icon, size: 16, color: color),

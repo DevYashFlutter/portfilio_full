@@ -135,7 +135,10 @@ class _ResponsibilityCardState extends State<_ResponsibilityCard> {
             children: [
               Container(
                 padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(color: isHovered ? const Color(0xFFA855F7).withAlpha(51) : const Color(0xFF1E293B), borderRadius: BorderRadius.circular(8)),
+                decoration: BoxDecoration(
+                  color: isHovered ? const Color(0xFFA855F7).withAlpha(51) : const Color(0xFF1E293B),
+                  borderRadius: BorderRadius.circular(8),
+                ),
                 child: Icon(widget.icon, size: 20, color: isHovered ? const Color(0xFF22D3EE) : const Color(0xFFA855F7)),
               ),
               const SizedBox(width: 16),

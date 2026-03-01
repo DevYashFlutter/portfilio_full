@@ -25,7 +25,7 @@ class WorkflowSection extends StatelessWidget {
             ),
           ),
         ),
-        
+
         // Animated background grid
         Positioned.fill(
           child: Opacity(opacity: 0.1, child: CustomPaint(painter: _WorkflowGridPainter())),
@@ -100,10 +100,11 @@ class WorkflowSection extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: workflowSteps.asMap().entries.map((entry) {
               return Expanded(
-                child: _WorkflowStepItem(
-                  step: entry.value,
-                  index: entry.key,
-                ).animate().fadeIn(duration: 600.ms, delay: (entry.key * 150).ms).scale(begin: const Offset(0.8, 0.8), end: const Offset(1, 1)).slideY(begin: 0.3, end: 0),
+                child: _WorkflowStepItem(step: entry.value, index: entry.key)
+                    .animate()
+                    .fadeIn(duration: 600.ms, delay: (entry.key * 150).ms)
+                    .scale(begin: const Offset(0.8, 0.8), end: const Offset(1, 1))
+                    .slideY(begin: 0.3, end: 0),
               );
             }).toList(),
           ),
@@ -347,8 +348,7 @@ class _MobileWorkflowCardState extends State<_MobileWorkflowCard> {
                           const Text('▸', style: TextStyle(color: Color(0xFFA855F7), fontSize: 12)),
                           const SizedBox(width: 8),
                           Expanded(
-                            child: Text(
-                              detail, style: const TextStyle(color: Color(0xFFCBD5E1), fontSize: 12)),
+                            child: Text(detail, style: const TextStyle(color: Color(0xFFCBD5E1), fontSize: 12)),
                           ),
                         ],
                       ),
@@ -468,8 +468,7 @@ class _ConnectionLinePainter extends CustomPainter {
     double distance = (p2 - p1).distance;
     double currentDistance = 0;
     while (currentDistance < distance) {
-      canvas.drawLine(p1 + (p2 - p1) * (currentDistance / distance), p1 + (p2 - p1) * ((currentDistance + dashWidth) / distance), paint,
-      );
+      canvas.drawLine(p1 + (p2 - p1) * (currentDistance / distance), p1 + (p2 - p1) * ((currentDistance + dashWidth) / distance), paint);
       currentDistance += dashWidth + dashSpace;
     }
   }
@@ -486,7 +485,14 @@ class WorkflowStepModel {
   final Color color;
   final LinearGradient gradient;
 
-  WorkflowStepModel({required this.icon, required this.title, required this.description, required this.details, required this.color, required this.gradient});
+  WorkflowStepModel({
+    required this.icon,
+    required this.title,
+    required this.description,
+    required this.details,
+    required this.color,
+    required this.gradient,
+  });
 }
 
 final List<WorkflowStepModel> workflowSteps = [
