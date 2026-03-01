@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'premium_hover_card.dart';
 import 'package:portfolio/utils/portfolio_data.dart';
-import 'package:get/get.dart';
 
 class ProjectsSection extends StatefulWidget {
   final String? title;
@@ -110,28 +109,31 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                   const SizedBox(height: 60),
 
                   // Projects Grid
-                  GridView.builder(
-                    padding: EdgeInsets.zero,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: isMobile ? 1 : (width < 1200 ? 2 : 3),
-                      crossAxisSpacing: 24,
-                      mainAxisSpacing: 24,
-                      childAspectRatio: isMobile ? 0.75 : 0.72,
-                    ),
-                    itemCount: _getFilteredProjects(industrialProjects, personalProjects).length,
-                    itemBuilder: (context, index) {
-                      final project = _getFilteredProjects(industrialProjects, personalProjects)[index];
-                      return _ProjectCard(
-                        title: project['title'],
-                        description: project['desc'],
-                        tags: List<String>.from(project['tags']),
-                        users: project['users'] ?? '0',
-                        rating: project['rating'] ?? '5.0',
-                        perf: project['perf'] ?? 'N/A',
-                        colors: List<Color>.from(project['colors']),
-                        category: project['category'],
+                  LayoutBuilder(
+                    builder: (context, constraints) {
+                      final projectList = _getFilteredProjects(industrialProjects, personalProjects);
+                      final int columns = isMobile ? 1 : (width < 1200 ? 2 : 3);
+                      final double spacing = 24.0;
+                      final double itemWidth = (constraints.maxWidth - (spacing * (columns - 1))) / columns;
+
+                      return Wrap(
+                        spacing: spacing,
+                        runSpacing: spacing,
+                        children: projectList.map((project) {
+                          return SizedBox(
+                            width: itemWidth,
+                            child: _ProjectCard(
+                              title: project['title'],
+                              description: project['desc'],
+                              tags: List<String>.from(project['tags']),
+                              users: project['users'] ?? '0',
+                              rating: project['rating'] ?? '5.0',
+                              perf: project['perf'] ?? 'N/A',
+                              colors: List<Color>.from(project['colors']),
+                              category: project['category'],
+                            ),
+                          );
+                        }).toList(),
                       );
                     },
                   ),
@@ -288,16 +290,12 @@ class _ProjectCardState extends State<_ProjectCard> {
                       style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
                     ),
                     const SizedBox(height: 8),
-                    Expanded(
-                      child: Text(
-                        widget.description,
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: const Color(0xFF94A3B8), // slate-400
-                          height: 1.5,
-                        ),
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
+                    Text(
+                      widget.description,
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: const Color(0xFF94A3B8), // slate-400
+                        height: 1.5,
                       ),
                     ),
                     const SizedBox(height: 16),

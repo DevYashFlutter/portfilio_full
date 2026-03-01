@@ -36,11 +36,7 @@ class HomePage extends StatelessWidget {
                     const SizedBox(height: 10),
                     Text(
                       'Flutter Dev',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
+                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary),
                     ),
                   ],
                 ),
@@ -80,30 +76,13 @@ class HomePage extends StatelessWidget {
           const NavBar(),
         ],
       ),
-      floatingActionButton: Container(
-        width: 60,
-        height: 60,
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.primary,
-          shape: BoxShape.circle,
-          boxShadow: [
-            BoxShadow(
-              color: Theme.of(context).colorScheme.primary.withAlpha(100),
-              blurRadius: 20,
-              spreadRadius: 2,
-            ),
-          ],
-        ),
-        child: FloatingActionButton(
-          onPressed: () => controller.scrollToSection(controller.contactKey),
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          child: Icon(
-            Icons.mail_outline_rounded,
-            color: Theme.of(context).colorScheme.brightness == Brightness.dark ? AppColors.black : AppColors.white,
-            size: 28,
-          ),
-        ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => controller.scrollToSection(controller.contactKey),
+        backgroundColor: Colors.transparent,
+        splashColor: Colors.transparent,
+        hoverColor: Colors.transparent,
+        elevation: 0,
+        child: Image.asset("assets/images/contact.png", width: 60, height: 60),
       ),
     );
   }
@@ -118,13 +97,7 @@ class _DrawerItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(
-        label,
-        style: TextStyle(
-          color: Theme.of(context).colorScheme.onSurface,
-          fontSize: 16,
-        ),
-      ),
+      title: Text(label, style: TextStyle(color: Theme.of(context).colorScheme.onSurface, fontSize: 16)),
       onTap: () {
         Navigator.pop(context);
         onTap();

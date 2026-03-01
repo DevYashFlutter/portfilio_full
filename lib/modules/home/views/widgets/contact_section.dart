@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:portfolio/utils/portfolio_data.dart';
 import 'package:portfolio/utils/responsive.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ContactSection extends StatefulWidget {
   const ContactSection({super.key});
@@ -39,8 +40,7 @@ class _ContactSectionState extends State<ContactSection> {
 
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 80),
-            child: Column(children: [_buildHeader(isMobile), const SizedBox(height: 60), _buildMainContent(context, isMobile, isTablet)],
-            ),
+            child: Column(children: [_buildHeader(isMobile), const SizedBox(height: 60), _buildMainContent(context, isMobile, isTablet)]),
           ),
         ],
       ),
@@ -215,9 +215,19 @@ class _ContactSectionState extends State<ContactSection> {
         boxShadow: [BoxShadow(color: const Color(0xFFA855F7).withValues(alpha: 0.25), blurRadius: 15, offset: const Offset(0, 4))],
       ),
       child: ElevatedButton(
-        onPressed: () {
+        onPressed: () async {
           if (_formKey.currentState!.validate()) {
-            // Handle submit
+            final String name = _nameController.text;
+            final String email = _emailController.text;
+            final String message = _messageController.text;
+
+            final String whatsappMessage = "Hello, I'm $name ($email).\n\n$message";
+            final Uri whatsappUri = Uri.parse("https://wa.me/91${PortfolioData.phone}?text=${Uri.encodeComponent(whatsappMessage)}");
+            if (await canLaunchUrl(whatsappUri)) {
+              await launchUrl(whatsappUri, mode: LaunchMode.externalApplication);
+            } else {
+              await launchUrl(whatsappUri);
+            }
           }
         },
         style: ElevatedButton.styleFrom(
@@ -242,8 +252,7 @@ class _ContactSectionState extends State<ContactSection> {
 
   Widget _buildInfoAndSocial(bool isMobile) {
     return Column(
-      children: [
-        _buildContactInfoCards(), const SizedBox(height: 24), _buildSocialCard(), const SizedBox(height: 24), _buildGitHubStatsCard()],
+      children: [_buildContactInfoCards(), const SizedBox(height: 24), _buildSocialCard(), const SizedBox(height: 24)],
     ).animate().fadeIn(duration: 800.ms, delay: 200.ms).slideX(begin: 0.1, end: 0);
   }
 
@@ -258,7 +267,12 @@ class _ContactSectionState extends State<ContactSection> {
       children: items.asMap().entries.map((entry) {
         return Padding(
           padding: const EdgeInsets.only(bottom: 16),
-          child: _InfoCard(icon: entry.value['icon'] as IconData, label: entry.value['label'] as String, value: entry.value['value'] as String, index: entry.key),
+          child: _InfoCard(
+            icon: entry.value['icon'] as IconData,
+            label: entry.value['label'] as String,
+            value: entry.value['value'] as String,
+            index: entry.key,
+          ),
         );
       }).toList(),
     );
@@ -267,25 +281,25 @@ class _ContactSectionState extends State<ContactSection> {
   Widget _buildSocialCard() {
     final socialLinks = [
       {
-        'icon': Icons.code_rounded,
+        'icon': 'assets/images/github.png',
         'label': 'GitHub',
         'user': '@sswtsrv',
         'color': const [Color(0xFF334155), Color(0xFF475569)],
       },
       {
-        'icon': Icons.link_rounded,
+        'icon': 'assets/images/linkedin.png',
         'label': 'LinkedIn',
         'user': 'shashwat-srivastava-flutter',
         'color': const [Color(0xFF2563EB), Color(0xFF3B82F6)],
       },
       {
-        'icon': Icons.flutter_dash_rounded,
+        'icon': 'assets/images/twitter.png',
         'label': 'Twitter',
         'user': '@sswtsrv',
         'color': const [Color(0xFF06B6D4), Color(0xFF60A5FA)],
       },
       {
-        'icon': Icons.mail_rounded,
+        'icon': 'assets/images/email.png',
         'label': 'Email',
         'user': PortfolioData.email,
         'color': const [Color(0xFF9333EA), Color(0xFFEC4899)],
@@ -309,7 +323,7 @@ class _ContactSectionState extends State<ContactSection> {
           const SizedBox(height: 24),
           ...socialLinks.asMap().entries.map((entry) {
             return _SocialLinkItem(
-              icon: entry.value['icon'] as IconData,
+              icon: entry.value['icon'],
               label: entry.value['label'] as String,
               username: entry.value['user'] as String,
               colors: entry.value['color'] as List<Color>,
@@ -319,37 +333,6 @@ class _ContactSectionState extends State<ContactSection> {
         ],
       ),
     );
-  }
-
-  Widget _buildGitHubStatsCard() {
-    return Container(
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(colors: [const Color(0xFFA855F7).withValues(alpha: 0.1), const Color(0xFF22D3EE).withValues(alpha: 0.1)]),
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: const Color(0xFFA855F7).withValues(alpha: 0.2)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Row(
-            children: [
-              Icon(Icons.code_rounded, color: Color(0xFFA855F7), size: 20),
-              SizedBox(width: 8),
-              Text(
-                'GitHub Activity',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              _buildStat("50+", "Repositories"), _buildStat("1K+", "Contributions"), _buildStat("20+", "Projects")]),
-        ],
-      ),
-    ).animate().fadeIn(duration: 800.ms, delay: 800.ms).slideY(begin: 0.2, end: 0);
   }
 
   Widget _buildStat(String value, String label) {
@@ -362,8 +345,7 @@ class _ContactSectionState extends State<ContactSection> {
             style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
           ),
         ),
-        Text(label, style: const TextStyle(fontSize: 12, color: Color(0xFF94A3B8)),
-        ),
+        Text(label, style: const TextStyle(fontSize: 12, color: Color(0xFF94A3B8))),
       ],
     );
   }
@@ -430,7 +412,7 @@ class _InfoCardState extends State<_InfoCard> {
 }
 
 class _SocialLinkItem extends StatefulWidget {
-  final IconData icon;
+  final dynamic icon;
   final String label;
   final String username;
   final List<Color> colors;
@@ -472,7 +454,12 @@ class _SocialLinkItemState extends State<_SocialLinkItem> {
                   gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: widget.colors),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Icon(widget.icon, color: Colors.white, size: 24),
+                child: widget.icon is IconData
+                    ? Icon(widget.icon, color: Colors.white, size: 24)
+                    : Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Image.asset(widget.icon, color: Colors.white, fit: BoxFit.contain),
+                      ),
               ),
               const SizedBox(width: 16),
               Expanded(
@@ -480,7 +467,7 @@ class _SocialLinkItemState extends State<_SocialLinkItem> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      widget.label, 
+                      widget.label,
                       style: TextStyle(color: isHovered ? const Color(0xFFD8B4FE) : Colors.white, fontWeight: FontWeight.bold, fontSize: 15),
                     ),
                     Text(widget.username, style: const TextStyle(color: Color(0xFF94A3B8), fontSize: 13)),

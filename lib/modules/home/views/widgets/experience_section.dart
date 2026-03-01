@@ -49,7 +49,7 @@ class ExperienceSection extends StatelessWidget {
           ).animate().fadeIn(duration: 800.ms).slideY(begin: 0.3, end: 0),
           const SizedBox(height: 12),
           Text(
-            '2.3+ years building impactful mobile applications',
+            '2.6+ years building impactful mobile applications',
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: isMobile ? 14 : 16, color: const Color(0xFF94A3B8)),
           ).animate().fadeIn(duration: 800.ms, delay: 200.ms).slideY(begin: 0.3, end: 0),
