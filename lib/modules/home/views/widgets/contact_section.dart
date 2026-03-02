@@ -299,7 +299,7 @@ class _ContactSectionState extends State<ContactSection> {
         'icon': 'assets/images/email.png',
         'label': 'Email',
         'user': PortfolioData.email,
-        'link': 'mailto:${PortfolioData.email}',
+        'link': PortfolioData.email,
         'color': const [Color(0xFF9333EA), Color(0xFFEC4899)],
       },
     ];
@@ -448,7 +448,11 @@ class _SocialLinkItemState extends State<_SocialLinkItem> {
         onExit: (_) => setState(() => isHovered = false),
         child: GestureDetector(
           onTap: () async {
-            final Uri url = Uri.parse(widget.link);
+            String linkStr = widget.link;
+            if (!linkStr.contains('http') && !linkStr.contains('mailto:')) {
+              linkStr = 'mailto:$linkStr';
+            }
+            final Uri url = Uri.parse(linkStr);
             if (await canLaunchUrl(url)) {
               await launchUrl(url, mode: LaunchMode.externalApplication);
             }

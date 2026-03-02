@@ -1,5 +1,4 @@
 import 'dart:html' as html;
-import 'package:flutter/services.dart';
 import 'file_download_helper.dart';
 
 class FileDownloadHelperImpl implements FileDownloadHelper {
