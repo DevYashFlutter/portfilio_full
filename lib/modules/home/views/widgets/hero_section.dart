@@ -2,9 +2,9 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
-import 'package:portfolio/theme/app_colors.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:portfolio/modules/home/controllers/home_controller.dart';
-import 'dart:math' as math;
+import 'package:portfolio/utils/file_service.dart';
 
 class HeroSection extends StatelessWidget {
   const HeroSection({super.key});
@@ -262,8 +262,7 @@ class _HeroHeadline extends StatelessWidget {
               ),
             ),
             ShaderMask(
-              shaderCallback: (bounds) =>
-                  const LinearGradient(colors: [Color(0xFFC084FC), Color(0xFF22D3EE), Color(0xFF60A5FA)]).createShader(bounds),
+              shaderCallback: (bounds) => const LinearGradient(colors: [Color(0xFFC084FC), Color(0xFF22D3EE), Color(0xFF60A5FA)]).createShader(bounds),
               child: Text(
                 'Building Scalable &',
                 textAlign: TextAlign.center,
@@ -271,8 +270,7 @@ class _HeroHeadline extends StatelessWidget {
               ),
             ),
             ShaderMask(
-              shaderCallback: (bounds) =>
-                  const LinearGradient(colors: [Color(0xFF22D3EE), Color(0xFF60A5FA), Color(0xFFC084FC)]).createShader(bounds),
+              shaderCallback: (bounds) => const LinearGradient(colors: [Color(0xFF22D3EE), Color(0xFF60A5FA), Color(0xFFC084FC)]).createShader(bounds),
               child: Text(
                 'High Performance Apps',
                 textAlign: TextAlign.center,
@@ -408,9 +406,7 @@ class _HeroTechBadges extends StatelessWidget {
             Container(
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [const Color(0xFFA855F7).withValues(alpha: 0.1), const Color(0xFF06B6D4).withValues(alpha: 0.1)],
-                    ),
+                    gradient: LinearGradient(colors: [const Color(0xFFA855F7).withValues(alpha: 0.1), const Color(0xFF06B6D4).withValues(alpha: 0.1)]),
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(color: const Color(0xFFA855F7).withValues(alpha: 0.2)),
                   ),
@@ -446,9 +442,9 @@ class _HeroSocialLinks extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final items = [
-      {'icon': 'assets/images/github.png', 'label': 'GitHub'},
-      {'icon': 'assets/images/linkedin.png', 'label': 'LinkedIn'},
-      {'icon': 'assets/images/download.png', 'label': 'Resume'},
+      {'icon': 'assets/images/github.png', 'label': 'GitHub', 'link': 'https://github.com/DevYashFlutter'},
+      {'icon': 'assets/images/linkedin.png', 'label': 'LinkedIn', 'link': 'https://www.linkedin.com/in/shashwat-srivastava-55b16187/'},
+      {'icon': 'assets/images/download.png', 'label': 'Resume', 'link': 'assets/files/Shashwat_Srivastava_Resume.pdf'},
     ];
 
     return Row(
@@ -457,7 +453,7 @@ class _HeroSocialLinks extends StatelessWidget {
         items.length,
         (index) => Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: _SocialIcon(icon: items[index]['icon'].toString(), label: items[index]['label'] as String),
+          child: _SocialIcon(icon: items[index]['icon'].toString(), label: items[index]['label'] as String, link: items[index]['link'] as String),
         ),
       ),
     ).animate().fadeIn(duration: const Duration(milliseconds: 800), delay: const Duration(milliseconds: 1200));
@@ -467,8 +463,9 @@ class _HeroSocialLinks extends StatelessWidget {
 class _SocialIcon extends StatefulWidget {
   final String icon;
   final String label;
+  final String link;
 
-  const _SocialIcon({required this.icon, required this.label});
+  const _SocialIcon({required this.icon, required this.label, required this.link});
 
   @override
   State<_SocialIcon> createState() => _SocialIconState();
@@ -482,26 +479,42 @@ class _SocialIconState extends State<_SocialIcon> {
     return MouseRegion(
       onEnter: (_) => setState(() => isHovered = true),
       onExit: (_) => setState(() => isHovered = false),
-      child: Container(
-        width: 48,
-        height: 48,
-        padding: EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          color: isHovered ? Colors.white.withValues(alpha: 0.1) : Colors.white.withValues(alpha: 0.05),
-          shape: BoxShape.circle,
-          border: Border.all(color: isHovered ? const Color(0xFFA855F7).withValues(alpha: 0.4) : const Color(0xFFA855F7).withValues(alpha: 0.2)),
-        ),
-        child: ClipOval(
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-            child: SizedBox(
-              width: 25,
-              height: 25,
-              child: Image.asset(widget.icon, color: isHovered ? const Color(0xFFE9D5FF) : const Color(0xFFD8B4FE)),
+      child: GestureDetector(
+        onTap: () async {
+          final String link = widget.link;
+
+          if (link.startsWith('http')) {
+            final Uri url = Uri.parse(link);
+            if (await canLaunchUrl(url)) {
+              await launchUrl(url, mode: LaunchMode.externalApplication);
+            }
+          } else {
+            // Use FileService for robust local asset download
+            // It handles Web downloads properly via Blobs/Anchors
+            await FileService.downloadFile(
+              link,
+              'Shashwat_Srivastava_Resume.pdf',
+              fallbackUrl: 'https://drive.google.com/file/d/1_V-Rnej3Ktq8DAjENHL2anBPhxth553K/view?usp=sharing',
+            );
+          }
+        },
+        child: Container(
+          width: 48,
+          height: 48,
+          padding: EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: isHovered ? Colors.white.withValues(alpha: 0.1) : Colors.white.withValues(alpha: 0.05),
+            shape: BoxShape.circle,
+            border: Border.all(color: isHovered ? const Color(0xFFA855F7).withValues(alpha: 0.4) : const Color(0xFFA855F7).withValues(alpha: 0.2)),
+          ),
+          child: ClipOval(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+              child: SizedBox(width: 25, height: 25, child: Image.asset(widget.icon, color: isHovered ? const Color(0xFFE9D5FF) : const Color(0xFFD8B4FE))),
             ),
           ),
-        ),
-      ).animate(target: isHovered ? 1 : 0).scale(begin: const Offset(1, 1), end: const Offset(1.1, 1.1), duration: const Duration(milliseconds: 200)),
+        ).animate(target: isHovered ? 1 : 0).scale(begin: const Offset(1, 1), end: const Offset(1.1, 1.1), duration: const Duration(milliseconds: 200)),
+      ),
     );
   }
 }

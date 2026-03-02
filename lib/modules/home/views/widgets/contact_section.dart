@@ -258,9 +258,9 @@ class _ContactSectionState extends State<ContactSection> {
 
   Widget _buildContactInfoCards() {
     final items = [
-      {'icon': Icons.location_on_rounded, 'label': 'Location', 'value': 'India'},
-      {'icon': Icons.mail_rounded, 'label': 'Email', 'value': PortfolioData.email},
-      {'icon': Icons.phone_rounded, 'label': 'Phone', 'value': PortfolioData.phone},
+      {'icon': Icons.location_on_rounded, 'label': 'Location', 'value': 'India', 'link': 'https://www.google.com/maps/search/?api=1&query=India'},
+      {'icon': Icons.mail_rounded, 'label': 'Email', 'value': PortfolioData.email, 'link': 'mailto:${PortfolioData.email}'},
+      {'icon': Icons.phone_rounded, 'label': 'Phone', 'value': PortfolioData.phone, 'link': 'tel:+91${PortfolioData.phone}'},
     ];
 
     return Column(
@@ -271,6 +271,7 @@ class _ContactSectionState extends State<ContactSection> {
             icon: entry.value['icon'] as IconData,
             label: entry.value['label'] as String,
             value: entry.value['value'] as String,
+            link: entry.value['link'] as String,
             index: entry.key,
           ),
         );
@@ -284,24 +285,21 @@ class _ContactSectionState extends State<ContactSection> {
         'icon': 'assets/images/github.png',
         'label': 'GitHub',
         'user': '@sswtsrv',
+        'link': 'https://github.com/DevYashFlutter',
         'color': const [Color(0xFF334155), Color(0xFF475569)],
       },
       {
         'icon': 'assets/images/linkedin.png',
         'label': 'LinkedIn',
         'user': 'shashwat-srivastava-flutter',
+        'link': 'https://linkedin.com/in/shashwat-srivastava-55b16187/',
         'color': const [Color(0xFF2563EB), Color(0xFF3B82F6)],
-      },
-      {
-        'icon': 'assets/images/twitter.png',
-        'label': 'Twitter',
-        'user': '@sswtsrv',
-        'color': const [Color(0xFF06B6D4), Color(0xFF60A5FA)],
       },
       {
         'icon': 'assets/images/email.png',
         'label': 'Email',
         'user': PortfolioData.email,
+        'link': 'mailto:${PortfolioData.email}',
         'color': const [Color(0xFF9333EA), Color(0xFFEC4899)],
       },
     ];
@@ -326,6 +324,7 @@ class _ContactSectionState extends State<ContactSection> {
               icon: entry.value['icon'],
               label: entry.value['label'] as String,
               username: entry.value['user'] as String,
+              link: entry.value['link'] as String,
               colors: entry.value['color'] as List<Color>,
               index: entry.key,
             );
@@ -355,9 +354,10 @@ class _InfoCard extends StatefulWidget {
   final IconData icon;
   final String label;
   final String value;
+  final String link;
   final int index;
 
-  const _InfoCard({required this.icon, required this.label, required this.value, required this.index});
+  const _InfoCard({required this.icon, required this.label, required this.value, required this.link, required this.index});
 
   @override
   State<_InfoCard> createState() => _InfoCardState();
@@ -371,7 +371,17 @@ class _InfoCardState extends State<_InfoCard> {
     return MouseRegion(
       onEnter: (_) => setState(() => isHovered = true),
       onExit: (_) => setState(() => isHovered = false),
-      child: AnimatedContainer(
+      child: GestureDetector(
+        onTap: () async {
+          final Uri url = Uri.parse(widget.link);
+          if (await canLaunchUrl(url)) {
+            await launchUrl(url, mode: LaunchMode.externalApplication);
+          } else {
+            // Fallback for mailto/tel if canLaunchUrl fails (common on web)
+            await launchUrl(url);
+          }
+        },
+        child: AnimatedContainer(
         duration: 300.ms,
         transform: Matrix4.translationValues(isHovered ? 8 : 0, 0, 0),
         padding: const EdgeInsets.all(16),
@@ -407,6 +417,7 @@ class _InfoCardState extends State<_InfoCard> {
           ],
         ),
       ),
+      ),
     ).animate().fadeIn(duration: 600.ms, delay: (400 + widget.index * 100).ms).slideY(begin: 0.2, end: 0);
   }
 }
@@ -415,10 +426,11 @@ class _SocialLinkItem extends StatefulWidget {
   final dynamic icon;
   final String label;
   final String username;
+  final String link;
   final List<Color> colors;
   final int index;
 
-  const _SocialLinkItem({required this.icon, required this.label, required this.username, required this.colors, required this.index});
+  const _SocialLinkItem({required this.icon, required this.label, required this.username, required this.link, required this.colors, required this.index});
 
   @override
   State<_SocialLinkItem> createState() => _SocialLinkItemState();
@@ -434,6 +446,13 @@ class _SocialLinkItemState extends State<_SocialLinkItem> {
       child: MouseRegion(
         onEnter: (_) => setState(() => isHovered = true),
         onExit: (_) => setState(() => isHovered = false),
+        child: GestureDetector(
+          onTap: () async {
+            final Uri url = Uri.parse(widget.link);
+            if (await canLaunchUrl(url)) {
+              await launchUrl(url, mode: LaunchMode.externalApplication);
+            }
+          },
         child: AnimatedContainer(
           duration: 300.ms,
           transform: Matrix4.translationValues(isHovered ? 8 : 0, 0, 0),
@@ -482,6 +501,7 @@ class _SocialLinkItemState extends State<_SocialLinkItem> {
             ],
           ),
         ),
+      ),
       ),
     ).animate().fadeIn(duration: 600.ms, delay: (600 + widget.index * 100).ms).slideX(begin: 0.1, end: 0);
   }

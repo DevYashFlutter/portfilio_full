@@ -8,7 +8,7 @@ class PortfolioData {
   static const String location = 'Kolkata, India';
   static const String linkedin = 'https://linkedin.com/in/shashwat-srivastava-flutter';
   static const String summary =
-      'I am a dynamic Flutter Developer with over 2.3 years of experience in creating and optimizing cross-platform mobile applications. My expertise includes extensive use of Flutter and Dart, real-time communication systems, and Firebase integration. I emphasize performance and responsive UI while collaborating effectively within teams. I leverage AI tools to enhance productivity, ensuring clean code practices and driving innovation throughout the mobile app lifecycle.';
+      'I am a dynamic Flutter Developer with over 2.6+ years of experience in creating and optimizing cross-platform mobile applications. My expertise includes extensive use of Flutter and Dart, real-time communication systems, and Firebase integration. I emphasize performance and responsive UI while collaborating effectively within teams. I leverage AI tools to enhance productivity, ensuring clean code practices and driving innovation throughout the mobile app lifecycle.';
 
   static const List<Map<String, dynamic>> experience = [
     {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'premium_hover_card.dart';
 import 'package:portfolio/utils/portfolio_data.dart';
 
@@ -430,26 +431,37 @@ class _CTAButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 300),
-      width: double.infinity,
-      height: 40,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: isHovered ? colors.first.withValues(alpha: 0.5) : Colors.white.withValues(alpha: 0.1)),
-        gradient: isHovered ? LinearGradient(colors: [colors.first.withValues(alpha: 0.2), colors.last.withValues(alpha: 0.2)]) : null,
-      ),
-      child: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              'View Details',
-              style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
-            ),
-            const SizedBox(width: 8),
-            Icon(Icons.open_in_new_rounded, size: 14, color: Colors.white.withValues(alpha: 0.7)),
-          ],
+    return InkWell(
+      onTap: () async {
+        if (link != null) {
+          final Uri url = Uri.parse(link!);
+          if (await canLaunchUrl(url)) {
+            await launchUrl(url);
+          }
+        }
+      },
+      borderRadius: BorderRadius.circular(8),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
+        width: double.infinity,
+        height: 40,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: isHovered ? colors.first.withValues(alpha: 0.5) : Colors.white.withValues(alpha: 0.1)),
+          gradient: isHovered ? LinearGradient(colors: [colors.first.withValues(alpha: 0.2), colors.last.withValues(alpha: 0.2)]) : null,
+        ),
+        child: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                'View Details',
+                style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
+              ),
+              const SizedBox(width: 8),
+              Icon(Icons.open_in_new_rounded, size: 14, color: Colors.white.withValues(alpha: 0.7)),
+            ],
+          ),
         ),
       ),
     );
