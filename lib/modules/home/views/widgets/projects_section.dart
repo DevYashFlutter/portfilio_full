@@ -138,6 +138,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                               perf: project['perf'] ?? 'N/A',
                               colors: List<Color>.from(project['colors']),
                               category: project['category'],
+                              image: project['image'],
                             ),
                           );
                         }).toList(),
@@ -201,6 +202,8 @@ class _ProjectCard extends StatefulWidget {
   final String perf;
   final List<Color> colors;
   final String category;
+  final String image;
+
 
   const _ProjectCard({
     required this.title,
@@ -211,6 +214,7 @@ class _ProjectCard extends StatefulWidget {
     required this.perf,
     required this.colors,
     required this.category,
+    required this.image,
   });
 
   @override
@@ -254,35 +258,19 @@ class _ProjectCardState extends State<_ProjectCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Phone mockup placeholder
-                    Container(
-                      height: 192,
-                      width: double.infinity,
-                      decoration: BoxDecoration(color: const Color(0xFF1E293B), borderRadius: BorderRadius.circular(16)),
-                      child: Stack(
-                        children: [
-                          Center(
-                            child: AnimatedScale(
-                              scale: isHovered ? 1.05 : 1.0,
-                              duration: const Duration(milliseconds: 300),
-                              child: Container(
-                                width: 128,
-                                height: 160,
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: widget.colors),
-                                  borderRadius: BorderRadius.circular(20),
-                                  boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.3), blurRadius: 20, offset: const Offset(0, 10))],
-                                ),
-                                child: Icon(Icons.smartphone_rounded, size: 64, color: Colors.white.withValues(alpha: 0.5)),
-                              ),
-                            ),
-                          ),
-                          // Floating category badge
-                          Positioned(
-                            top: 16,
-                            right: 16,
-                            child: _FloatingBadge(label: widget.category, color: widget.colors.first),
-                          ),
-                        ],
+                    AnimatedScale(
+                      scale: isHovered ? 1.05 : 1.0,
+                      duration: const Duration(milliseconds: 300),
+                      child: Container(
+                        height: 192,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF1E293B),
+                          gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: widget.colors),
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.3), blurRadius: 20, offset: const Offset(0, 10))],
+                          image: DecorationImage(image: AssetImage(widget.image), fit: BoxFit.cover)
+                        ),
                       ),
                     ),
                     const SizedBox(height: 24),

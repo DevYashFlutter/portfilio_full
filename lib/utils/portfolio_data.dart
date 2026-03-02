@@ -97,6 +97,7 @@ class PortfolioData {
         'Built responsive admin dashboard using Flutter Web.',
         'Leveraged Antigravity for enhanced efficiency.',
       ],
+      'image': 'assets/images/dailyCredit.png',
     },
     {
       'title': 'Online Teachers Exchange',
@@ -112,6 +113,7 @@ class PortfolioData {
         'Built centralized Flutter Web Admin Panel for monitoring activity.',
         'Implemented advanced role-based access control.',
       ],
+      'image': 'assets/images/otx.png',
     },
     {
       'title': 'SlateParakeet',
@@ -126,6 +128,7 @@ class PortfolioData {
         'Implemented dynamic service listings with location-aware sorting.',
         'Optimized location accuracy and response time.',
       ],
+      'image': 'assets/images/slateparakeet.png',
     },
     {
       'title': 'PowerTag',
@@ -140,6 +143,7 @@ class PortfolioData {
         'Engineered mobile app for field agents for real-time onboarding.',
         'Designed scalable Flutter Web Admin Dashboard for sales monitoring.',
       ],
+      'image': 'assets/images/powerTag.png',
     },
     {
       'title': 'Unibit Pool',
@@ -154,6 +158,7 @@ class PortfolioData {
         'Designed interactive UIs using Flutter Custom Painter.',
         'Integrated WebSocket and Firebase RTDB for live shot tracking.',
       ],
+      'image': 'assets/images/unibit pool.png',
     },
     {
       'title': 'Ludo 24',
@@ -168,6 +173,7 @@ class PortfolioData {
         'Employed GetX for efficient state management and sync.',
         'Developed responsive wallet and leaderboard modules.',
       ],
+      'image': 'assets/images/ludo24.png',
     },
     {
       'title': 'Unibit Games',
@@ -176,6 +182,7 @@ class PortfolioData {
       'period': '04/2024 - 09/2024',
       'category': 'Gaming',
       'colors': [Color(0xFF8B5CF6), Color(0xFFA855F7)],
+      'image': 'assets/images/unibit games.png',
     },
     {
       'title': 'Unibit 11',
@@ -184,6 +191,7 @@ class PortfolioData {
       'period': '11/2023 - 03/2024',
       'category': 'Sports',
       'colors': [Color(0xFF14B8A6), Color(0xFF06B6D4)],
+      'image': 'assets/images/unibit11.png',
     },
     {
       'title': 'Edepto',
@@ -192,6 +200,7 @@ class PortfolioData {
       'period': '08/2023 - 11/2023',
       'category': 'Education',
       'colors': [Color(0xFF6366F1), Color(0xFF3B82F6)],
+      'image': 'assets/images/edepto.png',
     },
   ];
 
@@ -203,6 +212,7 @@ class PortfolioData {
       'period': '04/2024 - 09/2024',
       'category': 'Gaming',
       'colors': [Color(0xFF8B5CF6), Color(0xFFA855F7)],
+      'image': 'assets/images/portfolio.png',
     },
     {
       'title': 'Google Contacts',
@@ -211,6 +221,7 @@ class PortfolioData {
       'period': '11/2023 - 03/2024',
       'category': 'Sports',
       'colors': [Color(0xFF14B8A6), Color(0xFF06B6D4)],
+      'image': 'assets/images/contact23.png',
     },
   ];
 }
