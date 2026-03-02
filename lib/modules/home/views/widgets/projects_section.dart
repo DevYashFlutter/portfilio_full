@@ -19,7 +19,13 @@ class _ProjectsSectionState extends State<ProjectsSection> {
   @override
   void initState() {
     super.initState();
-    selectedType = widget.type == 'personal' ? 'Personal' : 'Industrial';
+    if (widget.type == 'personal') {
+      selectedType = 'Personal';
+    } else if (widget.type == 'industrial') {
+      selectedType = 'Industrial';
+    } else {
+      selectedType = 'All';
+    }
   }
 
   @override
@@ -33,11 +39,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
     return Container(
       width: double.infinity,
       decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [Color(0xFF0F172A), Color(0xFF020617), Color(0xFF0F172A)],
-        ),
+        gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [Color(0xFF0F172A), Color(0xFF020617), Color(0xFF0F172A)]),
       ),
       padding: EdgeInsets.symmetric(vertical: 80, horizontal: isMobile ? 24 : 40),
       child: Stack(
@@ -46,14 +48,11 @@ class _ProjectsSectionState extends State<ProjectsSection> {
           Positioned(
             top: 100,
             left: width * 0.2,
-            child:
-                Container(
-                      width: 300,
-                      height: 300,
-                      decoration: BoxDecoration(shape: BoxShape.circle, color: const Color(0xFF22D3EE).withValues(alpha: 0.1)),
-                    )
-                    .animate(onPlay: (c) => c.repeat())
-                    .scale(begin: const Offset(1, 1), end: const Offset(1.3, 1.3), duration: const Duration(seconds: 10), curve: Curves.easeInOut),
+            child: Container(
+              width: 300,
+              height: 300,
+              decoration: BoxDecoration(shape: BoxShape.circle, color: const Color(0xFF22D3EE).withValues(alpha: 0.1)),
+            ).animate(onPlay: (c) => c.repeat()).scale(begin: const Offset(1, 1), end: const Offset(1.3, 1.3), duration: const Duration(seconds: 10), curve: Curves.easeInOut),
           ),
 
           Center(
@@ -98,14 +97,21 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                       children: [
                         Expanded(
                           child: _FilterTab(
-                            label: 'Industry Projects (${industrialProjects.length})',
+                            label: 'All (${industrialProjects.length + personalProjects.length})',
+                            isSelected: selectedType == 'All',
+                            onTap: () => setState(() => selectedType = 'All'),
+                          ),
+                        ),
+                        Expanded(
+                          child: _FilterTab(
+                            label: 'Industry (${industrialProjects.length})',
                             isSelected: selectedType == 'Industrial',
                             onTap: () => setState(() => selectedType = 'Industrial'),
                           ),
                         ),
                         Expanded(
                           child: _FilterTab(
-                            label: 'Personal Projects (${personalProjects.length})',
+                            label: 'Personal (${personalProjects.length})',
                             isSelected: selectedType == 'Personal',
                             onTap: () => setState(() => selectedType = 'Personal'),
                           ),
@@ -133,12 +139,15 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                               title: project['title'],
                               description: project['desc'],
                               tags: List<String>.from(project['tags']),
-                              users: project['users'] ?? '0',
-                              rating: project['rating'] ?? '5.0',
+                              users: project['users'] ?? 'N/A',
+                              rating: project['rating'] ?? 'N/A',
                               perf: project['perf'] ?? 'N/A',
                               colors: List<Color>.from(project['colors']),
-                              category: project['category'],
+                              category: project['category'] ?? 'Project',
                               image: project['image'],
+                              link: project['link'],
+                              period: project['period'] ?? '',
+                              details: project['details'] != null ? List<String>.from(project['details']) : null,
                             ),
                           );
                         }).toList(),
@@ -156,7 +165,8 @@ class _ProjectsSectionState extends State<ProjectsSection> {
 
   List<dynamic> _getFilteredProjects(List<dynamic> industrial, List<dynamic> personal) {
     if (selectedType == 'Personal') return personal;
-    return industrial; // Default to Industrial if "All" is removed or not selected
+    if (selectedType == 'Industrial') return industrial;
+    return [...industrial, ...personal];
   }
 }
 
@@ -203,7 +213,9 @@ class _ProjectCard extends StatefulWidget {
   final List<Color> colors;
   final String category;
   final String image;
-
+  final String? link;
+  final String period;
+  final List<String>? details;
 
   const _ProjectCard({
     required this.title,
@@ -215,6 +227,9 @@ class _ProjectCard extends StatefulWidget {
     required this.colors,
     required this.category,
     required this.image,
+    required this.link,
+    required this.period,
+    this.details,
   });
 
   @override
@@ -269,18 +284,35 @@ class _ProjectCardState extends State<_ProjectCard> {
                           gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: widget.colors),
                           borderRadius: BorderRadius.circular(20),
                           boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.3), blurRadius: 20, offset: const Offset(0, 10))],
-                          image: DecorationImage(image: AssetImage(widget.image), fit: BoxFit.cover)
+                          image: DecorationImage(image: AssetImage(widget.image), fit: BoxFit.cover),
                         ),
                       ),
                     ),
                     const SizedBox(height: 24),
 
                     // Project info
-                    Text(
-                      widget.title,
-                      style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            widget.title,
+                            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+                          ),
+                        ),
+                        if (widget.period.isNotEmpty)
+                          Text(
+                            widget.period,
+                            style: TextStyle(fontSize: 12, color: widget.colors.first.withValues(alpha: 0.8), fontWeight: FontWeight.w500),
+                          ),
+                      ],
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 4),
+                    Text(
+                      widget.category,
+                      style: TextStyle(fontSize: 12, color: widget.colors.first.withValues(alpha: 0.8), fontWeight: FontWeight.w600, letterSpacing: 1),
+                    ),
+                    const SizedBox(height: 12),
                     Text(
                       widget.description,
                       style: TextStyle(
@@ -289,6 +321,26 @@ class _ProjectCardState extends State<_ProjectCard> {
                         height: 1.5,
                       ),
                     ),
+                    if (widget.details != null && widget.details!.isNotEmpty) ...[
+                      const SizedBox(height: 16),
+                      ...widget.details!.map(
+                        (detail) => Padding(
+                          padding: const EdgeInsets.only(bottom: 6),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "• ",
+                                style: TextStyle(color: widget.colors.first, fontWeight: FontWeight.bold),
+                              ),
+                              Expanded(
+                                child: Text(detail, style: const TextStyle(fontSize: 13, color: Color(0xFFCBD5E1), height: 1.4)),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                     const SizedBox(height: 16),
 
                     // Tech stack
@@ -308,7 +360,7 @@ class _ProjectCardState extends State<_ProjectCard> {
                     const SizedBox(height: 16),
 
                     // CTA Button
-                    _CTAButton(isHovered: isHovered, colors: widget.colors),
+                    widget.link != null ? _CTAButton(isHovered: isHovered, colors: widget.colors, link: widget.link) : SizedBox.shrink(),
                   ],
                 ),
               ),
@@ -317,31 +369,6 @@ class _ProjectCardState extends State<_ProjectCard> {
         ),
       ),
     ).animate().fadeIn(duration: 600.ms, delay: 50.ms);
-  }
-}
-
-class _FloatingBadge extends StatelessWidget {
-  final String label;
-  final Color color;
-
-  const _FloatingBadge({required this.label, required this.color});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-          decoration: BoxDecoration(
-            color: color.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(100),
-            border: Border.all(color: color.withValues(alpha: 0.3)),
-          ),
-          child: Text(
-            label,
-            style: TextStyle(color: color.withValues(alpha: 0.8), fontSize: 12, fontWeight: FontWeight.w500),
-          ),
-        )
-        .animate(onPlay: (controller) => controller.repeat(reverse: true))
-        .moveY(begin: 0, end: -5, duration: const Duration(seconds: 2), curve: Curves.easeInOut);
   }
 }
 
@@ -397,8 +424,9 @@ class _StatBox extends StatelessWidget {
 class _CTAButton extends StatelessWidget {
   final bool isHovered;
   final List<Color> colors;
+  final String? link;
 
-  const _CTAButton({required this.isHovered, required this.colors});
+  const _CTAButton({required this.isHovered, required this.colors, required this.link});
 
   @override
   Widget build(BuildContext context) {

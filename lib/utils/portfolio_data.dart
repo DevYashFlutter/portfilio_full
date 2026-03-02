@@ -168,11 +168,7 @@ class PortfolioData {
       'period': '08/2024 - 11/2024',
       'category': 'Gaming',
       'colors': [Color(0xFFA855F7), Color(0xFFEC4899)],
-      'details': [
-        'Engineered cross-platform Ludo for real-money tournaments.',
-        'Employed GetX for efficient state management and sync.',
-        'Developed responsive wallet and leaderboard modules.',
-      ],
+      'details': ['Engineered cross-platform Ludo for real-money tournaments.', 'Employed GetX for efficient state management and sync.', 'Developed responsive wallet and leaderboard modules.'],
       'image': 'assets/images/ludo24.png',
     },
     {
@@ -208,11 +204,12 @@ class PortfolioData {
     {
       'title': 'Portfolio',
       'desc': 'Real-money gaming platform with multiplayer sync and wallet management.',
-      'tags': ['Flutter', 'WebSocket', 'Firebase RTDB', 'Gaming'],
+      'tags': ['Flutter', 'Dart', 'Antigravity'],
       'period': '04/2024 - 09/2024',
       'category': 'Gaming',
       'colors': [Color(0xFF8B5CF6), Color(0xFFA855F7)],
       'image': 'assets/images/portfolio.png',
+      'link': 'https://github.com/DevYashFlutter/portfilio_full.git',
     },
     {
       'title': 'Google Contacts',
@@ -222,6 +219,7 @@ class PortfolioData {
       'category': 'Sports',
       'colors': [Color(0xFF14B8A6), Color(0xFF06B6D4)],
       'image': 'assets/images/contact23.png',
+      'link': 'https://github.com/DevYashFlutter/googleContact.git',
     },
   ];
 }
