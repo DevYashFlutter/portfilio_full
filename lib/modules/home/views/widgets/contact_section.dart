@@ -4,6 +4,8 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:portfolio/utils/portfolio_data.dart';
 import 'package:portfolio/utils/responsive.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:portfolio/utils/email_service_mobile.dart' if (dart.library.html) 'package:portfolio/utils/email_service_web.dart';
+import 'package:get/get.dart';
 
 class ContactSection extends StatefulWidget {
   const ContactSection({super.key});
@@ -17,6 +19,7 @@ class _ContactSectionState extends State<ContactSection> {
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _messageController = TextEditingController();
+  bool _isSending = false;
 
   @override
   void dispose() {
@@ -62,7 +65,7 @@ class _ContactSectionState extends State<ContactSection> {
                       decoration: BoxDecoration(color: const Color(0xFFA855F7).withValues(alpha: 0.1), shape: BoxShape.circle),
                     )
                     .animate(onPlay: (controller) => controller.repeat(reverse: true))
-                    .scale(begin: const Offset(1, 1), end: const Offset(1.2, 1.2), duration: 8.seconds)
+                    .scale(begin: const Offset(1, 1), end: const Offset(1.2, 1.2), duration: const Duration(seconds: 8))
                     .blurXY(begin: 80, end: 100),
           ),
           // Cyan Glow
@@ -76,7 +79,7 @@ class _ContactSectionState extends State<ContactSection> {
                       decoration: BoxDecoration(color: const Color(0xFF22D3EE).withValues(alpha: 0.1), shape: BoxShape.circle),
                     )
                     .animate(onPlay: (controller) => controller.repeat(reverse: true))
-                    .scale(begin: const Offset(1.2, 1.2), end: const Offset(1, 1), duration: 8.seconds)
+                    .scale(begin: const Offset(1.2, 1.2), end: const Offset(1, 1), duration: const Duration(seconds: 8))
                     .blurXY(begin: 100, end: 80),
           ),
         ],
@@ -215,37 +218,63 @@ class _ContactSectionState extends State<ContactSection> {
         boxShadow: [BoxShadow(color: const Color(0xFFA855F7).withValues(alpha: 0.25), blurRadius: 15, offset: const Offset(0, 4))],
       ),
       child: ElevatedButton(
-        onPressed: () async {
-          if (_formKey.currentState!.validate()) {
-            final String name = _nameController.text;
-            final String email = _emailController.text;
-            final String message = _messageController.text;
+        onPressed: _isSending
+            ? null
+            : () async {
+                if (_formKey.currentState!.validate()) {
+                  setState(() => _isSending = true);
 
-            final String whatsappMessage = "Hello, I'm $name ($email).\n\n$message";
-            final Uri whatsappUri = Uri.parse("https://wa.me/91${PortfolioData.phone}?text=${Uri.encodeComponent(whatsappMessage)}");
-            if (await canLaunchUrl(whatsappUri)) {
-              await launchUrl(whatsappUri, mode: LaunchMode.externalApplication);
-            } else {
-              await launchUrl(whatsappUri);
-            }
-          }
-        },
+                  try {
+                    final String name = _nameController.text;
+                    final String email = _emailController.text;
+                    final String message = _messageController.text;
+
+                    final String subject = "You got a new query by someone who has visited your portfolio";
+
+                    final String body = "Name: $name\nEmail: $email\n\nMessage:\n$message";
+
+                    await EmailServiceImpl().sendEmail(fromName: name, fromEmail: email, subject: subject, message: body, toEmail: "sswtsrv@gmail.com");
+
+                    Get.snackbar(
+                      "Message Sent",
+                      "Your message has been sent successfully!",
+                      snackPosition: SnackPosition.BOTTOM,
+                      backgroundColor: const Color(0xFF1E293B).withValues(alpha: 0.9),
+                      colorText: Colors.white,
+                      margin: const EdgeInsets.all(16),
+                      borderRadius: 12,
+                      borderWidth: 1,
+                      borderColor: const Color(0xFFA855F7).withValues(alpha: 0.3),
+                    );
+
+                    _nameController.clear();
+                    _emailController.clear();
+                    _messageController.clear();
+                  } catch (e) {
+                    Get.snackbar("Error", "Failed to send message. Please try again.", snackPosition: SnackPosition.BOTTOM);
+                  } finally {
+                    setState(() => _isSending = false);
+                  }
+                }
+              },
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.transparent,
           shadowColor: Colors.transparent,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         ),
-        child: const Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "Send Message",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.white),
-            ),
-            SizedBox(width: 8),
-            Icon(Icons.send_rounded, size: 18, color: Colors.white),
-          ],
-        ),
+        child: _isSending
+            ? const SizedBox(width: 24, height: 24, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
+            : const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Send Message",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.white),
+                  ),
+                  SizedBox(width: 8),
+                  Icon(Icons.send_rounded, size: 18, color: Colors.white),
+                ],
+              ),
       ),
     );
   }
@@ -267,13 +296,7 @@ class _ContactSectionState extends State<ContactSection> {
       children: items.asMap().entries.map((entry) {
         return Padding(
           padding: const EdgeInsets.only(bottom: 16),
-          child: _InfoCard(
-            icon: entry.value['icon'] as IconData,
-            label: entry.value['label'] as String,
-            value: entry.value['value'] as String,
-            link: entry.value['link'] as String,
-            index: entry.key,
-          ),
+          child: _InfoCard(icon: entry.value['icon'] as IconData, label: entry.value['label'] as String, value: entry.value['value'] as String, link: entry.value['link'] as String, index: entry.key),
         );
       }).toList(),
     );
@@ -382,41 +405,41 @@ class _InfoCardState extends State<_InfoCard> {
           }
         },
         child: AnimatedContainer(
-        duration: 300.ms,
-        transform: Matrix4.translationValues(isHovered ? 8 : 0, 0, 0),
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: const Color(0xFF0F172A).withValues(alpha: 0.5),
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: isHovered ? const Color(0xFFA855F7).withValues(alpha: 0.4) : const Color(0xFFA855F7).withValues(alpha: 0.2)),
-        ),
-        child: Row(
-          children: [
-            Container(
-              width: 48,
-              height: 48,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(colors: [const Color(0xFFA855F7).withValues(alpha: 0.2), const Color(0xFF22D3EE).withValues(alpha: 0.2)]),
-                borderRadius: BorderRadius.circular(12),
+          duration: 300.ms,
+          transform: Matrix4.translationValues(isHovered ? 8 : 0, 0, 0),
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: const Color(0xFF0F172A).withValues(alpha: 0.5),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: isHovered ? const Color(0xFFA855F7).withValues(alpha: 0.4) : const Color(0xFFA855F7).withValues(alpha: 0.2)),
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 48,
+                height: 48,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(colors: [const Color(0xFFA855F7).withValues(alpha: 0.2), const Color(0xFF22D3EE).withValues(alpha: 0.2)]),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(widget.icon, color: const Color(0xFFA855F7), size: 24),
               ),
-              child: Icon(widget.icon, color: const Color(0xFFA855F7), size: 24),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(widget.label, style: const TextStyle(color: Color(0xFF94A3B8), fontSize: 13)),
-                  Text(
-                    widget.value,
-                    style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15),
-                  ),
-                ],
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(widget.label, style: const TextStyle(color: Color(0xFF94A3B8), fontSize: 13)),
+                    Text(
+                      widget.value,
+                      style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
       ),
     ).animate().fadeIn(duration: 600.ms, delay: (400 + widget.index * 100).ms).slideY(begin: 0.2, end: 0);
   }
@@ -457,55 +480,55 @@ class _SocialLinkItemState extends State<_SocialLinkItem> {
               await launchUrl(url, mode: LaunchMode.externalApplication);
             }
           },
-        child: AnimatedContainer(
-          duration: 300.ms,
-          transform: Matrix4.translationValues(isHovered ? 8 : 0, 0, 0),
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: const Color(0xFF1E293B).withValues(alpha: isHovered ? 0.8 : 0.5),
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: isHovered ? const Color(0xFFA855F7).withValues(alpha: 0.3) : const Color(0xFFA855F7).withValues(alpha: 0.1)),
-          ),
-          child: Row(
-            children: [
-              AnimatedContainer(
-                duration: 300.ms,
-                width: 48,
-                height: 48,
-                transform: isHovered ? Matrix4.diagonal3Values(1.1, 1.1, 1.0) : Matrix4.identity(),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: widget.colors),
-                  borderRadius: BorderRadius.circular(12),
+          child: AnimatedContainer(
+            duration: 300.ms,
+            transform: Matrix4.translationValues(isHovered ? 8 : 0, 0, 0),
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: const Color(0xFF1E293B).withValues(alpha: isHovered ? 0.8 : 0.5),
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: isHovered ? const Color(0xFFA855F7).withValues(alpha: 0.3) : const Color(0xFFA855F7).withValues(alpha: 0.1)),
+            ),
+            child: Row(
+              children: [
+                AnimatedContainer(
+                  duration: 300.ms,
+                  width: 48,
+                  height: 48,
+                  transform: isHovered ? Matrix4.diagonal3Values(1.1, 1.1, 1.0) : Matrix4.identity(),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: widget.colors),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: widget.icon is IconData
+                      ? Icon(widget.icon, color: Colors.white, size: 24)
+                      : Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Image.asset(widget.icon, color: Colors.white, fit: BoxFit.contain),
+                        ),
                 ),
-                child: widget.icon is IconData
-                    ? Icon(widget.icon, color: Colors.white, size: 24)
-                    : Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Image.asset(widget.icon, color: Colors.white, fit: BoxFit.contain),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.label,
+                        style: TextStyle(color: isHovered ? const Color(0xFFD8B4FE) : Colors.white, fontWeight: FontWeight.bold, fontSize: 15),
                       ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      widget.label,
-                      style: TextStyle(color: isHovered ? const Color(0xFFD8B4FE) : Colors.white, fontWeight: FontWeight.bold, fontSize: 15),
-                    ),
-                    Text(widget.username, style: const TextStyle(color: Color(0xFF94A3B8), fontSize: 13)),
-                  ],
+                      Text(widget.username, style: const TextStyle(color: Color(0xFF94A3B8), fontSize: 13)),
+                    ],
+                  ),
                 ),
-              ),
-              AnimatedOpacity(
-                duration: 300.ms,
-                opacity: isHovered ? 1.0 : 0.0,
-                child: const Icon(Icons.arrow_forward_rounded, color: Color(0xFFA855F7), size: 20),
-              ),
-            ],
+                AnimatedOpacity(
+                  duration: 300.ms,
+                  opacity: isHovered ? 1.0 : 0.0,
+                  child: const Icon(Icons.arrow_forward_rounded, color: Color(0xFFA855F7), size: 20),
+                ),
+              ],
+            ),
           ),
         ),
-      ),
       ),
     ).animate().fadeIn(duration: 600.ms, delay: (600 + widget.index * 100).ms).slideX(begin: 0.1, end: 0);
   }
