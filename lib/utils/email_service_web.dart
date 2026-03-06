@@ -20,7 +20,6 @@ class EmailServiceImpl implements EmailService {
         'template_params': {'to_email': toEmail, 'from_name': fromName, 'from_email': fromEmail, 'subject': subject, 'message': message},
       }),
     );
-
     if (response.statusCode != 200) {
       throw Exception("Failed to send email: ${response.body}");
     }
